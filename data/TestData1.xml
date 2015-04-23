@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRoot>
+	<TestCase ID="1" desp="Line在凸多边形边界中裁剪显示" type="AccuracyTest" complex="1,1,1,0,0,0">
+		<Entity Type="Line">
+			<StartPoint>67, 565</StartPoint>
+			<EndPoint>731, 80</EndPoint>
+		</Entity>
+		<Boundary Type="Concave Polygon">
+			<Vertex>120, 386</Vertex>
+			<Vertex>472, 584</Vertex>
+			<Vertex>646, 246</Vertex>
+			<Vertex>424, 14</Vertex>
+			<Vertex>171, 76</Vertex>
+			<Vertex>120, 386</Vertex>
+		</Boundary>
+	</TestCase>
+	<TestCase ID="2" desp="Circle在凸多边形边界中裁剪显示" type="AccuracyTest" complex="1,1,1,0,0,0">
+		<Entity Type="Circle">
+			<CenterPoint>477, 223</CenterPoint>
+			<Radius>209</Radius>
+		</Entity>
+		<Boundary Type="Concave Polygon">
+			<Vertex>112, 397</Vertex>
+			<Vertex>444, 584</Vertex>
+			<Vertex>609, 265</Vertex>
+			<Vertex>399, 46</Vertex>
+			<Vertex>160, 104</Vertex>
+			<Vertex>112, 397</Vertex>
+		</Boundary>
+	</TestCase>
+	<TestCase ID="3" desp="Line在凹多边形边界中裁剪显示" type="AccuracyTest" complex="1,1,1,0,0,0">
+		<Entity Type="Line">
+			<StartPoint>86, 433</StartPoint>
+			<EndPoint>712, 237</EndPoint>
+		</Entity>
+		<Boundary Type="Concave Polygon">
+			<Vertex>122, 214</Vertex>
+			<Vertex>193, 455</Vertex>
+			<Vertex>358, 275</Vertex>
+			<Vertex>470, 584</Vertex>
+			<Vertex>668, 62</Vertex>
+			<Vertex>254, 14</Vertex>
+			<Vertex>122, 214</Vertex>
+		</Boundary>
+	</TestCase>
+	<TestCase ID="4" desp="Circle在凹多边形边界中裁剪显示" type="AccuracyTest" complex="1,1,1,0,0,0">
+		<Entity Type="Circle">
+			<CenterPoint>487, 254</CenterPoint>
+			<Radius>181</Radius>
+		</Entity>
+		<Boundary Type="Concave Polygon">
+			<Vertex>126, 214</Vertex>
+			<Vertex>197, 455</Vertex>
+			<Vertex>362, 275</Vertex>
+			<Vertex>474, 584</Vertex>
+			<Vertex>672, 62</Vertex>
+			<Vertex>258, 14</Vertex>
+			<Vertex>126, 214</Vertex>
+		</Boundary>
+	</TestCase>
+</TestRoot>

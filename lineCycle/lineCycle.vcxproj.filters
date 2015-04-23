@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="源文件\wrapper">
+      <UniqueIdentifier>{6f79367a-9641-4e3d-b17a-53e6635764de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\wrapper">
+      <UniqueIdentifier>{91a28919-09af-4bd3-af8a-782d342418fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\common">
+      <UniqueIdentifier>{b66ece3e-222e-424a-99f7-5072aab19e9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\common">
+      <UniqueIdentifier>{0e0eb70c-2f51-4096-a452-0f702d57f224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\xml">
+      <UniqueIdentifier>{8af08bf4-39ca-465b-b5f9-ab58120cf8c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\xml">
+      <UniqueIdentifier>{afe1b5d2-2aea-4985-bb65-d0d5f9b95579}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Draw">
+      <UniqueIdentifier>{640231c4-ff47-4017-801a-983644ecca1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Draw">
+      <UniqueIdentifier>{0595a1a8-7000-406d-8979-bec2dfd2ccfa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lineCycle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="setting.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="math.h">
+      <Filter>头文件\wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>头文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="minXml.h">
+      <Filter>头文件\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="graph.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="drawMemory.h">
+      <Filter>头文件\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="drawOpenGL.h">
+      <Filter>头文件\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="drawGDI.h">
+      <Filter>头文件\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="drawMemoryGDI.h">
+      <Filter>头文件\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyXMLPrase.h">
+      <Filter>头文件\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>头文件\common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="lineCycle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="setting.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="math.cpp">
+      <Filter>源文件\wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件\common</Filter>
+    </ClCompile>
+    <ClCompile Include="minXml.cpp">
+      <Filter>源文件\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="drawGDI.cpp">
+      <Filter>源文件\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="drawMemory.cpp">
+      <Filter>源文件\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="drawMemoryGDI.cpp">
+      <Filter>源文件\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="drawOpenGL.cpp">
+      <Filter>源文件\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyXMLPrase.cpp">
+      <Filter>源文件\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="global.cpp">
+      <Filter>源文件\common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="lineCycle.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
