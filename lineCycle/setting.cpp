@@ -53,16 +53,38 @@ int SETTING_ENABLE_FUNCTION_TABLE = true;
 
 int loadIniSetting()
 {
-	SETTING_XML_MODE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_MODE", SETTING_XML_MODE, L"./setting.ini");
-	SETTING_XML_TESTCASE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_TESTCASE", SETTING_XML_TESTCASE, L"./setting.ini");
+	wchar_t buf[MAX_PATH];
 
-	SETTING_DRAW_MODE = GetPrivateProfileInt(L"drawSetting", L"SETTING_DRAW_MODE", SETTING_DRAW_MODE, L"./setting.ini");
-	SETTING_DRAW_THREAD = GetPrivateProfileInt(L"drawSetting", L"SETTING_DRAW_THREAD", SETTING_DRAW_THREAD, L"./setting.ini");
+	SETTING_XML_MODE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_MODE", SETTING_XML_MODE,L"./conf.ini");
+	
+	SETTING_XML_TESTCASE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_TESTCASE", SETTING_XML_TESTCASE,L"./conf.ini");
+	SETTING_DRAW_MODE = GetPrivateProfileInt(L"drawSetting", L"SETTING_DRAW_MODE", SETTING_DRAW_MODE,L"./conf.ini");
+	SETTING_DRAW_THREAD = GetPrivateProfileInt(L"drawSetting", L"SETTING_DRAW_THREAD", SETTING_DRAW_THREAD,L"./conf.ini");
 
-	SETTING_CUTTING_MODE = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_CUTTING_MODE", SETTING_CUTTING_MODE, L"./setting.ini");
-	SETTING_CUTTING_THREAD = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_CUTTING_THREAD", SETTING_CUTTING_THREAD, L"./setting.ini");
-	SETTING_ENABLE_CUDA = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_ENABLE_CUDA", SETTING_ENABLE_CUDA, L"./setting.ini");
-	SETTING_ENABLE_FUNCTION_TABLE = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_ENABLE_FUNCTION_TABLE", SETTING_ENABLE_FUNCTION_TABLE, L"./setting.ini");
+	SETTING_CUTTING_MODE = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_CUTTING_MODE", SETTING_CUTTING_MODE,L"./conf.ini");
+	SETTING_CUTTING_THREAD = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_CUTTING_THREAD", SETTING_CUTTING_THREAD,L"./conf.ini");
+	SETTING_ENABLE_CUDA = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_ENABLE_CUDA", SETTING_ENABLE_CUDA,L"./conf.ini");
+	SETTING_ENABLE_FUNCTION_TABLE = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_ENABLE_FUNCTION_TABLE", SETTING_ENABLE_FUNCTION_TABLE,L"./conf.ini");
+
+
+	wsprintfW(buf, L"%d", SETTING_XML_MODE);
+	WritePrivateProfileString(L"xmlSetting", L"SETTING_XML_MODE", buf, L"./conf.ini");
+
+	wsprintfW(buf, L"%d", SETTING_XML_TESTCASE);
+	WritePrivateProfileString(L"xmlSetting", L"SETTING_XML_TESTCASE", buf, L"./conf.ini");
+	wsprintfW(buf, L"%d", SETTING_DRAW_MODE);
+	WritePrivateProfileString(L"drawSetting", L"SETTING_DRAW_MODE", buf, L"./conf.ini");
+	wsprintfW(buf, L"%d", SETTING_DRAW_THREAD);
+	WritePrivateProfileString(L"drawSetting", L"SETTING_DRAW_THREAD", buf, L"./conf.ini");
+
+	wsprintfW(buf, L"%d", SETTING_CUTTING_MODE);
+	WritePrivateProfileString(L"cuttingSetting", L"SETTING_CUTTING_MODE", buf, L"./conf.ini");
+	wsprintfW(buf, L"%d", SETTING_CUTTING_THREAD);
+	WritePrivateProfileString(L"cuttingSetting", L"SETTING_CUTTING_THREAD", buf, L"./conf.ini");
+	wsprintfW(buf, L"%d", SETTING_ENABLE_CUDA);
+	WritePrivateProfileString(L"cuttingSetting", L"SETTING_ENABLE_CUDA", buf, L"./conf.ini");
+	wsprintfW(buf, L"%d", SETTING_ENABLE_FUNCTION_TABLE);
+	WritePrivateProfileString(L"cuttingSetting", L"SETTING_ENABLE_FUNCTION_TABLE", buf, L"./conf.ini");
 
 	return 0;
 }

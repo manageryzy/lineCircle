@@ -16,6 +16,7 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+#include <string>
 
 //本地化头文件
 #include <locale.h>
@@ -26,9 +27,13 @@
 //tinyxml
 #include "../tinyxml/tinyxml.h"
 
+//pugixml
+#include "../pugixml/pugiconfig.hpp"
+#include "../pugixml/pugixml.hpp"
+
 //STL
 #include <vector>
-using std::vector;
+using namespace std;
 
 //项目头文件
 #include "setting.h"
@@ -39,6 +44,7 @@ using std::vector;
 //XML部分头文件
 #include "./xml/minXml.h"
 #include "./xml/tinyXMLPrase.h"
+#include "./xml/pugiXMLPrase.h"
 
 //绘图部分头文件
 #include "./draw/drawGDI.h"

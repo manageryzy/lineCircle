@@ -112,6 +112,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="wrapper\math.h" />
     <ClInclude Include="xml\minXml.h" />
+    <ClInclude Include="xml\pugiXMLPrase.h" />
     <ClInclude Include="xml\tinyXMLPrase.h" />
   </ItemGroup>
   <ItemGroup>
@@ -125,12 +126,16 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="wrapper\math.cpp" />
     <ClCompile Include="xml\minXml.cpp" />
+    <ClCompile Include="xml\pugiXMLPrase.cpp" />
     <ClCompile Include="xml\tinyXMLPrase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="lineCycle.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\pugixml\pugixml.vcxproj">
+      <Project>{38150343-458b-4731-9bbe-0048a97d2ef3}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\tinyxml\tinyxml_lib.vcxproj">
       <Project>{c406daec-0886-4771-8dea-9d7329b46cc1}</Project>
     </ProjectReference>

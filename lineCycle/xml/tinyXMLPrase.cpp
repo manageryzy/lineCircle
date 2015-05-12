@@ -33,9 +33,31 @@ bool tinyXMLPrase()
 			int ID;
 			TestCase->QueryIntAttribute("ID", &ID);
 			if (ID != SETTING_XML_TESTCASE)
+			{
+				TestCase->Clear();
 				continue;
+			}
+				
 
 			succeed = true;
+
+			for (TiXmlElement * DataNode = TestCase->FirstChildElement();
+				DataNode->NextSiblingElement() != NULL;
+				DataNode = DataNode->NextSiblingElement())
+			{
+				if (strcmp(DataNode->Value(), "Entity") == 0)
+				{
+
+				}
+				else if (strcmp(DataNode->Value(), "Boundary"))
+				{
+
+				}
+				else
+				{
+					
+				}
+			}
 		}
 	}
 	catch (...)

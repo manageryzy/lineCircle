@@ -84,6 +84,9 @@
     <ClInclude Include="wrapper\math.h">
       <Filter>头文件\wrapper</Filter>
     </ClInclude>
+    <ClInclude Include="xml\pugiXMLPrase.h">
+      <Filter>头文件\xml</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lineCycle.cpp">
@@ -118,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="wrapper\math.cpp">
       <Filter>源文件\wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="xml\pugiXMLPrase.cpp">
+      <Filter>源文件\xml</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
