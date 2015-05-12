@@ -1,8 +1,8 @@
 #include "../stdafx.h"
 
-vector < line > lineList;
-vector < circle > circleList;
-vector < point > polygonList;
+vector < Line > lineList;
+vector < Circle > circleList;
+vector < Point > polygonList;
 
 
 //计时部分

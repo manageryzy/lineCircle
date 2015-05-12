@@ -3,9 +3,9 @@
 extern HWND theHWND;
 extern wchar_t strFile[MAX_PATH];
 
-extern vector < line > lineList;
-extern vector < circle > circleList;
-extern vector < point > polygonList;
+extern vector < Line > lineList;
+extern vector < Circle > circleList;
+extern vector < Point > polygonList;
 
 
 //计时部分（计时精度为55ms）

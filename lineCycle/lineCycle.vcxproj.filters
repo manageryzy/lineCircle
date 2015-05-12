@@ -54,9 +54,6 @@
     <ClInclude Include="graph.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="global.h">
-      <Filter>头文件\common</Filter>
-    </ClInclude>
     <ClInclude Include="xml\minXml.h">
       <Filter>头文件\xml</Filter>
     </ClInclude>
@@ -86,6 +83,9 @@
     </ClInclude>
     <ClInclude Include="xml\pugiXMLPrase.h">
       <Filter>头文件\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="common\global.h">
+      <Filter>头文件\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

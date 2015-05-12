@@ -1,11 +1,14 @@
-class point{
+class Point{
+public :
 	float x, y;
 };
 
-class line{
+class Line{
+public :
 	float x1, x2, y1, y2;
 };
 
-class circle{
+class Circle{
+public:
 	float x, y, r;
 };

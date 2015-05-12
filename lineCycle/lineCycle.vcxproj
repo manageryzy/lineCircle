@@ -99,11 +99,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common\global.h" />
     <ClInclude Include="draw\drawGDI.h" />
     <ClInclude Include="draw\drawMemory.h" />
     <ClInclude Include="draw\drawMemoryGDI.h" />
     <ClInclude Include="draw\drawOpenGL.h" />
-    <ClInclude Include="global.h" />
     <ClInclude Include="graph.h" />
     <ClInclude Include="lineCycle.h" />
     <ClInclude Include="resource.h" />
