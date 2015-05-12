@@ -163,20 +163,28 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 				tickStartLoadXML = GetTickCount();
 
-				if (SETTING_XML_MIN)
+				switch (SETTING_XML_MODE)
 				{
+				case 0:
 					if (!minXMLPrase())
 					{
 						MessageBox(theHWND, L"最小化XML解析失败。", L"警告", 0);
 					}
-				}
-				else
-				{
+					break;
+				case 1:
 					if (!tinyXMLPrase())
 					{
 						MessageBox(theHWND, L"tinyXML解析失败。", L"警告", 0);
 					}
+					break;
+				case 2:
+
+				default:
+					MessageBox(theHWND, L"错误的XML解析设置", L"错误", 0);
+					exit(-1);
+					break;
 				}
+
 
 				tickFinishLoadXML = GetTickCount();
 

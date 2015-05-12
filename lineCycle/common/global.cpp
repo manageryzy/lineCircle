@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 
 vector < line > lineList;
 vector < circle > circleList;

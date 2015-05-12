@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 
-int SETTING_XML_MIN = true;//启用最小化XML解析，不能兼容全部XML
+int SETTING_XML_MODE = 1;//XML解析模式。0-tinyxml 1-极小化解析 2-pugixml
 
 int SETTING_XML_TESTCASE = 1;//测试用例
 
@@ -53,7 +53,7 @@ int SETTING_ENABLE_FUNCTION_TABLE = true;
 
 int loadIniSetting()
 {
-	SETTING_XML_MIN = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_MIN", SETTING_XML_MIN, L"./setting.ini");
+	SETTING_XML_MODE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_MODE", SETTING_XML_MODE, L"./setting.ini");
 	SETTING_XML_TESTCASE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_TESTCASE", SETTING_XML_TESTCASE, L"./setting.ini");
 
 	SETTING_DRAW_MODE = GetPrivateProfileInt(L"drawSetting", L"SETTING_DRAW_MODE", SETTING_DRAW_MODE, L"./setting.ini");

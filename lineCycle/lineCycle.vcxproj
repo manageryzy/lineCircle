@@ -49,7 +49,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -64,7 +64,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -99,36 +99,33 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="drawGDI.h" />
-    <ClInclude Include="drawMemory.h" />
-    <ClInclude Include="drawMemoryGDI.h" />
-    <ClInclude Include="drawOpenGL.h" />
+    <ClInclude Include="draw\drawGDI.h" />
+    <ClInclude Include="draw\drawMemory.h" />
+    <ClInclude Include="draw\drawMemoryGDI.h" />
+    <ClInclude Include="draw\drawOpenGL.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="graph.h" />
     <ClInclude Include="lineCycle.h" />
-    <ClInclude Include="math.h" />
-    <ClInclude Include="minXml.h" />
-    <ClInclude Include="Resource.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="setting.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="tinyXMLPrase.h" />
+    <ClInclude Include="wrapper\math.h" />
+    <ClInclude Include="xml\minXml.h" />
+    <ClInclude Include="xml\tinyXMLPrase.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="drawGDI.cpp" />
-    <ClCompile Include="drawMemory.cpp" />
-    <ClCompile Include="drawMemoryGDI.cpp" />
-    <ClCompile Include="drawOpenGL.cpp" />
-    <ClCompile Include="global.cpp" />
+    <ClCompile Include="common\global.cpp" />
+    <ClCompile Include="draw\drawGDI.cpp" />
+    <ClCompile Include="draw\drawMemory.cpp" />
+    <ClCompile Include="draw\drawMemoryGDI.cpp" />
+    <ClCompile Include="draw\drawOpenGL.cpp" />
     <ClCompile Include="lineCycle.cpp" />
-    <ClCompile Include="math.cpp" />
-    <ClCompile Include="minXml.cpp" />
     <ClCompile Include="setting.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="tinyXMLPrase.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="wrapper\math.cpp" />
+    <ClCompile Include="xml\minXml.cpp" />
+    <ClCompile Include="xml\tinyXMLPrase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="lineCycle.rc" />

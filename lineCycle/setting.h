@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 
-extern int SETTING_XML_MIN;//启用最小化XML解析，不能兼容全部XML
+extern int SETTING_XML_MODE;//XML解析模式。0-tinyxml 1-极小化解析 2-pugixml
 
 extern int SETTING_XML_TESTCASE;//测试用例
 

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 
 const float _sinTable[] = { 0.0f };
 

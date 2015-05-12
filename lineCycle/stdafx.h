@@ -34,14 +34,14 @@ using std::vector;
 #include "setting.h"
 #include "math.h"
 #include "graph.h"
-#include "global.h"
+#include "./common/global.h"
 
 //XML部分头文件
-#include "minXml.h"
-#include "tinyXMLPrase.h"
+#include "./xml/minXml.h"
+#include "./xml/tinyXMLPrase.h"
 
 //绘图部分头文件
-#include "drawGDI.h"
-#include "drawMemory.h"
-#include "drawMemoryGDI.h"
-#include "drawOpenGL.h"
+#include "./draw/drawGDI.h"
+#include "./draw/drawMemory.h"
+#include "./draw/drawMemoryGDI.h"
+#include "./draw/drawOpenGL.h"

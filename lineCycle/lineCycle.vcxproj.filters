@@ -48,41 +48,41 @@
     <ClInclude Include="setting.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="math.h">
-      <Filter>头文件\wrapper</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>头文件\common</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>头文件\common</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>头文件\common</Filter>
-    </ClInclude>
-    <ClInclude Include="minXml.h">
-      <Filter>头文件\xml</Filter>
     </ClInclude>
     <ClInclude Include="graph.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="drawMemory.h">
-      <Filter>头文件\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="drawOpenGL.h">
-      <Filter>头文件\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="drawGDI.h">
-      <Filter>头文件\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="drawMemoryGDI.h">
-      <Filter>头文件\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="tinyXMLPrase.h">
-      <Filter>头文件\xml</Filter>
-    </ClInclude>
     <ClInclude Include="global.h">
       <Filter>头文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="xml\minXml.h">
+      <Filter>头文件\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="xml\tinyXMLPrase.h">
+      <Filter>头文件\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="draw\drawGDI.h">
+      <Filter>头文件\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="draw\drawMemory.h">
+      <Filter>头文件\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="draw\drawMemoryGDI.h">
+      <Filter>头文件\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="draw\drawOpenGL.h">
+      <Filter>头文件\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="wrapper\math.h">
+      <Filter>头文件\wrapper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -92,32 +92,32 @@
     <ClCompile Include="setting.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="math.cpp">
-      <Filter>源文件\wrapper</Filter>
+    <ClCompile Include="xml\minXml.cpp">
+      <Filter>源文件\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="xml\tinyXMLPrase.cpp">
+      <Filter>源文件\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="common\global.cpp">
+      <Filter>源文件\common</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>源文件\common</Filter>
+      <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="minXml.cpp">
-      <Filter>源文件\xml</Filter>
-    </ClCompile>
-    <ClCompile Include="drawGDI.cpp">
+    <ClCompile Include="draw\drawGDI.cpp">
       <Filter>源文件\Draw</Filter>
     </ClCompile>
-    <ClCompile Include="drawMemory.cpp">
+    <ClCompile Include="draw\drawMemory.cpp">
       <Filter>源文件\Draw</Filter>
     </ClCompile>
-    <ClCompile Include="drawMemoryGDI.cpp">
+    <ClCompile Include="draw\drawMemoryGDI.cpp">
       <Filter>源文件\Draw</Filter>
     </ClCompile>
-    <ClCompile Include="drawOpenGL.cpp">
+    <ClCompile Include="draw\drawOpenGL.cpp">
       <Filter>源文件\Draw</Filter>
     </ClCompile>
-    <ClCompile Include="tinyXMLPrase.cpp">
-      <Filter>源文件\xml</Filter>
-    </ClCompile>
-    <ClCompile Include="global.cpp">
-      <Filter>源文件\common</Filter>
+    <ClCompile Include="wrapper\math.cpp">
+      <Filter>源文件\wrapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
