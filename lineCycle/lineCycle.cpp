@@ -12,6 +12,8 @@ TCHAR szTitle[MAX_LOADSTRING];					// 标题栏文本
 TCHAR szWindowClass[MAX_LOADSTRING];			// 主窗口类名
 
 HWND theHWND;
+HDC theDC;
+HGLRC ghRC;
 wchar_t strFile[MAX_PATH];
 
 // 此代码模块中包含的函数的前向声明: 
@@ -35,6 +37,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// 初始化全局字符串
 	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 	LoadString(hInstance, IDC_LINECYCLE, szWindowClass, MAX_LOADSTRING);
+
+	loadIniSetting();
+
 	MyRegisterClass(hInstance);
 
 	// 执行应用程序初始化: 
@@ -42,8 +47,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	{
 		return FALSE;
 	}
-
-	loadIniSetting();
 
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_LINECYCLE));
 
@@ -135,9 +138,34 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	int wmId, wmEvent;
 	PAINTSTRUCT ps;
 	HDC hdc;
+	RECT rect;
 
 	switch (message)
 	{
+	case WM_CREATE:
+		theDC = GetDC(hWnd);
+
+		if (SETTING_DRAW_MODE == SETTING_DRAW_MODE_OPENGL)
+		{
+			if (!bSetupPixelFormat(theDC))
+				PostQuitMessage(0);
+
+			ghRC = wglCreateContext(theDC);
+			wglMakeCurrent(theDC, ghRC);
+			GetClientRect(hWnd, &rect);
+			initializeGL(rect.right, rect.bottom);
+		}
+		break;
+	case WM_CLOSE:
+		if (ghRC)
+			wglDeleteContext(ghRC);
+		if (theDC)
+			ReleaseDC(hWnd, theDC);
+		ghRC = 0;
+		theDC = 0;
+
+		DestroyWindow(hWnd);
+		break;
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
@@ -211,11 +239,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
-		// TODO:  在此添加任意绘图代码...
-		EndPaint(hWnd, &ps);
+		switch (SETTING_DRAW_MODE)
+		{
+		case SETTING_DRAW_MODE_GDI:
+			hdc = BeginPaint(hWnd, &ps);
+			// TODO:  在此添加任意绘图代码...
+			EndPaint(hWnd, &ps);
+			break;
+		case SETTING_DRAW_MODE_MEMGDI:
+			hdc = BeginPaint(hWnd, &ps);
+			// TODO:  在此添加任意绘图代码...
+			EndPaint(hWnd, &ps);
+			break;
+		case SETTING_DRAW_MODE_MEMORY:
+			hdc = BeginPaint(hWnd, &ps);
+			// TODO:  在此添加任意绘图代码...
+			EndPaint(hWnd, &ps);
+			break;
+		case SETTING_DRAW_MODE_OPENGL:
+			drawScene();
+			break;
+		}
+		
 		break;
 	case WM_DESTROY:
+		if (ghRC)
+			wglDeleteContext(ghRC);
+		if (theDC)
+			ReleaseDC(hWnd, theDC);
+
 		PostQuitMessage(0);
 		break;
 	default:

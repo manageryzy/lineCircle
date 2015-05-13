@@ -4,6 +4,7 @@
 //
 
 #pragma once
+using namespace std;
 
 #include "targetver.h"
 
@@ -33,7 +34,10 @@
 
 //STL
 #include <vector>
-using namespace std;
+
+//OpenGL
+#include <gl/GL.h>
+#include <GL/glu.h> 
 
 //项目头文件
 #include "setting.h"

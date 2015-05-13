@@ -59,6 +59,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -87,6 +88,7 @@
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
       <SupportNobindOfDelayLoadedDLL>true</SupportNobindOfDelayLoadedDLL>
       <LinkErrorReporting>NoErrorReport</LinkErrorReporting>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <VerboseOutput>false</VerboseOutput>
