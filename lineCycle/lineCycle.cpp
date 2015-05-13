@@ -174,7 +174,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wmId)
 		{
 		case IDM_OPEN:
-
+			lineList.clear();
+			circleList.clear();
+			polygonList.clear();
 
 			OPENFILENAME ofn;
 			memset(&ofn, 0, sizeof(OPENFILENAME));
@@ -222,7 +224,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				tickFinishLoadXML = GetTickCount();
 
 				//开始第一遍绘图
-				
+				GetClientRect(hWnd, &rect);
+				InvalidateRect(theHWND, &rect, TRUE);
+				UpdateWindow(theHWND);
 			}
 			else
 			{

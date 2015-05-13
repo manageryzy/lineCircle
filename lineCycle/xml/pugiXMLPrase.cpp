@@ -3,6 +3,7 @@
 bool pugiXMLPrase()
 {
 	pugi::xml_document doc;
+	bool succeed = false;
 
 	if (!doc.load_file(strFile))
 	{
@@ -14,6 +15,7 @@ bool pugiXMLPrase()
 	{
 		if (testCase.attribute("ID").as_int() == SETTING_XML_TESTCASE)
 		{
+			succeed = true;
 			for (pugi::xml_node DataNode = testCase.first_child();
 				DataNode != NULL;
 				DataNode = DataNode.next_sibling())
@@ -60,6 +62,12 @@ bool pugiXMLPrase()
 				}
 			}
 		}
+	}
+
+	if (!succeed)
+	{
+		MessageBox(theHWND, L"pugixml无法找到数据节点", L"错误", 0);
+		return false;
 	}
 
 	return true;
