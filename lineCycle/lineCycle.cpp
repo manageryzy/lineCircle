@@ -210,6 +210,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					{
 						MessageBox(theHWND, L"pugiXML解析失败。", L"警告", 0);
 					}
+					break;
 				default:
 					MessageBox(theHWND, L"错误的XML解析设置", L"错误", 0);
 					exit(-1);
