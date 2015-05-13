@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml", "tinyxml\tinyxml_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pugixml", "pugixml\pugixml.vcxproj", "{38150343-458B-4731-9BBE-0048A97D2EF3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UAC", "UAC\UAC.vcxproj", "{C4F08191-9232-4D14-BE6B-58BCC6662CB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -33,6 +35,10 @@ Global
 		{38150343-458B-4731-9BBE-0048A97D2EF3}.Release|Win32.ActiveCfg = Release|Win32
 		{38150343-458B-4731-9BBE-0048A97D2EF3}.Release|Win32.Build.0 = Release|Win32
 		{38150343-458B-4731-9BBE-0048A97D2EF3}.Release|Win32.Deploy.0 = Release|Win32
+		{C4F08191-9232-4D14-BE6B-58BCC6662CB6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C4F08191-9232-4D14-BE6B-58BCC6662CB6}.Debug|Win32.Build.0 = Debug|Win32
+		{C4F08191-9232-4D14-BE6B-58BCC6662CB6}.Release|Win32.ActiveCfg = Release|Win32
+		{C4F08191-9232-4D14-BE6B-58BCC6662CB6}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

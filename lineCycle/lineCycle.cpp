@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "lineCycle.h"
+#include "Shellapi.h"
 
 #define MAX_LOADSTRING 100
 
@@ -51,7 +52,24 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	hProcess = GetCurrentProcess();
 	if (GetPriorityClass(hProcess) != REALTIME_PRIORITY_CLASS)
 	{
-		MessageBox(0, L"设置进程优先级没有完全成功，推荐手动通过进程管理器设置优先级为实时或者使用UAC管理员账户运行", L"警告", 0);
+		if (MessageBox(0, L"设置进程优先级没有完全成功，是否尝试以管理员权限开启", L"警告", MB_YESNO))
+		{
+			WCHAR currentDir[MAX_PATH];
+
+			GetCurrentDirectory(MAX_PATH, currentDir);
+
+			SHELLEXECUTEINFO shExInfo = { 0 };
+			shExInfo.cbSize = sizeof(shExInfo);
+			shExInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+			shExInfo.hwnd = 0;
+			shExInfo.lpVerb = _T("open");                // Operation to perform
+			shExInfo.lpFile = L"UAC.exe";				// Application to start    
+			shExInfo.lpParameters = L"";                  // Additional parameters
+			shExInfo.lpDirectory = currentDir;
+			shExInfo.nShow = SW_SHOW;
+			shExInfo.hInstApp = 0;
+			ShellExecuteEx(&shExInfo);
+		}
 	}
 	CloseHandle(hProcess);
 
