@@ -33,6 +33,7 @@ using namespace std;
 #include "../pugixml/pugixml.hpp"
 
 //STL
+#include <iterator>
 #include <vector>
 
 //OpenGL

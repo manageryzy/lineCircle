@@ -243,17 +243,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 		case SETTING_DRAW_MODE_GDI:
 			hdc = BeginPaint(hWnd, &ps);
-			// TODO:  在此添加任意绘图代码...
+			theDC = hdc;
+			onGDIDraw();
 			EndPaint(hWnd, &ps);
 			break;
 		case SETTING_DRAW_MODE_MEMGDI:
 			hdc = BeginPaint(hWnd, &ps);
-			// TODO:  在此添加任意绘图代码...
+			theDC = hdc;
 			EndPaint(hWnd, &ps);
 			break;
 		case SETTING_DRAW_MODE_MEMORY:
 			hdc = BeginPaint(hWnd, &ps);
-			// TODO:  在此添加任意绘图代码...
+			theDC = hdc;
 			EndPaint(hWnd, &ps);
 			break;
 		case SETTING_DRAW_MODE_OPENGL:
