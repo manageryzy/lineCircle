@@ -40,6 +40,21 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	loadIniSetting();
 
+	//提升自身优先级到实时
+	HANDLE hProcess = OpenProcess(PROCESS_SET_INFORMATION, FALSE, GetCurrentProcessId());
+	if (SetPriorityClass(hProcess, REALTIME_PRIORITY_CLASS) == 0)
+	{
+		MessageBox(0, L"设置进程优先级错误，推荐手动通过进程管理器设置优先级为实时", L"警告", 0);
+	}
+	CloseHandle(hProcess);
+
+	hProcess = GetCurrentProcess();
+	if (GetPriorityClass(hProcess) != REALTIME_PRIORITY_CLASS)
+	{
+		MessageBox(0, L"设置进程优先级没有完全成功，推荐手动通过进程管理器设置优先级为实时或者使用UAC管理员账户运行", L"警告", 0);
+	}
+	CloseHandle(hProcess);
+
 	MyRegisterClass(hInstance);
 
 	// 执行应用程序初始化: 

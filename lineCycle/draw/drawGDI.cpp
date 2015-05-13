@@ -48,8 +48,8 @@ void onGDIDraw()
 	SelectObject(hdc, linePen);
 	for (vector <Line> ::iterator it = lineList.begin(); it != lineList.end(); ++it)
 	{
-		MoveToEx(hdc, it->x1, it->y1, NULL);
-		LineTo(hdc, it->x2, it->y2);
+		MoveToEx(hdc, (int)it->x1, (int)it->y1, NULL);
+		LineTo(hdc, (int)it->x2, (int)it->y2);
 	}
 
 	//多线程画圆
@@ -72,28 +72,28 @@ void onGDIDraw()
 	
 	//单线程绘制裁剪多边形
 	SelectObject(hdc, polygonPen);
-	float last_x = -1, last_y = -1;
+	int last_x = -1, last_y = -1;
 	for (vector <Point> ::iterator it = polygonList.begin(); it != polygonList.end(); ++it)
 	{
 		if (last_x == -1 && last_y == -1)
 		{
-			last_x = it->x;
-			last_y = it->y;
+			last_x = (int)it->x;
+			last_y = (int)it->y;
 			continue;
 		}
 		else
 		{
 			MoveToEx(hdc, last_x, last_y, NULL);
-			LineTo(hdc, it->x, it->y);
-			last_x = it->x;
-			last_y = it->y;
+			LineTo(hdc, (int)it->x, (int)it->y);
+			last_x = (int)it->x;
+			last_y = (int)it->y;
 		}
 	}
 	if (last_x != -1 && last_y != -1)
 	{
 		MoveToEx(hdc, last_x, last_y, NULL);
 
-		LineTo(hdc, polygonList.begin()->x, polygonList.begin()->y);
+		LineTo(hdc, (int)polygonList.begin()->x, (int)polygonList.begin()->y);
 	}
 	
 	CloseHandle(events);
@@ -108,20 +108,20 @@ DWORD WINAPI drawLineWorker(LPVOID lpParam)
 
 	if (workerID == 0)
 	{
-		for (int i = 0; i < workerInterval + lineList.size() % SETTING_DRAW_THREAD; i++)
+		for (unsigned int i = 0; i < workerInterval + lineList.size() % SETTING_DRAW_THREAD; i++)
 		{
 			Line l = lineList.at(i);
-			MoveToEx(hdc, l.x1, l.y1, NULL);
-			LineTo(hdc, l.x2, l.y2);
+			MoveToEx(hdc, (int)l.x1, (int)l.y1, NULL);
+			LineTo(hdc, (int)l.x2, (int)l.y2);
 		}
 	}
 	else
 	{
-		for (int i = workerInterval*workerID + lineList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + lineList.size() % SETTING_DRAW_THREAD; i++)
+		for (unsigned int i = workerInterval*workerID + lineList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + lineList.size() % SETTING_DRAW_THREAD; i++)
 		{
 			Line l = lineList.at(i);
-			MoveToEx(hdc, l.x1, l.y1, NULL);
-			LineTo(hdc, l.x2, l.y2);
+			MoveToEx(hdc, (int)l.x1, (int)l.y1, NULL);
+			LineTo(hdc, (int)l.x2, (int)l.y2);
 		}
 	}
 	
@@ -142,18 +142,18 @@ DWORD WINAPI drawCircleWorker(LPVOID lpParam)
 
 	if (workerID == 0)
 	{
-		for (int i = 0; i < workerInterval + circleList.size() % SETTING_DRAW_THREAD; i++)
+		for (unsigned int i = 0; i < workerInterval + circleList.size() % SETTING_DRAW_THREAD; i++)
 		{
 			Circle l = circleList.at(i);
-			Arc(hdc, l.x - l.r, l.y - l.r, l.x + l.r, l.y + l.r, 0, 0, 0, 0);
+			Arc(hdc, (int)(l.x - l.r), (int)(l.y - l.r), (int)(l.x + l.r), (int)(l.y + l.r), 0, 0, 0, 0);
 		}
 	}
 	else
 	{
-		for (int i = workerInterval*workerID + circleList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + circleList.size() % SETTING_DRAW_THREAD; i++)
+		for (unsigned int i = workerInterval*workerID + circleList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + circleList.size() % SETTING_DRAW_THREAD; i++)
 		{
 			Circle l = circleList.at(i);
-			Arc(hdc, l.x - l.r, l.y - l.r, l.x + l.r, l.y + l.r, 0, 0, 0, 0);
+			Arc(hdc, (int)(l.x - l.r), (int)(l.y - l.r), (int)(l.x + l.r), (int)(l.y + l.r), 0, 0, 0, 0);
 		}
 	}
 
