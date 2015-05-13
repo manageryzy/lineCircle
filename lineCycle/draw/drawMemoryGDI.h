@@ -1,1 +1,3 @@
 //»º³åDC½øÐÐ»æÍ¼
+
+void onMemGDIDraw();

@@ -144,6 +144,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CREATE:
 		theDC = GetDC(hWnd);
+		GetClientRect(hWnd, &rect);
 
 		if (SETTING_DRAW_MODE == SETTING_DRAW_MODE_OPENGL)
 		{
@@ -152,7 +153,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			ghRC = wglCreateContext(theDC);
 			wglMakeCurrent(theDC, ghRC);
-			GetClientRect(hWnd, &rect);
+			
 			initializeGL(rect.right, rect.bottom);
 		}
 		break;
@@ -234,6 +235,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
+			break;
+
+		case ID_ACCELERATOR_REFRESH:
+			GetClientRect(hWnd, &rect);
+			InvalidateRect(theHWND, &rect, TRUE);
+			UpdateWindow(theHWND);
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
