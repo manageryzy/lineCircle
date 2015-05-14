@@ -22,6 +22,7 @@ ATOM				MyRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
+bool isBusy();
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -52,7 +53,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	hProcess = GetCurrentProcess();
 	if (GetPriorityClass(hProcess) != REALTIME_PRIORITY_CLASS)
 	{
-		if (MessageBox(0, L"设置进程优先级没有完全成功，是否尝试以管理员权限开启", L"警告", MB_YESNO))
+		if (MessageBox(0, L"设置进程优先级没有完全成功，是否尝试以管理员权限开启", L"警告", MB_YESNO) == IDOK)
 		{
 			WCHAR currentDir[MAX_PATH];
 
@@ -207,6 +208,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wmId)
 		{
 		case IDM_OPEN:
+			if (isXMLBusy)
+			{
+				MessageBox(theHWND, L"XML解析器仍然在工作中，忙", L"错误", 0);
+				break;
+			}
+
 			lineList.clear();
 			circleList.clear();
 			polygonList.clear();
@@ -221,45 +228,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			ofn.lpstrFile = strFile;
 			ofn.nMaxFile = MAX_PATH;
 			ofn.Flags = OFN_FILEMUSTEXIST;
-			if (GetOpenFileName(&ofn)){
-
-				//开始读取XML
-
-				tickStartLoadXML = GetTickCount();
-
-				switch (SETTING_XML_MODE)
-				{
-				case 0:
-					if (!tinyXMLPrase())
-					{
-						MessageBox(theHWND, L"tinyXML解析失败。", L"警告", 0);
-					}
-					break;
-				case 1:
-					if (!minXMLPrase())
-					{
-						MessageBox(theHWND, L"最小化XML解析失败。", L"警告", 0);
-					}
-					break;
-				case 2:
-					if (!pugiXMLPrase())
-					{
-						MessageBox(theHWND, L"pugiXML解析失败。", L"警告", 0);
-					}
-					break;
-				default:
-					MessageBox(theHWND, L"错误的XML解析设置", L"错误", 0);
-					exit(-1);
-					break;
-				}
-
-
-				tickFinishLoadXML = GetTickCount();
-
-				//开始第一遍绘图
-				GetClientRect(hWnd, &rect);
-				InvalidateRect(theHWND, &rect, TRUE);
-				UpdateWindow(theHWND);
+			if (GetOpenFileName(&ofn))
+			{
+				xmlPrase();
 			}
 			else
 			{
@@ -284,28 +255,41 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_PAINT:
-		switch (SETTING_DRAW_MODE)
+		if (isBusy())
 		{
-		case SETTING_DRAW_MODE_GDI:
 			hdc = BeginPaint(hWnd, &ps);
 			theDC = hdc;
-			onGDIDraw();
+			GetClientRect(hWnd, &rect);
+			DrawText(hdc, L"BUSY", 4, &rect, 0);
+
 			EndPaint(hWnd, &ps);
-			break;
-		case SETTING_DRAW_MODE_MEMGDI:
-			hdc = BeginPaint(hWnd, &ps);
-			theDC = hdc;
-			EndPaint(hWnd, &ps);
-			break;
-		case SETTING_DRAW_MODE_MEMORY:
-			hdc = BeginPaint(hWnd, &ps);
-			theDC = hdc;
-			EndPaint(hWnd, &ps);
-			break;
-		case SETTING_DRAW_MODE_OPENGL:
-			drawScene();
-			break;
 		}
+		else
+		{
+			switch (SETTING_DRAW_MODE)
+			{
+			case SETTING_DRAW_MODE_GDI:
+				hdc = BeginPaint(hWnd, &ps);
+				theDC = hdc;
+				onGDIDraw();
+				EndPaint(hWnd, &ps);
+				break;
+			case SETTING_DRAW_MODE_MEMGDI:
+				hdc = BeginPaint(hWnd, &ps);
+				theDC = hdc;
+				EndPaint(hWnd, &ps);
+				break;
+			case SETTING_DRAW_MODE_MEMORY:
+				hdc = BeginPaint(hWnd, &ps);
+				theDC = hdc;
+				EndPaint(hWnd, &ps);
+				break;
+			case SETTING_DRAW_MODE_OPENGL:
+				drawScene();
+				break;
+			}
+		}
+		
 		
 		break;
 	case WM_DESTROY:
@@ -340,4 +324,9 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	return (INT_PTR)FALSE;
+}
+
+bool isBusy()
+{
+	return isXMLBusy;
 }

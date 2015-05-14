@@ -87,6 +87,9 @@
     <ClInclude Include="common\global.h">
       <Filter>头文件\common</Filter>
     </ClInclude>
+    <ClInclude Include="xml\xmlPrase.h">
+      <Filter>头文件\xml</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lineCycle.cpp">
@@ -123,6 +126,9 @@
       <Filter>源文件\wrapper</Filter>
     </ClCompile>
     <ClCompile Include="xml\pugiXMLPrase.cpp">
+      <Filter>源文件\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="xml\xmlPrase.cpp">
       <Filter>源文件\xml</Filter>
     </ClCompile>
   </ItemGroup>

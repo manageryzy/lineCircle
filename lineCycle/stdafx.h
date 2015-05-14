@@ -47,6 +47,7 @@ using namespace std;
 #include "./common/global.h"
 
 //XML部分头文件
+#include "./xml/xmlPrase.h"
 #include "./xml/minXml.h"
 #include "./xml/tinyXMLPrase.h"
 #include "./xml/pugiXMLPrase.h"

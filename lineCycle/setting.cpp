@@ -11,6 +11,8 @@
 
 int SETTING_XML_MODE = 1;//XML解析模式。0-tinyxml 1-极小化解析 2-pugixml
 
+int SETTING_XML_CACHE = true;
+
 int SETTING_XML_TESTCASE = 1;//测试用例
 
 
@@ -56,8 +58,9 @@ int loadIniSetting()
 	wchar_t buf[MAX_PATH];
 
 	SETTING_XML_MODE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_MODE", SETTING_XML_MODE,L"./conf.ini");
-	
+	SETTING_XML_CACHE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_CACHE", SETTING_XML_CACHE, L"./conf.ini");
 	SETTING_XML_TESTCASE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_TESTCASE", SETTING_XML_TESTCASE,L"./conf.ini");
+
 	SETTING_DRAW_MODE = GetPrivateProfileInt(L"drawSetting", L"SETTING_DRAW_MODE", SETTING_DRAW_MODE,L"./conf.ini");
 	SETTING_DRAW_THREAD = GetPrivateProfileInt(L"drawSetting", L"SETTING_DRAW_THREAD", SETTING_DRAW_THREAD,L"./conf.ini");
 
@@ -69,9 +72,11 @@ int loadIniSetting()
 
 	wsprintfW(buf, L"%d", SETTING_XML_MODE);
 	WritePrivateProfileString(L"xmlSetting", L"SETTING_XML_MODE", buf, L"./conf.ini");
-
+	wsprintfW(buf, L"%d", SETTING_XML_CACHE);
+	WritePrivateProfileString(L"xmlSetting", L"SETTING_XML_CACHE", buf, L"./conf.ini");
 	wsprintfW(buf, L"%d", SETTING_XML_TESTCASE);
 	WritePrivateProfileString(L"xmlSetting", L"SETTING_XML_TESTCASE", buf, L"./conf.ini");
+
 	wsprintfW(buf, L"%d", SETTING_DRAW_MODE);
 	WritePrivateProfileString(L"drawSetting", L"SETTING_DRAW_MODE", buf, L"./conf.ini");
 	wsprintfW(buf, L"%d", SETTING_DRAW_THREAD);

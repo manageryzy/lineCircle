@@ -6,8 +6,13 @@
 //
 ///////////////////////////////////////////////////////////////////////////
 
+#define SETTING_XML_MODE_TINYXML 0
+#define SETTING_XML_MODE_MINXML 1
+#define SETTING_XML_MODE_PUGIXML 2
 
 extern int SETTING_XML_MODE;//XML解析模式。0-tinyxml 1-极小化解析 2-pugixml
+
+extern int SETTING_XML_CACHE;//是否采用缓存，类似于OPCACHE一样，把解析好的XML以二进制的方式缓存到文件里面
 
 extern int SETTING_XML_TESTCASE;//测试用例
 
