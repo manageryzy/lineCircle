@@ -46,6 +46,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	HANDLE hProcess = OpenProcess(PROCESS_SET_INFORMATION, FALSE, GetCurrentProcessId());
 	if (SetPriorityClass(hProcess, REALTIME_PRIORITY_CLASS) == 0)
 	{
+		MessageBeep(0);
 		MessageBox(0, L"设置进程优先级错误，推荐手动通过进程管理器设置优先级为实时", L"警告", 0);
 	}
 	CloseHandle(hProcess);
@@ -53,7 +54,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	hProcess = GetCurrentProcess();
 	if (GetPriorityClass(hProcess) != REALTIME_PRIORITY_CLASS)
 	{
-		if (MessageBox(0, L"设置进程优先级没有完全成功，是否尝试以管理员权限开启", L"警告", MB_YESNO) == IDOK)
+		MessageBeep(0);
+		if (MessageBox(0, L"设置进程优先级没有完全成功，是否尝试以管理员权限开启", L"警告", MB_YESNO) == IDYES)
 		{
 			WCHAR currentDir[MAX_PATH];
 
@@ -69,7 +71,11 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			shExInfo.lpDirectory = currentDir;
 			shExInfo.nShow = SW_SHOW;
 			shExInfo.hInstApp = 0;
-			ShellExecuteEx(&shExInfo);
+			if (!ShellExecuteEx(&shExInfo))
+			{
+				MessageBeep(0);
+				MessageBox(0, L"提权失败", L"错误", 0);
+			}
 		}
 	}
 	CloseHandle(hProcess);
