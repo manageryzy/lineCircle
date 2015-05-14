@@ -1,18 +1,93 @@
 #include "../stdafx.h"
 
-HDC hdc;
-HPEN linePen,circlePen,polygonPen;
+namespace drawGDI
+{
+	HDC hdc;
+	HPEN linePen, circlePen, polygonPen;
 
-HANDLE events;
-int workerCount = 0;
+	HANDLE events;
+	int workerCount = 0;
 
-//直线绘制工作线程（弃用：多线程绘制直线的时候会有问题）
-DWORD WINAPI drawLineWorker(LPVOID lpParam);
-//园绘制工作线程
-DWORD WINAPI drawCircleWorker(LPVOID lpParam);
+	//直线绘制工作线程（弃用：多线程绘制直线的时候会有问题）
+	DWORD WINAPI drawLineWorker(LPVOID lpParam);
+	//园绘制工作线程
+	DWORD WINAPI drawCircleWorker(LPVOID lpParam);
+
+
+	DWORD WINAPI drawLineWorker(LPVOID lpParam)
+	{
+		int workerID = (int)lpParam;
+		int workerInterval = lineList.size() / SETTING_DRAW_THREAD;
+
+		++workerCount;
+
+		if (workerID == 0)
+		{
+			for (unsigned int i = 0; i < workerInterval + lineList.size() % SETTING_DRAW_THREAD; i++)
+			{
+				Line l = lineList.at(i);
+				MoveToEx(hdc, (int)l.x1, (int)l.y1, NULL);
+				LineTo(hdc, (int)l.x2, (int)l.y2);
+			}
+		}
+		else
+		{
+			for (unsigned int i = workerInterval*workerID + lineList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + lineList.size() % SETTING_DRAW_THREAD; i++)
+			{
+				Line l = lineList.at(i);
+				MoveToEx(hdc, (int)l.x1, (int)l.y1, NULL);
+				LineTo(hdc, (int)l.x2, (int)l.y2);
+			}
+		}
+
+		--workerCount;
+
+		if (workerCount < 1)
+			SetEvent(events);
+
+		return 0;
+	}
+
+	DWORD WINAPI drawCircleWorker(LPVOID lpParam)
+	{
+		int workerID = (int)lpParam;
+		int workerInterval = circleList.size() / SETTING_DRAW_THREAD;
+
+		++workerCount;
+
+		if (workerID == 0)
+		{
+			for (unsigned int i = 0; i < workerInterval + circleList.size() % SETTING_DRAW_THREAD; i++)
+			{
+				Circle l = circleList.at(i);
+				Arc(hdc, (int)(l.x - l.r), (int)(l.y - l.r), (int)(l.x + l.r), (int)(l.y + l.r), 0, 0, 0, 0);
+			}
+		}
+		else
+		{
+			for (unsigned int i = workerInterval*workerID + circleList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + circleList.size() % SETTING_DRAW_THREAD; i++)
+			{
+				Circle l = circleList.at(i);
+				Arc(hdc, (int)(l.x - l.r), (int)(l.y - l.r), (int)(l.x + l.r), (int)(l.y + l.r), 0, 0, 0, 0);
+			}
+		}
+
+		--workerCount;
+
+		if (workerCount < 1)
+			SetEvent(events);
+
+		return 0;
+	}
+
+}
+
+
 
 void onGDIDraw()
 {
+	using namespace drawGDI;
+
 	hdc = theDC;
 	events = CreateEvent(NULL, FALSE, FALSE, NULL);
 
@@ -97,70 +172,4 @@ void onGDIDraw()
 	}
 	
 	CloseHandle(events);
-}
-
-DWORD WINAPI drawLineWorker(LPVOID lpParam)
-{
-	int workerID = (int)lpParam;
-	int workerInterval = lineList.size() / SETTING_DRAW_THREAD;
-
-	++workerCount;
-
-	if (workerID == 0)
-	{
-		for (unsigned int i = 0; i < workerInterval + lineList.size() % SETTING_DRAW_THREAD; i++)
-		{
-			Line l = lineList.at(i);
-			MoveToEx(hdc, (int)l.x1, (int)l.y1, NULL);
-			LineTo(hdc, (int)l.x2, (int)l.y2);
-		}
-	}
-	else
-	{
-		for (unsigned int i = workerInterval*workerID + lineList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + lineList.size() % SETTING_DRAW_THREAD; i++)
-		{
-			Line l = lineList.at(i);
-			MoveToEx(hdc, (int)l.x1, (int)l.y1, NULL);
-			LineTo(hdc, (int)l.x2, (int)l.y2);
-		}
-	}
-	
-	--workerCount;
-
-	if (workerCount < 1 )
-		SetEvent(events);
-
-	return 0;
-}
-
-DWORD WINAPI drawCircleWorker(LPVOID lpParam)
-{
-	int workerID = (int)lpParam;
-	int workerInterval = circleList.size() / SETTING_DRAW_THREAD;
-
-	++workerCount;
-
-	if (workerID == 0)
-	{
-		for (unsigned int i = 0; i < workerInterval + circleList.size() % SETTING_DRAW_THREAD; i++)
-		{
-			Circle l = circleList.at(i);
-			Arc(hdc, (int)(l.x - l.r), (int)(l.y - l.r), (int)(l.x + l.r), (int)(l.y + l.r), 0, 0, 0, 0);
-		}
-	}
-	else
-	{
-		for (unsigned int i = workerInterval*workerID + circleList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + circleList.size() % SETTING_DRAW_THREAD; i++)
-		{
-			Circle l = circleList.at(i);
-			Arc(hdc, (int)(l.x - l.r), (int)(l.y - l.r), (int)(l.x + l.r), (int)(l.y + l.r), 0, 0, 0, 0);
-		}
-	}
-
-	--workerCount;
-
-	if (workerCount < 1)
-		SetEvent(events);
-
-	return 0;
 }

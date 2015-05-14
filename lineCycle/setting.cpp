@@ -28,6 +28,8 @@ int SETTING_DRAW_MODE = 2;
 //绘图默认线程数量
 int SETTING_DRAW_THREAD = 4;
 
+int SETTING_DRAW_CUTTING = false;
+
 //////////////////////////////////////////////////////////////////////////
 //
 //								裁剪设定

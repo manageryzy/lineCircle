@@ -123,7 +123,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.hInstance		= hInstance;
 	wcex.hIcon			= NULL;
 	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
+	wcex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_LINECYCLE);
 	wcex.lpszClassName	= szWindowClass;
 	wcex.hIconSm		= NULL;
@@ -256,6 +256,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			InvalidateRect(theHWND, &rect, TRUE);
 			UpdateWindow(theHWND);
 			break;
+		case ID_ACCELERATOR_RELOAD:
+			if (SETTING_DRAW_MODE == SETTING_DRAW_MODE_MEMGDI)
+			{
+				clearMemGDICache();
+			}
+			GetClientRect(hWnd, &rect);
+			InvalidateRect(theHWND, &rect, TRUE);
+			UpdateWindow(theHWND);
+			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
@@ -283,6 +292,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			case SETTING_DRAW_MODE_MEMGDI:
 				hdc = BeginPaint(hWnd, &ps);
 				theDC = hdc;
+				onMemGDIDraw();
 				EndPaint(hWnd, &ps);
 				break;
 			case SETTING_DRAW_MODE_MEMORY:

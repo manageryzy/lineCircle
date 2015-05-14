@@ -38,6 +38,9 @@ extern int SETTING_DRAW_MODE;
 //绘图默认线程数量
 extern int SETTING_DRAW_THREAD;
 
+//是否绘图的对象是已经裁剪之后的
+extern int SETTING_DRAW_CUTTING;
+
 //////////////////////////////////////////////////////////////////////////
 //
 //								裁剪设定

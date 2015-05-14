@@ -274,6 +274,11 @@ DWORD WINAPI cacheXMLWorker(LPVOID lpParam)
 
 	isXMLBusy = false;
 
+	if (SETTING_DRAW_MODE == SETTING_DRAW_MODE_MEMGDI)
+	{
+		clearMemGDICache();
+	}
+
 	RECT rect;
 	GetClientRect(theHWND, &rect);
 	InvalidateRect(theHWND, &rect, TRUE);
