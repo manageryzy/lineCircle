@@ -171,5 +171,8 @@ void onGDIDraw()
 		LineTo(hdc, (int)polygonList.begin()->x, (int)polygonList.begin()->y);
 	}
 	
+	DeleteObject(linePen);
+	DeleteObject(circlePen);
+	DeleteObject(polygonPen);
 	CloseHandle(events);
 }
