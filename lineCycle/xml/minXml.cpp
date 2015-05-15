@@ -2,17 +2,28 @@
 
 //极小化的基于状态机的xml解析
 //
-
+#define s0 0
+#define s1 1
+#define s2 2
 namespace minXMLPrase_
 {
 	FILE * fp;
 	WCHAR charBuf;
 	bool praseXML(WCHAR *);
 	inline void onCharRead();
-
+	int state;
 	inline void onCharRead()
 	{
+		switch (state)
+		{
+		case s0:if (charBuf == 'I')state = s1;
+				else state = s0;  break;
+		case s1:if (charBuf == 'D')state = s2;
+				else if(charBuf == 'I')state = s1;
+				else state = s0;  break;
+		case s2:if ()
 
+		}
 	}
 
 	bool praseXML(WCHAR * fileName)
