@@ -5,7 +5,7 @@
 #define s0 0
 #define s1 1
 #define s2 2
-namespace minXMLPrase
+namespace minXMLPrase_
 {
 	FILE * fp;
 	WCHAR charBuf;
@@ -52,7 +52,7 @@ namespace minXMLPrase
 
 bool minXMLPrase()
 {
-	using namespace minXMLPrase;
+	using namespace minXMLPrase_;
 
 	isXMLBusy = true;
 	bool res = praseXML(strFile);

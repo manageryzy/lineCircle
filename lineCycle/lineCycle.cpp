@@ -261,6 +261,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			{
 				clearMemGDICache();
 			}
+			else if (SETTING_DRAW_MODE == SETTING_DRAW_MODE_MEMORY)
+			{
+				clearGDICache();
+			}
 			GetClientRect(hWnd, &rect);
 			InvalidateRect(theHWND, &rect, TRUE);
 			UpdateWindow(theHWND);
@@ -298,6 +302,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			case SETTING_DRAW_MODE_MEMORY:
 				hdc = BeginPaint(hWnd, &ps);
 				theDC = hdc;
+				onMemDraw();
 				EndPaint(hWnd, &ps);
 				break;
 			case SETTING_DRAW_MODE_OPENGL:
