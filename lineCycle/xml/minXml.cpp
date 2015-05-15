@@ -3,7 +3,7 @@
 //极小化的基于状态机的xml解析
 //
 
-namespace minXMLPrase
+namespace minXMLPrase_
 {
 	FILE * fp;
 	WCHAR charBuf;
@@ -41,7 +41,7 @@ namespace minXMLPrase
 
 bool minXMLPrase()
 {
-	using namespace minXMLPrase;
+	using namespace minXMLPrase_;
 
 	isXMLBusy = true;
 	bool res = praseXML(strFile);
