@@ -49,8 +49,8 @@ namespace drawMemoryGDI{
 		bmpList.clear();
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
 		{
-			hdcList.push_back(CreateCompatibleDC(hdc));
-			bmpList.push_back(CreateCompatibleBitmap(hdcList.at(i), 1366, 768));
+			hdcList.push_back(CreateCompatibleDC(NULL));
+			bmpList.push_back(CreateCompatibleBitmap(theDC, 1366, 768));
 			SelectObject(hdcList.at(i), bmpList.at(i));
 			
 		}
@@ -107,21 +107,10 @@ namespace drawMemoryGDI{
 		//合并结果
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
 		{
-			HBITMAP hMaskBmp = CreateBitmap( 1366, 768,1,1,NULL);
-			HDC hMaskDC = CreateCompatibleDC(hdc);
-			SelectObject(hMaskDC, hMaskBmp);
-			SetBkColor(hdcList.at(i), RGB(0, 0, 0));
-
-			BitBlt(hMaskDC, 0, 0, 1366, 768, hdcList.at(i), 0, 0, SRCCOPY);
-
-			BitBlt(hdc, 0, 0, 1366, 768, hdcList.at(i), 0, 0, SRCINVERT);
-			BitBlt(hdc, 0, 0, 1366, 768, hMaskDC, 0, 0, SRCAND);
-			BitBlt(hdc, 0, 0, 1366, 768, hdcList.at(i), 0, 0, SRCINVERT);
+			BitBlt(hdc, 0, 0, 1366, 768, hdcList.at(i), 0, 0, SRCPAINT);
 
 			ReleaseDC(theHWND, hdcList.at(i));
 			DeleteObject(bmpList.at(i));
-			ReleaseDC(theHWND,hMaskDC);
-			DeleteObject(hMaskBmp);
 		}
 		hdcList.clear();
 		bmpList.clear();
@@ -261,14 +250,14 @@ void onMemGDIDraw()
 
 	if (cuttingDC == NULL)
 	{
-		cuttingDC = CreateCompatibleDC(theDC);
-		cuttingBmp = CreateCompatibleBitmap(cuttingDC, 1366, 768);
+		cuttingDC = CreateCompatibleDC(NULL);
+		cuttingBmp = CreateCompatibleBitmap(theDC, 1366, 768);
 		SelectObject(cuttingDC, cuttingBmp);
 	}
 	if (notCuttingDC == NULL)
 	{
-		notCuttingDC = CreateCompatibleDC(theDC);
-		notCuttingBmp = CreateCompatibleBitmap(cuttingDC, 1366, 768);
+		notCuttingDC = CreateCompatibleDC(NULL);
+		notCuttingBmp = CreateCompatibleBitmap(theDC, 1366, 768);
 		SelectObject(notCuttingDC, notCuttingBmp);
 	}
 	
