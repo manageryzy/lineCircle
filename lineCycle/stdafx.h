@@ -32,6 +32,9 @@ using namespace std;
 #include "../pugixml/pugiconfig.hpp"
 #include "../pugixml/pugixml.hpp"
 
+//数学包装
+#include "./wrapper/math.h"
+
 //STL
 #include <iterator>
 #include <vector>

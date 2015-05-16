@@ -1,6 +1,7 @@
 #include "../stdafx.h"
 #include <sys/stat.h>
 #include <Shlobj.h>
+#include "../resource.h"
 
 bool isXMLBusy = false;
 
@@ -52,10 +53,7 @@ DWORD WINAPI praseXMLWorker(LPVOID lpParam)
 
 	isXMLBusy = false;
 
-	RECT rect;
-	GetClientRect(theHWND, &rect);
-	InvalidateRect(theHWND, &rect, TRUE);
-	UpdateWindow(theHWND);
+	PostMessage(theHWND, WM_COMMAND, ID_ACCELERATOR_RELOAD, 0);
 
 	return 0;
 }
@@ -279,10 +277,7 @@ DWORD WINAPI cacheXMLWorker(LPVOID lpParam)
 		clearMemGDICache();
 	}
 
-	RECT rect;
-	GetClientRect(theHWND, &rect);
-	InvalidateRect(theHWND, &rect, TRUE);
-	UpdateWindow(theHWND);
+	PostMessage(theHWND, WM_COMMAND, ID_ACCELERATOR_RELOAD,0);
 
 	return 0;
 }

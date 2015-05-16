@@ -2,6 +2,9 @@
 
 #include <math.h>
 
+extern const float _sinTable[];
+extern const float _cosTable[];
+
 __inline float Sin(float x);
 __inline float Cos(float x);
 __inline float Tan(float x);

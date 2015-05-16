@@ -21,23 +21,88 @@ namespace memDraw
 
 	void DrawLine(int x1, int y1, int x2, int y2, int rgb)
 	{
-		int k, b;
-		if ((x2 - x1) < eps) k = inf;
-		else k = (y2 - y1) / (x2 - x1);
+		double k;
+		if (x2 == x1) k = inf;
+		else k = (y2 - y1) * 1.0 / (x2 - x1);
 
-		b = y1 - k * x1;
+		if (x1 > x2 || (x1 == x2 && y1 > y2))
+		{
+			int t = x1; x1 = x2; x2 = t;
+			t = y1; y1 = y2; y2 = t;
+		}
 
 		int x, y;
-		for (x = (int)x1; x <= (int)x2 + 1; x++)
+		for (x = x1; x < x2; x++)
 		{
 			int yy = k * (x - x1) + y1;
-			if (yy < y1) yy = y1;
-
 			int yyy = k * (x - x1 + 1) + y1;
-			if (yyy > y2) yyy = y2;
+			if (yy > yyy)
+			{
+				int t = yy; yy = yyy; yyy = t;
+			}
 
-			for (y = (int)yy; y <= (int)yyy; y++)
+			for (y = yy; y <= yyy; y++)
 				gra[y][x] = rgb;
+		}
+	}
+
+	void DrawCircle(int x, int y, int r, int rgb)
+	{
+		int k;  //·Ö¼¸¶Î
+
+		if (r < 10) k = 16;
+		else if (r < 20) k = 32;
+		else if (r < 40) k = 64;
+		else k = 128;
+
+		double dlt = 2 * 3.1415926 / k;
+		double alp = 0;
+		int x1, y1, x2, y2;
+		for (int i = 0; i < k; i++)
+		{
+			int dltx = r * _sinTable[(int)(alp * 10000)];
+			int dlty = r * _cosTable[(int)(alp * 10000)];
+			x1 = x + dltx;
+			y1 = y + dlty;
+			alp += dlt;
+			dltx = r * _sinTable[(int)(alp * 10000)];
+			dlty = r * _cosTable[(int)(alp * 10000)];
+			x2 = x + dltx;
+			y2 = y + dlty;
+
+			DrawLine(x1, y1, x2, y2, rgb);
+		}
+	}
+
+	void DrawArc(int x, int y, int r, int rgb, double alp1, double alp2)
+	{
+		if (alp1 > alp2)
+		{
+			double t = alp1; alp1 = alp2; alp2 = t;
+		}
+		int k = 0;
+		double dlt1 = alp2 - alp1;
+		int m = 6.30 / dlt1 + 1;
+
+		if (r < 10) k = 4 / m + 1;
+		else if (r < 200) k = 8 / m + 1;
+		else k = 16 / m + 1;
+
+		double dlt = dlt1 / k;
+		double alp = alp1;
+		int x1, y1, x2, y2;
+		for (int i = 0; i < k; i++)
+		{
+			int dltx = r * _sinTable[(int)(alp * 10000)];
+			int dlty = r * _cosTable[(int)(alp * 10000)];
+			x1 = x + dltx;
+			y1 = y + dlty;
+			alp += dlt;
+			dltx = r * _sinTable[(int)(alp * 10000)];
+			dlty = r * _cosTable[(int)(alp * 10000)];
+			x2 = x + dltx;
+			y2 = y + dlty;
+			DrawLine(x1, y1, x2, y2, rgb);
 		}
 	}
 
@@ -81,16 +146,14 @@ namespace memDraw
 		++workerCount;
 		int workerID = (int)lpParam;
 		int workerInterval = circleList.size() / SETTING_DRAW_THREAD;
-		/*HDC hdc = hdcList.at(workerID);
 
-		SelectObject(hdc, circlePen);
 
 		if (workerID == 0)
 		{
 			for (unsigned int i = 0; i < workerInterval + circleList.size() % SETTING_DRAW_THREAD; i++)
 			{
 				Circle l = circleList.at(i);
-				Arc(hdc, (int)(l.x - l.r), (int)(l.y - l.r), (int)(l.x + l.r), (int)(l.y + l.r), 0, 0, 0, 0);
+				DrawCircle((int)l.x, (int)l.y, (int)l.r, RGB(0, 255, 0));
 			}
 		}
 		else
@@ -98,9 +161,9 @@ namespace memDraw
 			for (unsigned int i = workerInterval*workerID + circleList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + circleList.size() % SETTING_DRAW_THREAD; i++)
 			{
 				Circle l = circleList.at(i);
-				Arc(hdc, (int)(l.x - l.r), (int)(l.y - l.r), (int)(l.x + l.r), (int)(l.y + l.r), 0, 0, 0, 0);
+				DrawCircle((int)l.x, (int)l.y, (int)l.r, RGB(0, 255, 0));
 			}
-		}*/
+		}
 
 		++workerFinished;
 
