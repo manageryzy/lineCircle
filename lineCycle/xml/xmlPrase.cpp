@@ -136,8 +136,8 @@ bool loadCache()
 		return false;
 	while (1)
 	{
-		Line line;
-		if (fread(&line, sizeof(line), 1, fp) == NULL)
+		Line * line = new Line;
+		if (fread(line, sizeof(Line), 1, fp) == NULL)
 			break;
 		lineList.push_back(line);
 	}
@@ -150,8 +150,8 @@ bool loadCache()
 		return false;
 	while (1)
 	{
-		Circle circle;
-		if (fread(&circle, sizeof(circle), 1, fp) == NULL)
+		Circle * circle = new Circle;
+		if (fread(circle, sizeof(Circle), 1, fp) == NULL)
 			break;
 		circleList.push_back(circle);
 	}
@@ -164,8 +164,8 @@ bool loadCache()
 		return false;
 	while (1)
 	{
-		Point point;
-		if (fread(&point, sizeof(point), 1, fp) == NULL)
+		Point * point = new Point;
+		if (fread(point, sizeof(Point), 1, fp) == NULL)
 			break;
 		polygonList.push_back(point);
 	}
@@ -220,9 +220,9 @@ bool saveCache()
 		return false;
 	for (unsigned int i=0; i < lineList.size(); ++i)
 	{
-		Line line = lineList.at(i);
+		Line * line = lineList.at(i);
 
-		fwrite(&line, sizeof(line), 1, fp);
+		fwrite(line, sizeof(Line), 1, fp);
 	}
 	fclose(fp);
 
@@ -233,9 +233,9 @@ bool saveCache()
 		return false;
 	for (unsigned int i = 0; i < circleList.size(); ++i)
 	{
-		Circle circle = circleList.at(i);
+		Circle * circle = circleList.at(i);
 
-		fwrite(&circle, sizeof(circle), 1, fp);
+		fwrite(circle, sizeof(Circle), 1, fp);
 	}
 	fclose(fp);
 
@@ -246,9 +246,9 @@ bool saveCache()
 		return false;
 	for (unsigned int i = 0; i < polygonList.size(); ++i)
 	{
-		Point point = polygonList.at(i);
+		Point * point = polygonList.at(i);
 
-		fwrite(&point, sizeof(point), 1, fp);
+		fwrite(point, sizeof(Point), 1, fp);
 	}
 	fclose(fp);
 

@@ -10,8 +10,7 @@ namespace drawMemoryGDI{
 	HBITMAP cuttingBmp = NULL, notCuttingBmp = NULL;
 	HPEN linePen, circlePen, polygonPen;
 
-	HANDLE events;
-	int workerCount = 0,workerFinished = 0;
+	HANDLE * events;
 
 	//直线绘制工作线程
 	DWORD WINAPI drawMemLineWorker(LPVOID lpParam);
@@ -28,21 +27,13 @@ namespace drawMemoryGDI{
 		SetBkColor(hdc, RGB(0, 0, 0));
 		SetTextColor(hdc, RGB(255, 255, 255));
 
-		events = CreateEvent(NULL, FALSE, FALSE, NULL);
+		events = new HANDLE[SETTING_DRAW_THREAD];
+		for (int i = 0; i < SETTING_DRAW_THREAD;i++)
+			events[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
 
 		linePen = CreatePen(PS_SOLID, 1, RGB(0, 0, 255));
 		circlePen = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
 		polygonPen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
-
-		//等待所有的工作任务都退出了。虽然主线程应该是线程安全的，谁知道呢，呵呵
-		while (1)
-		{
-			if (workerCount < 1)
-				break;
-
-			Sleep(1);
-		}
-		workerFinished = 0;
 
 		//初始化资源
 		hdcList.clear();
@@ -69,16 +60,8 @@ namespace drawMemoryGDI{
 
 			CloseHandle(hThread);
 		}
+		WaitForMultipleObjects(SETTING_DRAW_THREAD, events, true, INFINITE);
 
-		WaitForSingleObject(events, INFINITE);
-		while (1)
-		{
-			if (workerCount < 1)
-				break;
-
-			Sleep(1);
-		}
-		workerFinished = 0;
 
 		//多线程画圆
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
@@ -93,16 +76,9 @@ namespace drawMemoryGDI{
 			}
 			CloseHandle(hThread);
 		}
+		WaitForMultipleObjects(SETTING_DRAW_THREAD, events, true, INFINITE);
 
-		WaitForSingleObject(events, INFINITE);
-		while (1)
-		{
-			if (workerCount < 1)
-				break;
 
-			Sleep(1);
-		}
-		workerFinished = 0;
 
 		//合并结果
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
@@ -118,33 +94,37 @@ namespace drawMemoryGDI{
 		//单线程绘制裁剪多边形
 		SelectObject(hdc, polygonPen);
 		int last_x = -1, last_y = -1;
-		for (vector <Point> ::iterator it = polygonList.begin(); it != polygonList.end(); ++it)
+		for (vector <Point *> ::iterator it = polygonList.begin(); it != polygonList.end(); ++it)
 		{
 			if (last_x == -1 && last_y == -1)
 			{
-				last_x = (int)it->x;
-				last_y = (int)it->y;
+				last_x = (int)(*it)->x;
+				last_y = (int)(*it)->y;
 				continue;
 			}
 			else
 			{
 				MoveToEx(hdc, last_x, last_y, NULL);
-				LineTo(hdc, (int)it->x, (int)it->y);
-				last_x = (int)it->x;
-				last_y = (int)it->y;
+				LineTo(hdc, (int)(*it)->x, (int)(*it)->y);
+				last_x = (int)(*it)->x;
+				last_y = (int)(*it)->y;
 			}
 		}
 		if (last_x != -1 && last_y != -1)
 		{
 			MoveToEx(hdc, last_x, last_y, NULL);
 
-			LineTo(hdc, (int)polygonList.begin()->x, (int)polygonList.begin()->y);
+			LineTo(hdc, (int)(*polygonList.begin())->x, (int)(*polygonList.begin())->y);
 		}
 
 		DeleteObject(linePen);
 		DeleteObject(circlePen);
 		DeleteObject(polygonPen);
-		CloseHandle(events);
+
+		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
+			CloseHandle(events[i]);
+
+		delete[] events;
 	}
 
 	void drawCuttingDC()
@@ -154,7 +134,6 @@ namespace drawMemoryGDI{
 
 	DWORD WINAPI drawMemLineWorker(LPVOID lpParam)
 	{
-		++workerCount;
 
 		int workerID = (int)lpParam;
 		int workerInterval = lineList.size() / SETTING_DRAW_THREAD;
@@ -167,35 +146,28 @@ namespace drawMemoryGDI{
 		{
 			for (unsigned int i = 0; i < workerInterval + lineList.size() % SETTING_DRAW_THREAD; i++)
 			{
-				Line l = lineList.at(i);
-				MoveToEx(hdc, (int)l.x1, (int)l.y1, NULL);
-				LineTo(hdc, (int)l.x2, (int)l.y2);
+				Line * l = lineList.at(i);
+				MoveToEx(hdc, (int)l->x1, (int)l->y1, NULL);
+				LineTo(hdc, (int)l->x2, (int)l->y2);
 			}
 		}
 		else
 		{
 			for (unsigned int i = workerInterval*workerID + lineList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + lineList.size() % SETTING_DRAW_THREAD; i++)
 			{
-				Line l = lineList.at(i);
-				MoveToEx(hdc, (int)l.x1, (int)l.y1, NULL);
-				LineTo(hdc, (int)l.x2, (int)l.y2);
+				Line * l = lineList.at(i);
+				MoveToEx(hdc, (int)l->x1, (int)l->y1, NULL);
+				LineTo(hdc, (int)l->x2, (int)l->y2);
 			}
 		}
 
-		++workerFinished;
+		SetEvent(events[workerID]);
 
-		if (workerFinished >= SETTING_DRAW_THREAD)
-		{
-			SetEvent(events);
-		}
-
-		--workerCount;
 		return 0;
 	}
 
 	DWORD WINAPI drawMemCircleWorker(LPVOID lpParam)
 	{
-		++workerCount;
 		int workerID = (int)lpParam;
 		int workerInterval = circleList.size() / SETTING_DRAW_THREAD;
 		HDC hdc = hdcList.at(workerID);
@@ -206,27 +178,21 @@ namespace drawMemoryGDI{
 		{
 			for (unsigned int i = 0; i < workerInterval + circleList.size() % SETTING_DRAW_THREAD; i++)
 			{
-				Circle l = circleList.at(i);
-				Arc(hdc, (int)(l.x - l.r), (int)(l.y - l.r), (int)(l.x + l.r), (int)(l.y + l.r), 0, 0, 0, 0);
+				Circle * l = circleList.at(i);
+				Arc(hdc, (int)(l->x - l->r), (int)(l->y - l->r), (int)(l->x + l->r), (int)(l->y + l->r), 0, 0, 0, 0);
 			}
 		}
 		else
 		{
 			for (unsigned int i = workerInterval*workerID + circleList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + circleList.size() % SETTING_DRAW_THREAD; i++)
 			{
-				Circle l = circleList.at(i);
-				Arc(hdc, (int)(l.x - l.r), (int)(l.y - l.r), (int)(l.x + l.r), (int)(l.y + l.r), 0, 0, 0, 0);
+				Circle * l = circleList.at(i);
+				Arc(hdc, (int)(l->x - l->r), (int)(l->y - l->r), (int)(l->x + l->r), (int)(l->y + l->r), 0, 0, 0, 0);
 			}
 		}
 
-		++workerFinished;
+		SetEvent(events[workerID]);
 
-		if (workerFinished >= SETTING_DRAW_THREAD)
-		{
-			SetEvent(events);
-		}
-			
-		--workerCount;
 		return 0;
 	}
 

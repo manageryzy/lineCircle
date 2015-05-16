@@ -94,10 +94,10 @@ namespace minXML
 					if (isNumRead)
 					{
 						isNumRead = false;
-						Line line;
-						sscanf_s(str, "%f,%f", &line.x1, &line.y1);
-						line.x2 = numBuf1;
-						line.y2 = numBuf2;
+						Line * line = new Line;
+						sscanf_s(str, "%f,%f", &line->x1, &line->y1);
+						line->x2 = numBuf1;
+						line->y2 = numBuf2;
 						lineList.push_back(line);
 					}
 					else
@@ -119,10 +119,10 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Line line;
-					sscanf_s(str, "%f,%f", &line.x2, &line.y2);
-					line.x1 = numBuf1;
-					line.y1 = numBuf2;
+					Line * line = new Line;
+					sscanf_s(str, "%f,%f", &line->x2, &line->y2);
+					line->x1 = numBuf1;
+					line->y1 = numBuf2;
 					lineList.push_back(line);
 				}
 				else
@@ -150,8 +150,8 @@ namespace minXML
 			case 18:if (charBuf == '<')
 			{
 				str[i] = 0;
-				Point point;
-				sscanf_s(str, "%f,%f", &point.x, &point.y);
+				Point * point = new Point;
+				sscanf_s(str, "%f,%f", &point->x, &point->y);
 				polygonList.push_back(point);
 				i = 0; state = 19;
 			}
@@ -171,10 +171,10 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Line line;
-					sscanf_s(str, "%f,%f", &line.x2, &line.y2);
-					line.x1 = numBuf1;
-					line.y1 = numBuf2;
+					Line * line = new Line;
+					sscanf_s(str, "%f,%f", &line->x2, &line->y2);
+					line->x1 = numBuf1;
+					line->y1 = numBuf2;
 					lineList.push_back(line);
 				}
 				else
@@ -197,10 +197,10 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Line line;
-					sscanf_s(str, "%f,%f", &line.x1, &line.y1);
-					line.x2 = numBuf1;
-					line.y2 = numBuf2;
+					Line * line = new Line;
+					sscanf_s(str, "%f,%f", &line->x1, &line->y1);
+					line->x2 = numBuf1;
+					line->y2 = numBuf2;
 					lineList.push_back(line);
 				}
 				else
@@ -224,9 +224,9 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Circle circle;
-					sscanf_s(str, "%f,%f", &circle.x, &circle.y);
-					circle.r = numBuf1;
+					Circle * circle = new Circle;
+					sscanf_s(str, "%f,%f", &circle->x, &circle->y);
+					circle->r = numBuf1;
 					circleList.push_back(circle);
 				}
 				else
@@ -248,10 +248,10 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Circle circle;
-					sscanf_s(str, "%f", &circle.r);
-					circle.x = numBuf1;
-					circle.y = numBuf2;
+					Circle * circle = new Circle();
+					sscanf_s(str, "%f", &circle->r);
+					circle->x = numBuf1;
+					circle->y = numBuf2;
 					circleList.push_back(circle);
 				}
 				else
@@ -272,10 +272,10 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Circle circle;
-					sscanf_s(str, "%f", &circle.r);
-					circle.x = numBuf1;
-					circle.y = numBuf2;
+					Circle * circle = new Circle;
+					sscanf_s(str, "%f", &circle->r);
+					circle->x = numBuf1;
+					circle->y = numBuf2;
 					circleList.push_back(circle);
 				}
 				else
@@ -297,9 +297,9 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Circle circle;
-					sscanf_s(str, "%f,%f", &circle.x, &circle.y);
-					circle.r = numBuf1;
+					Circle * circle = new Circle;
+					sscanf_s(str, "%f,%f", &circle->x, &circle->y);
+					circle->r = numBuf1;
 					circleList.push_back(circle);
 				}
 				else
@@ -319,8 +319,8 @@ namespace minXML
 			case 39:if (charBuf == '<')
 			{
 				str[i] = 0;
-				Point point;
-				sscanf_s(str, "%f,%f", &point.x, &point.y);
+				Point * point = new Point;;
+				sscanf_s(str, "%f,%f", &point->x, &point->y);
 				polygonList.push_back(point);
 				i = 0; state = 40;
 			}

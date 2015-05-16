@@ -49,7 +49,7 @@ bool tinyXMLPrase()
 				{
 					if (strcmp(DataNode->Attribute("Type"), "Line") == 0)
 					{
-						Line line;
+						Line * line;
 
 						for (TiXmlElement * pointNode = DataNode->FirstChildElement();
 							pointNode != NULL;
@@ -57,11 +57,11 @@ bool tinyXMLPrase()
 						{
 							if (strcmp(pointNode->Value(), "StartPoint") == 0)
 							{
-								sscanf_s(pointNode->GetText(), "%f,%f", &line.x1, &line.y1);
+								sscanf_s(pointNode->GetText(), "%f,%f", &line->x1, &line->y1);
 							}
 							else if (strcmp(pointNode->Value(), "EndPoint") == 0)
 							{
-								sscanf_s(pointNode->GetText(), "%f,%f", &line.x2, &line.y2);
+								sscanf_s(pointNode->GetText(), "%f,%f", &line->x2, &line->y2);
 							}
 						}
 
@@ -69,7 +69,7 @@ bool tinyXMLPrase()
 					}
 					else if (strcmp(DataNode->Attribute("Type"), "Circle") == 0)
 					{
-						Circle circle;
+						Circle * circle;
 
 						for (TiXmlElement * pointNode = DataNode->FirstChildElement();
 							pointNode != NULL;
@@ -77,11 +77,11 @@ bool tinyXMLPrase()
 						{
 							if (strcmp(pointNode->Value(), "CenterPoint") == 0)
 							{
-								sscanf_s(pointNode->GetText(), "%f,%f", &circle.x, &circle.y);
+								sscanf_s(pointNode->GetText(), "%f,%f", &circle->x, &circle->y);
 							}
 							else if (strcmp(pointNode->Value(), "Radius") == 0)
 							{
-								sscanf_s(pointNode->GetText(), "%f", &circle.r);
+								sscanf_s(pointNode->GetText(), "%f", &circle->r);
 							}
 						}
 
@@ -97,8 +97,8 @@ bool tinyXMLPrase()
 						if (strcmp(pointNode->Value(), "Vertex") != 0)
 							continue;
 
-						Point point;
-						sscanf_s(pointNode->GetText(), "%f,%f", &point.x, &point.y);
+						Point * point = new Point;
+						sscanf_s(pointNode->GetText(), "%f,%f", &point->x, &point->y);
 						
 						polygonList.push_back(point);
 					}
