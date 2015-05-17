@@ -20,6 +20,17 @@ namespace memDraw
 
 	void DrawLine(int x1, int y1, int x2, int y2, int rgb)
 	{
+		if (x1 == x2)
+		{
+			if (y1 > y2)
+			{
+				int t = y1; y1 = y2; y2 = t;
+			
+			}
+			for (int i = y1; i < y2; i++)
+				gra[i][x1] = rgb;
+			return;
+		}
 		double k;
 		if (x2 == x1) k = inf;
 		else k = (y2 - y1) * 1.0 / (x2 - x1);
@@ -30,11 +41,13 @@ namespace memDraw
 			t = y1; y1 = y2; y2 = t;
 		}
 
+
 		int x, y;
 		for (x = x1; x < x2; x++)
 		{
 			int yy = k * (x - x1) + y1;
 			int yyy = k * (x - x1 + 1) + y1;
+
 			if (yy > yyy)
 			{
 				int t = yy; yy = yyy; yyy = t;

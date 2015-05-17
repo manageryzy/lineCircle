@@ -220,6 +220,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				break;
 			}
 
+			for (vector <Point *> ::iterator it = polygonList.begin(); it != polygonList.end(); ++it)
+			{
+				delete *it;
+			}
+			for (vector <Line *> ::iterator it = lineList.begin(); it != lineList.end(); ++it)
+			{
+				delete *it;
+			}
+			for (vector <Circle *> ::iterator it = circleList.begin(); it != circleList.end(); ++it)
+			{
+				delete *it;
+			}
 			lineList.clear();
 			circleList.clear();
 			polygonList.clear();
