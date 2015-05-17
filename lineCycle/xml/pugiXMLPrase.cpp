@@ -24,14 +24,14 @@ bool pugiXMLPrase()
 				{
 					if (strcmp(DataNode.attribute("Type").as_string(), "Line") == 0)
 					{
-						Line * line = new Line;
+						Line * line = (Line *)mempool->Alloc(sizeof(Line));
 						sscanf_s(DataNode.child("StartPoint").text().as_string(), "%f,%f", &line->x1, &line->y1);
 						sscanf_s(DataNode.child("EndPoint").text().as_string(), "%f,%f", &line->x2, &line->y2);
 						lineList.push_back(line);
 					}
 					else if (strcmp(DataNode.attribute("Type").as_string(), "Circle") == 0)
 					{
-						Circle * circle = new Circle;
+						Circle * circle = (Circle *)mempool->Alloc(sizeof(Circle));
 						sscanf_s(DataNode.child("CenterPoint").text().as_string(), "%f,%f", &circle->x, &circle->y);
 						sscanf_s(DataNode.child("Radius").text().as_string(), "%f", &circle->r);
 						circleList.push_back(circle);
@@ -50,7 +50,7 @@ bool pugiXMLPrase()
 						if (strcmp(pointNode.name(), "Vertex") != 0)
 							continue;
 
-						Point * point = new Point;
+						Point * point = (Point *)mempool->Alloc(sizeof(Point));
 						sscanf_s(pointNode.text().as_string(), "%f,%f", &point->x, &point->y);
 
 						polygonList.push_back(point);

@@ -94,7 +94,7 @@ namespace minXML
 					if (isNumRead)
 					{
 						isNumRead = false;
-						Line * line = new Line;
+						Line * line = (Line *)mempool->Alloc(sizeof(Line));
 						sscanf_s(str, "%f,%f", &line->x1, &line->y1);
 						line->x2 = numBuf1;
 						line->y2 = numBuf2;
@@ -119,7 +119,7 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Line * line = new Line;
+					Line * line = (Line *)mempool->Alloc(sizeof(Line));
 					sscanf_s(str, "%f,%f", &line->x2, &line->y2);
 					line->x1 = numBuf1;
 					line->y1 = numBuf2;
@@ -150,7 +150,7 @@ namespace minXML
 			case 18:if (charBuf == '<')
 			{
 				str[i] = 0;
-				Point * point = new Point;
+				Point * point = (Point *)mempool->Alloc(sizeof(Point));
 				sscanf_s(str, "%f,%f", &point->x, &point->y);
 				polygonList.push_back(point);
 				i = 0; state = 19;
@@ -171,7 +171,7 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Line * line = new Line;
+					Line * line = (Line *)mempool->Alloc(sizeof(Line));
 					sscanf_s(str, "%f,%f", &line->x2, &line->y2);
 					line->x1 = numBuf1;
 					line->y1 = numBuf2;
@@ -197,7 +197,7 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Line * line = new Line;
+					Line * line = (Line *)mempool->Alloc(sizeof(Line));
 					sscanf_s(str, "%f,%f", &line->x1, &line->y1);
 					line->x2 = numBuf1;
 					line->y2 = numBuf2;
@@ -224,7 +224,7 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Circle * circle = new Circle;
+					Circle * circle = (Circle *)mempool->Alloc(sizeof(Circle));
 					sscanf_s(str, "%f,%f", &circle->x, &circle->y);
 					circle->r = numBuf1;
 					circleList.push_back(circle);
@@ -248,7 +248,7 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Circle * circle = new Circle();
+					Circle * circle = (Circle *)mempool->Alloc(sizeof(Circle));
 					sscanf_s(str, "%f", &circle->r);
 					circle->x = numBuf1;
 					circle->y = numBuf2;
@@ -272,7 +272,7 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Circle * circle = new Circle;
+					Circle * circle = (Circle *)mempool->Alloc(sizeof(Circle));
 					sscanf_s(str, "%f", &circle->r);
 					circle->x = numBuf1;
 					circle->y = numBuf2;
@@ -297,7 +297,7 @@ namespace minXML
 				if (isNumRead)
 				{
 					isNumRead = false;
-					Circle * circle = new Circle;
+					Circle * circle = (Circle *)mempool->Alloc(sizeof(Circle));
 					sscanf_s(str, "%f,%f", &circle->x, &circle->y);
 					circle->r = numBuf1;
 					circleList.push_back(circle);
@@ -319,7 +319,7 @@ namespace minXML
 			case 39:if (charBuf == '<')
 			{
 				str[i] = 0;
-				Point * point = new Point;;
+				Point * point = (Point *)mempool->Alloc(sizeof(Point));
 				sscanf_s(str, "%f,%f", &point->x, &point->y);
 				polygonList.push_back(point);
 				i = 0; state = 40;

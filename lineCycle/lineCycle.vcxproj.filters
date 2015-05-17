@@ -90,6 +90,9 @@
     <ClInclude Include="xml\xmlPrase.h">
       <Filter>头文件\xml</Filter>
     </ClInclude>
+    <ClInclude Include="common\CMemPool.h">
+      <Filter>头文件\common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lineCycle.cpp">
@@ -130,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="xml\xmlPrase.cpp">
       <Filter>源文件\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="common\CMemPool.cpp">
+      <Filter>源文件\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

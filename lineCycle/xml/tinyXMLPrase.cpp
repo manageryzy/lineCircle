@@ -49,7 +49,7 @@ bool tinyXMLPrase()
 				{
 					if (strcmp(DataNode->Attribute("Type"), "Line") == 0)
 					{
-						Line * line;
+						Line * line = (Line *)mempool->Alloc(sizeof(Line));
 
 						for (TiXmlElement * pointNode = DataNode->FirstChildElement();
 							pointNode != NULL;
@@ -69,7 +69,7 @@ bool tinyXMLPrase()
 					}
 					else if (strcmp(DataNode->Attribute("Type"), "Circle") == 0)
 					{
-						Circle * circle;
+						Circle * circle = (Circle *)mempool->Alloc(sizeof(Circle));;
 
 						for (TiXmlElement * pointNode = DataNode->FirstChildElement();
 							pointNode != NULL;
@@ -97,7 +97,7 @@ bool tinyXMLPrase()
 						if (strcmp(pointNode->Value(), "Vertex") != 0)
 							continue;
 
-						Point * point = new Point;
+						Point * point = (Point *)mempool->Alloc(sizeof(Point));
 						sscanf_s(pointNode->GetText(), "%f,%f", &point->x, &point->y);
 						
 						polygonList.push_back(point);

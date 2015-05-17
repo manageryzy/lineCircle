@@ -64,7 +64,8 @@ extern int SETTING_ENABLE_CUDA;
 //计算三角函数等的时候是否启动打表
 extern int SETTING_ENABLE_FUNCTION_TABLE;
 
-
+extern int SETTING_MEMPOOL_SIZE;
+extern int SETTING_MEMPOOL_NUM;
 //////////////////////////////////////////////////////////////////////////
 //
 //								设定读取

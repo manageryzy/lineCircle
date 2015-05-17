@@ -136,7 +136,7 @@ bool loadCache()
 		return false;
 	while (1)
 	{
-		Line * line = new Line;
+		Line * line = (Line *)mempool->Alloc(sizeof(Line));
 		if (fread(line, sizeof(Line), 1, fp) == NULL)
 			break;
 		lineList.push_back(line);
@@ -150,7 +150,7 @@ bool loadCache()
 		return false;
 	while (1)
 	{
-		Circle * circle = new Circle;
+		Circle * circle = (Circle *)mempool->Alloc(sizeof(Circle));
 		if (fread(circle, sizeof(Circle), 1, fp) == NULL)
 			break;
 		circleList.push_back(circle);
@@ -164,7 +164,7 @@ bool loadCache()
 		return false;
 	while (1)
 	{
-		Point * point = new Point;
+		Point * point = (Point *)mempool->Alloc(sizeof(Point));
 		if (fread(point, sizeof(Point), 1, fp) == NULL)
 			break;
 		polygonList.push_back(point);

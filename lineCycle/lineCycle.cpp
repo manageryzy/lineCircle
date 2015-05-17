@@ -12,6 +12,8 @@ HINSTANCE hInst;								// 当前实例
 TCHAR szTitle[MAX_LOADSTRING];					// 标题栏文本
 TCHAR szWindowClass[MAX_LOADSTRING];			// 主窗口类名
 
+CMemPool * mempool;
+
 HWND theHWND;
 HDC theDC;
 HGLRC ghRC;
@@ -41,6 +43,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	LoadString(hInstance, IDC_LINECYCLE, szWindowClass, MAX_LOADSTRING);
 
 	loadIniSetting();
+
+	mempool = new CMemPool(SETTING_MEMPOOL_NUM,SETTING_MEMPOOL_SIZE);
 
 	//提升自身优先级到实时
 	HANDLE hProcess = OpenProcess(PROCESS_SET_INFORMATION, FALSE, GetCurrentProcessId());
@@ -222,15 +226,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			for (vector <Point *> ::iterator it = polygonList.begin(); it != polygonList.end(); ++it)
 			{
-				delete *it;
+				mempool->Free(*it);
 			}
 			for (vector <Line *> ::iterator it = lineList.begin(); it != lineList.end(); ++it)
 			{
-				delete *it;
+				mempool->Free(*it);
 			}
 			for (vector <Circle *> ::iterator it = circleList.begin(); it != circleList.end(); ++it)
 			{
-				delete *it;
+				mempool->Free(*it);
 			}
 			lineList.clear();
 			circleList.clear();

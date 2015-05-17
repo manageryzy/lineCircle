@@ -102,6 +102,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common\CMemPool.h" />
     <ClInclude Include="common\global.h" />
     <ClInclude Include="draw\drawGDI.h" />
     <ClInclude Include="draw\drawMemory.h" />
@@ -120,6 +121,7 @@
     <ClInclude Include="xml\xmlPrase.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="common\CMemPool.cpp" />
     <ClCompile Include="common\global.cpp" />
     <ClCompile Include="draw\drawGDI.cpp" />
     <ClCompile Include="draw\drawMemory.cpp" />

@@ -35,6 +35,9 @@ using namespace std;
 //数学包装
 #include "./wrapper/math.h"
 
+//MemPool
+#include "./common/CMemPool.h"
+
 //STL
 #include <iterator>
 #include <vector>
