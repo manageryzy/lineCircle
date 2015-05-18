@@ -94,7 +94,7 @@ namespace memDraw
 		}
 		int k = 0;
 		double dlt1 = alp2 - alp1;
-		int m = 6.30 / dlt1 + 1;
+		int m = 6.30f / dlt1 + 1;
 
 		if (r < 10) k = 4 / m + 1;
 		else if (r < 200) k = 8 / m + 1;

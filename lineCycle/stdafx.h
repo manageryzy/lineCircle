@@ -63,3 +63,6 @@ using namespace std;
 #include "./draw/drawMemory.h"
 #include "./draw/drawMemoryGDI.h"
 #include "./draw/drawOpenGL.h"
+
+//²Ã¼ôÍ·ÎÄ¼þ
+#include "./cut/cutCPU.h"

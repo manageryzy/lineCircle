@@ -224,15 +224,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				break;
 			}
 
-			for (int i = 0; i < polygonList.size();i++)
+			for (unsigned int i = 0; i < polygonList.size();i++)
 			{
 				mempool->Free(polygonList.at(i));
 			}
-			for (int i = 0; i < lineList.size(); i++)
+			for (unsigned int i = 0; i < lineList.size(); i++)
 			{
 				mempool->Free(lineList.at(i));
 			}
-			for (int i = 0; i < circleList.size(); i++)
+			for (unsigned int i = 0; i < circleList.size(); i++)
 			{
 				mempool->Free(circleList.at(i));
 			}
@@ -271,6 +271,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case IDM_CUT:
 			//TODO:
+			doCPUCut();
 			break;
 		case IDM_BEFORE_CUT:
 			SETTING_DRAW_CUTTING = false;
