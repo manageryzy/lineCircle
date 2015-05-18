@@ -266,7 +266,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
 			break;
-
+		case IDM_HELP:
+			//TODO:
+			break;
+		case IDM_CUT:
+			//TODO:
+			break;
+		case IDM_BEFORE_CUT:
+			SETTING_DRAW_CUTTING = false;
+			PostMessage(theHWND, WM_COMMAND, ID_ACCELERATOR_REFRESH, NULL);
+			break;
+		case IDM_AFTER_CUT:
+			SETTING_DRAW_CUTTING = true;
+			PostMessage(theHWND, WM_COMMAND, ID_ACCELERATOR_REFRESH, NULL);
+			break;
 		case ID_ACCELERATOR_REFRESH:
 			GetClientRect(hWnd, &rect);
 			InvalidateRect(theHWND, &rect, TRUE);

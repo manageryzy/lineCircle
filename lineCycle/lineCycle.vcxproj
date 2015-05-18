@@ -104,6 +104,7 @@
   <ItemGroup>
     <ClInclude Include="common\CMemPool.h" />
     <ClInclude Include="common\global.h" />
+    <ClInclude Include="cut\cutCPU.h" />
     <ClInclude Include="draw\drawGDI.h" />
     <ClInclude Include="draw\drawMemory.h" />
     <ClInclude Include="draw\drawMemoryGDI.h" />
@@ -123,6 +124,7 @@
   <ItemGroup>
     <ClCompile Include="common\CMemPool.cpp" />
     <ClCompile Include="common\global.cpp" />
+    <ClCompile Include="cut\cutCPU.cpp" />
     <ClCompile Include="draw\drawGDI.cpp" />
     <ClCompile Include="draw\drawMemory.cpp" />
     <ClCompile Include="draw\drawMemoryGDI.cpp" />

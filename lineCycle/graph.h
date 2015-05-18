@@ -12,3 +12,8 @@ class Circle{
 public:
 	float x, y, r;
 };
+
+class CArc{
+public:
+	float x, y, r, begin, end;
+};

@@ -10,3 +10,6 @@ extern CMemPool * mempool;
 extern vector < Line *> lineList;
 extern vector < Circle *> circleList;
 extern vector < Point *> polygonList;
+
+extern vector < Line *> cutLineList;
+extern vector < CArc *> cutArcList;

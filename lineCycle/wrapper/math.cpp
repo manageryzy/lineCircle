@@ -53,33 +53,35 @@ __inline float ArcTan(float x)
 }
 
 
-float _tSin(float x)
+__inline float _tSin(float x)
 {
 	//TODO: 
 	return 0.0f;
 }
-float _tCos(float x)
+__inline float _tCos(float x)
 {
 	//TODO: 
 	return 0.0f;
 }
-float _tTan(float x)
+__inline float _tTan(float x)
 {
 	//TODO: 
 	return 0.0f;
 }
-float _tArcSin(float x)
+__inline float _tArcSin(float x)
 {
 	//TODO: 
 	return 0.0f;
 }
-float _tArcCos(float x)
+__inline float _tArcCos(float x)
 {
 	//TODO: 
 	return 0.0f;
 }
-float _tArcTan(float x)
+__inline float _tArcTan(float x)
 {
 	//TODO: 
 	return 0.0f;
 }
+
+

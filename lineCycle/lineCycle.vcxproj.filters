@@ -37,6 +37,12 @@
     <Filter Include="头文件\Draw">
       <UniqueIdentifier>{0595a1a8-7000-406d-8979-bec2dfd2ccfa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\cut">
+      <UniqueIdentifier>{3e788d94-57e5-436a-a721-e3a31325f4cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\cut">
+      <UniqueIdentifier>{8b75d03f-9c6c-4e15-9397-2949b68b4d80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -93,6 +99,9 @@
     <ClInclude Include="common\CMemPool.h">
       <Filter>头文件\common</Filter>
     </ClInclude>
+    <ClInclude Include="cut\cutCPU.h">
+      <Filter>头文件\cut</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lineCycle.cpp">
@@ -136,6 +145,9 @@
     </ClCompile>
     <ClCompile Include="common\CMemPool.cpp">
       <Filter>源文件\common</Filter>
+    </ClCompile>
+    <ClCompile Include="cut\cutCPU.cpp">
+      <Filter>源文件\cut</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

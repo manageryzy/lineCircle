@@ -3,3 +3,6 @@
 vector < Line *> lineList;
 vector < Circle *> circleList;
 vector < Point * > polygonList;
+
+vector < Line *> cutLineList;
+vector < CArc *> cutArcList;
