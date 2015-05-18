@@ -134,8 +134,8 @@ void doCPUCut()
 		Point tmpPoint;
 		for (int j = 0; j < size - 1; j++)
 		{
-			Point * pt1 = polygonList.at(j);
-			Point * pt2 = polygonList.at(j + 1);
+			Point * pt1 = lineCuttingPointList.at(j);
+			Point * pt2 = lineCuttingPointList.at(j + 1);
 			tmpPoint.x = (pt1->x + pt2->x) / 2;
 			tmpPoint.y = (pt1->y + pt2->y) / 2;
 			if (!isPointOut(tmpPoint))

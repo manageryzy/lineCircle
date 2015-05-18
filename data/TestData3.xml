@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRoot>
+	<TestCase ID="6" desp="Line在凸多边形边界中裁剪显示" type="AccuracyTest" complex="1,1,1,0,0,0">
+		<Entity Type="Line">
+			<StartPoint>0, 0</StartPoint>
+			<EndPoint>600, 600</EndPoint>
+		</Entity>
+		<Boundary Type="Concave Polygon">
+			<Vertex>100, 100</Vertex>
+			<Vertex>200, 100</Vertex>
+			<Vertex>200, 200</Vertex>
+			<Vertex>100, 200</Vertex>
+		</Boundary>
+	</TestCase>
+</TestRoot>
