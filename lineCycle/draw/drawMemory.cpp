@@ -251,7 +251,7 @@ namespace memDraw
 	void drawCuttingDC()
 	{
 
-		SetBitmapBits(cuttingBmp, sizeof(gra), gra);
+		//SetBitmapBits(cuttingBmp, sizeof(gra), gra);
 	}
 }
 

@@ -224,17 +224,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				break;
 			}
 
-			for (vector <Point *> ::iterator it = polygonList.begin(); it != polygonList.end(); ++it)
+			for (int i = 0; i < polygonList.size();i++)
 			{
-				mempool->Free(*it);
+				mempool->Free(polygonList.at(i));
 			}
-			for (vector <Line *> ::iterator it = lineList.begin(); it != lineList.end(); ++it)
+			for (int i = 0; i < lineList.size(); i++)
 			{
-				mempool->Free(*it);
+				mempool->Free(lineList.at(i));
 			}
-			for (vector <Circle *> ::iterator it = circleList.begin(); it != circleList.end(); ++it)
+			for (int i = 0; i < circleList.size(); i++)
 			{
-				mempool->Free(*it);
+				mempool->Free(circleList.at(i));
 			}
 			lineList.clear();
 			circleList.clear();
