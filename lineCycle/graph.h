@@ -1,6 +1,10 @@
 class Point{
 public :
 	float x, y;
+	bool operator < (const Point &m)const
+	{
+		return x + y < m.x + m.y;
+	}
 };
 
 class Line{

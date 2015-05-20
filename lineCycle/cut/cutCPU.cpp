@@ -32,10 +32,12 @@ namespace cpuCUT{
 		float b2 = cx - dx;
 		float c2 = dx * cy - dy * cx;
 		float dlt = a1 * b2 - a2 * b1;
-		if (dlt == 0) return false;    //线段平行
+		if (dlt == 0) return NULL;    //线段平行
 		float x = (c2 * b1 - c1 * b2) / dlt;
-		if (x < ax || x > bx || x < cx || x > dx) return NULL; //线段没有交点
+
+		if (x < min(ax,bx) || x > max(ax,bx) || x < min(cx,dx) || x > max(cx,dx)) return NULL; //线段没有交点
 		float y = (c1 * a2 - c2 * a1) / dlt; //交点纵坐标
+		if ((int)x == (int)cx && (int)y == (int)cy) return NULL;
 		Point * res = (Point *)mempool->Alloc(sizeof(Point));
 		res->x = x, res->y = y;
 		return res;
@@ -112,6 +114,11 @@ void doCPUCut()
 		}
 		lineCuttingPointList.clear();
 
+		Point * pth = (Point *)mempool->Alloc(sizeof(Point));
+		pth->x = l->x1;
+		pth->y = l->y1;
+		lineCuttingPointList.push_back(pth);
+
 		//建立交点数组
 		size = polygonList.size();
 		for (int j = 0; j < size; j++)
@@ -129,6 +136,13 @@ void doCPUCut()
 				lineCuttingPointList.push_back(res);
 			}
 		}
+
+		Point * pte = (Point *)mempool->Alloc(sizeof(Point));
+		pte->x = l->x2;
+		pte->y = l->y2;
+		lineCuttingPointList.push_back(pte);
+
+		sort(lineCuttingPointList.begin(), lineCuttingPointList.end());
 
 		size = lineCuttingPointList.size();
 		Point tmpPoint;

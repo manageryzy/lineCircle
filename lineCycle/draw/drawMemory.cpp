@@ -144,6 +144,32 @@ namespace memDraw
 		return 0;
 	}
 
+	DWORD WINAPI drawMemLineCutWorker(LPVOID lpParam)
+	{
+		int workerID = (int)lpParam;
+		int workerInterval = cutLineList.size() / SETTING_DRAW_THREAD;
+
+		if (workerID == 0)
+		{
+			for (unsigned int i = 0; i < workerInterval + cutLineList.size() % SETTING_DRAW_THREAD; i++)
+			{
+				Line * l = cutLineList.at(i);
+				DrawLine(l->x1, l->y1, l->x2, l->y2, RGB(255, 0, 0));
+			}
+		}
+		else
+		{
+			for (unsigned int i = workerInterval*workerID + cutLineList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + cutLineList.size() % SETTING_DRAW_THREAD; i++)
+			{
+				Line * l = cutLineList.at(i);
+				DrawLine(l->x1, l->y1, l->x2, l->y2, RGB(255, 0, 0));
+			}
+		}
+
+		SetEvent(events[workerID]);
+		return 0;
+	}
+
 	DWORD WINAPI drawMemCircleWorker(LPVOID lpParam)
 	{
 		int workerID = (int)lpParam;
@@ -171,12 +197,40 @@ namespace memDraw
 		return 0;
 	}
 
+	DWORD WINAPI drawMemCircleCutWorker(LPVOID lpParam)
+	{
+		int workerID = (int)lpParam;
+		int workerInterval = circleList.size() / SETTING_DRAW_THREAD;
+
+
+		//if (workerID == 0)
+		//{
+		//	for (unsigned int i = 0; i < workerInterval + circleList.size() % SETTING_DRAW_THREAD; i++)
+		//	{
+		//		Circle * l = circleList.at(i);
+		//		DrawCircle((int)l->x, (int)l->y, (int)l->r, RGB(0, 255, 0));
+		//	}
+		//}
+		//else
+		//{
+		//	for (unsigned int i = workerInterval*workerID + circleList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + circleList.size() % SETTING_DRAW_THREAD; i++)
+		//	{
+		//		Circle * l = circleList.at(i);
+		//		DrawCircle((int)l->x, (int)l->y, (int)l->r, RGB(0, 255, 0));
+		//	}
+		//}
+
+		SetEvent(events[workerID]);
+		return 0;
+	}
+
 	void drawNotCuttingDC()
 	{
 		events = new HANDLE[SETTING_DRAW_THREAD];
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
 			events[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
 
+		memset(gra, 0, sizeof(gra));
 
 		//多线程绘制直线
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
@@ -250,8 +304,81 @@ namespace memDraw
 
 	void drawCuttingDC()
 	{
+		events = new HANDLE[SETTING_DRAW_THREAD];
+		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
+			events[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
 
-		//SetBitmapBits(cuttingBmp, sizeof(gra), gra);
+		memset(gra, 0, sizeof(gra));
+
+		//多线程绘制直线
+		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
+		{
+			HANDLE hThread;
+
+			hThread = CreateThread(NULL, 0, drawMemLineCutWorker, (LPVOID)i, 0, NULL);
+			if (hThread == NULL)
+			{
+				MessageBox(theHWND, L"线程创建失败", L"错误", 0);
+				PostMessage(theHWND, WM_DESTROY, 0, 0);
+			}
+
+			CloseHandle(hThread);
+		}
+
+		WaitForMultipleObjects(SETTING_DRAW_THREAD, events, true, INFINITE);
+
+		//多线程画圆
+		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
+		{
+			HANDLE hThread;
+
+			hThread = CreateThread(NULL, 0, drawMemCircleCutWorker, (LPVOID)i, 0, NULL);
+			if (hThread == NULL)
+			{
+				MessageBox(theHWND, L"线程创建失败", L"错误", 0);
+				PostMessage(theHWND, WM_DESTROY, 0, 0);
+			}
+			CloseHandle(hThread);
+		}
+
+		WaitForMultipleObjects(SETTING_DRAW_THREAD, events, true, INFINITE);
+
+
+		//设置内存BMP
+		SetBitmapBits(cuttingBmp, sizeof(gra), gra);
+
+		//单线程绘制裁剪多边形
+		HPEN polygonPen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
+		SelectObject(notCuttingDC, polygonPen);
+		int last_x = -1, last_y = -1;
+		for (vector <Point *> ::iterator it = polygonList.begin(); it != polygonList.end(); ++it)
+		{
+			if (last_x == -1 && last_y == -1)
+			{
+				last_x = (int)(*it)->x;
+				last_y = (int)(*it)->y;
+				continue;
+			}
+			else
+			{
+				MoveToEx(notCuttingDC, last_x, last_y, NULL);
+				LineTo(notCuttingDC, (int)(*it)->x, (int)(*it)->y);
+				last_x = (int)(*it)->x;
+				last_y = (int)(*it)->y;
+			}
+		}
+		if (last_x != -1 && last_y != -1)
+		{
+			MoveToEx(notCuttingDC, last_x, last_y, NULL);
+
+			LineTo(notCuttingDC, (int)(*polygonList.begin())->x, (int)(*polygonList.begin())->y);
+		}
+
+		DeleteObject(polygonPen);
+		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
+			CloseHandle(events[i]);
+
+		delete[] events;
 	}
 }
 

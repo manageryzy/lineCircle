@@ -41,6 +41,7 @@ using namespace std;
 //STL
 #include <iterator>
 #include <vector>
+#include <algorithm>
 
 //OpenGL
 #include <gl/GL.h>
