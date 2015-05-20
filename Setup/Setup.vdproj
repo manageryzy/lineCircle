@@ -37,12 +37,20 @@
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
-        "Compression" = "3:2"
+        "Compression" = "3:3"
         "SignOutput" = "11:FALSE"
         "CertificateFile" = "8:"
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -53,12 +61,33 @@
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
-        "Compression" = "3:2"
+        "Compression" = "3:3"
         "SignOutput" = "11:FALSE"
         "CertificateFile" = "8:"
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Visual.C++.12.0.x86"
+                    {
+                    "Name" = "8:Visual C++ 2013 运行库(x86)"
+                    "ProductCode" = "8:Microsoft.Visual.C++.12.0.x86"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.4.5"
+                    {
+                    "Name" = "8:Windows Installer 4.5"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.4.5"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -181,7 +210,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:lineCircle"
         "ProductCode" = "8:{6A0F16C3-9082-47D9-ACAD-76138809F132}"
-        "PackageCode" = "8:{AB51D68D-7E15-4B94-8CA1-66C8C1947C1D}"
+        "PackageCode" = "8:{35F29ADD-892B-4ADE-88C9-DD83E12B0B67}"
         "UpgradeCode" = "8:{03385FF8-83E2-4360-A299-BD42CBC8D62D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -312,20 +341,6 @@
             "Target" = "8:_A29D7C342B2D439D990B198A7510FC3C"
             "Folder" = "8:_5A8F81029F5D46E280E671DD8A9EA1CE"
             "WorkingFolder" = "8:_A200B09110784581B2DA8310EA194015"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_BF08DD1A769F4C6EAB0FF6518C1F146C"
-            {
-            "Name" = "8:Shortcut to lineCircle"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_118663B5412C48F69175BE7F63B0A22D"
-            "Folder" = "8:_5A8F81029F5D46E280E671DD8A9EA1CE"
-            "WorkingFolder" = "8:_0B2A43A964BD406FBFD41CB4B193303E"
             "Icon" = "8:"
             "Feature" = "8:"
             }
