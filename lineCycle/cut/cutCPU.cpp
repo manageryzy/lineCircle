@@ -3,22 +3,61 @@
 namespace cpuCUT{
 
 	__inline float mult(Point a, Point b, Point c);
-	bool isPointOut(Point point);
+
+	const double eps = 1e-8;
+
 
 	float mult(Point a, Point b, Point c){
 		return (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
 	}
 
-	bool isPointOut(Point point){ //判断点point是否在多边形内
-		int n = polygonList.size();
-		float eps = 1e-4;
-		float pre = mult(*polygonList.at(0), *polygonList.at(1), point);
-		for (int i = 1; i < n; i++){
-			float now = mult(*polygonList.at(i), *polygonList.at((i+1)% n), point);
-			if (now * pre < -eps) return true;   //没在多边形内
-		}
-		return false;   //在多边形内
+	bool cmp(const Point* p1, const Point* p2)
+	{
+		return p1->x + p1->y > p2->x + p2->y;
 	}
+
+	int isPointIn(const Point &p)
+	{
+		Point q;
+		q.x = 1368;
+		q.y = 768;//以p为起点q为终点做射线L
+		int counter = 0;
+
+		int pLen = polygonList.size();
+		//    for (vector<Point>::iterator iter2 = (iter1 + 1); iter1 < points.end(); ++iter1, ++iter2)
+		for (unsigned int i = 0, j = i + 1; i < pLen; i++, j++)
+		{
+			if (j == pLen)
+			{
+				j = 0;
+				if (fabs(mult(p, q, *polygonList.at(i))) < eps)
+				{
+					//点*points.at(i)在射线pq上，停止本循环，另取q
+					q.x--;
+					i = 0;
+					j = 1;
+					continue;
+				}
+				else if (mult(p, *polygonList.at(i), q) * mult(p, *polygonList.at(j), q) < -eps && mult(*polygonList.at(i), p, *polygonList.at(j)) * mult(*polygonList.at(i), q, *polygonList.at(j)) < -eps)
+					counter++;
+				break;
+			}
+
+			if (fabs(mult(p, q, *polygonList.at(i))) < eps)
+			{
+				//点*points.at(i)在射线pq上，停止本循环，另取q
+				q.x--;
+				i = -1;
+				j = 0;
+				continue;
+			}
+			else if (mult(p, *polygonList.at(i), q) * mult(p, *polygonList.at(j), q) < -eps && mult(*polygonList.at(i), p, *polygonList.at(j)) * mult(*polygonList.at(i), q, *polygonList.at(j)) < -eps)
+				counter++;
+		}
+		return counter & 1;
+	}
+
+
 
 
 	//求直线 l1； a1*x + b1*y + c1 = 0 与直线 l2： a2*x + b2*y + c2 = 0 的交点
@@ -142,7 +181,7 @@ void doCPUCut()
 		pte->y = l->y2;
 		lineCuttingPointList.push_back(pte);
 
-		sort(lineCuttingPointList.begin(), lineCuttingPointList.end());
+		sort(lineCuttingPointList.begin(), lineCuttingPointList.end(),cmp);
 
 		size = lineCuttingPointList.size();
 		Point tmpPoint;
@@ -152,7 +191,7 @@ void doCPUCut()
 			Point * pt2 = lineCuttingPointList.at(j + 1);
 			tmpPoint.x = (pt1->x + pt2->x) / 2;
 			tmpPoint.y = (pt1->y + pt2->y) / 2;
-			if (!isPointOut(tmpPoint))
+			if (isPointIn(tmpPoint))
 			{
 				Line * l = (Line *)mempool->Alloc(sizeof(Line));
 				l->x1 = pt1->x;
