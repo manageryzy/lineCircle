@@ -27,6 +27,9 @@ namespace cpuCUT{
 		//    for (vector<Point>::iterator iter2 = (iter1 + 1); iter1 < points.end(); ++iter1, ++iter2)
 		for (unsigned int i = 0, j = i + 1; i < pLen; i++, j++)
 		{
+			if (p.x == polygonList.at(i)->x && p.y == polygonList.at(i)->y)
+				return false;
+
 			if (j == pLen)
 			{
 				j = 0;
