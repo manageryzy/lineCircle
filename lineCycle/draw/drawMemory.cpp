@@ -295,6 +295,20 @@ namespace memDraw
 			LineTo(notCuttingDC, (int)(*polygonList.begin())->x, (int)(*polygonList.begin())->y);
 		}
 
+#ifdef _DEBUG
+		for (vector <Point *> ::iterator it = polygonList.begin(); it != polygonList.end(); ++it)
+		{
+			RECT rect;
+			rect.left = (*it)->x;
+			rect.top = (*it)->y;
+			rect.right = rect.left + 64;
+			rect.bottom = rect.top + 16;
+			WCHAR buf[255];
+			wsprintf(buf, L"(%d,%d)", rect.left, rect.top);
+			DrawText(notCuttingDC, buf, lstrlen(buf), &rect, 0);
+		}
+#endif
+
 		DeleteObject(polygonPen);
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
 			CloseHandle(events[i]);
@@ -373,6 +387,20 @@ namespace memDraw
 
 			LineTo(cuttingDC, (int)(*polygonList.begin())->x, (int)(*polygonList.begin())->y);
 		}
+
+#ifdef _DEBUG
+		for (vector <Point *> ::iterator it = polygonList.begin(); it != polygonList.end(); ++it)
+		{
+			RECT rect;
+			rect.left = (*it)->x;
+			rect.top = (*it)->y;
+			rect.right = rect.left + 64;
+			rect.bottom = rect.top + 16;
+			WCHAR buf[255];
+			wsprintf(buf, L"(%d,%d)", rect.left, rect.top);
+			DrawText(cuttingDC, buf, lstrlen(buf), &rect, 0);
+		}
+#endif
 
 		DeleteObject(polygonPen);
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)

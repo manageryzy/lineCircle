@@ -11,9 +11,14 @@ namespace cpuCUT{
 		return (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
 	}
 
-	bool cmp(const Point* p1, const Point* p2)
+	bool cmpx(const Point* p1, const Point* p2)
 	{
-		return p1->x + p1->y > p2->x + p2->y;
+		return p1->x > p2->x;
+	}
+
+	bool cmpy(const Point* p1, const Point* p2)
+	{
+		return p1->y > p2->y;
 	}
 
 	int isPointIn(const Point &p)
@@ -79,7 +84,7 @@ namespace cpuCUT{
 
 		if (x < min(ax,bx) || x > max(ax,bx) || x < min(cx,dx) || x > max(cx,dx)) return NULL; //线段没有交点
 		float y = (c1 * a2 - c2 * a1) / dlt; //交点纵坐标
-		if ((int)x == (int)cx && (int)y == (int)cy) return NULL;
+		//if ((int)x == (int)cx && (int)y == (int)cy) return NULL;
 		Point * res = (Point *)mempool->Alloc(sizeof(Point));
 		res->x = x, res->y = y;
 		return res;
@@ -184,7 +189,10 @@ void doCPUCut()
 		pte->y = l->y2;
 		lineCuttingPointList.push_back(pte);
 
-		sort(lineCuttingPointList.begin(), lineCuttingPointList.end(),cmp);
+		if (lineCuttingPointList.at(0)->x != lineCuttingPointList.at(1)->x)
+			sort(lineCuttingPointList.begin(), lineCuttingPointList.end(),cmpx);
+		else
+			sort(lineCuttingPointList.begin(), lineCuttingPointList.end(), cmpy);
 
 		size = lineCuttingPointList.size();
 		Point tmpPoint;

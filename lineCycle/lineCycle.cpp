@@ -18,6 +18,9 @@ HWND theHWND;
 HDC theDC;
 HGLRC ghRC;
 wchar_t strFile[MAX_PATH];
+#ifdef _DEBUG
+	WCHAR buf[255];
+#endif
 
 // 此代码模块中包含的函数的前向声明: 
 ATOM				MyRegisterClass(HINSTANCE hInstance);
@@ -342,6 +345,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		
 		
+		break;
+
+	case WM_LBUTTONDOWN:
+#ifdef _DEBUG
+		rect.left = (int)LOWORD(lParam);
+		rect.top = (int)HIWORD(lParam);
+		rect.right = rect.left + 64;
+		rect.bottom = rect.top + 32;
+
+		wsprintf(buf, L"(%d,%d)", rect.left, rect.top);
+		hdc = GetDC(theHWND);
+		DrawText(hdc, buf, lstrlen(buf), &rect, 0);
+		DeleteDC(hdc);
+#endif
+		break;
+	case WM_RBUTTONDOWN:
+#ifdef _DEBUG
+		rect.left = 0;
+		rect.top = 0;
+		rect.right = rect.left + 64;
+		rect.bottom = rect.top + 32;
+
+		wsprintf(buf, L"(%d,%d)", (int)LOWORD(lParam), (int)HIWORD(lParam));
+		hdc = GetDC(theHWND);
+		DrawText(hdc, buf, lstrlen(buf), &rect, 0);
+		DeleteDC(hdc);
+#endif
 		break;
 	case WM_DESTROY:
 		if (ghRC)
