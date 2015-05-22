@@ -349,7 +349,7 @@ namespace memDraw
 
 		//单线程绘制裁剪多边形
 		HPEN polygonPen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
-		SelectObject(notCuttingDC, polygonPen);
+		SelectObject(cuttingDC, polygonPen);
 		int last_x = -1, last_y = -1;
 		for (vector <Point *> ::iterator it = polygonList.begin(); it != polygonList.end(); ++it)
 		{
@@ -361,17 +361,17 @@ namespace memDraw
 			}
 			else
 			{
-				MoveToEx(notCuttingDC, last_x, last_y, NULL);
-				LineTo(notCuttingDC, (int)(*it)->x, (int)(*it)->y);
+				MoveToEx(cuttingDC, last_x, last_y, NULL);
+				LineTo(cuttingDC, (int)(*it)->x, (int)(*it)->y);
 				last_x = (int)(*it)->x;
 				last_y = (int)(*it)->y;
 			}
 		}
 		if (last_x != -1 && last_y != -1)
 		{
-			MoveToEx(notCuttingDC, last_x, last_y, NULL);
+			MoveToEx(cuttingDC, last_x, last_y, NULL);
 
-			LineTo(notCuttingDC, (int)(*polygonList.begin())->x, (int)(*polygonList.begin())->y);
+			LineTo(cuttingDC, (int)(*polygonList.begin())->x, (int)(*polygonList.begin())->y);
 		}
 
 		DeleteObject(polygonPen);
