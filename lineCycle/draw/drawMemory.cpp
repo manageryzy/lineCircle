@@ -96,22 +96,23 @@ namespace memDraw
 		double dlt1 = alp2 - alp1;
 		int m = 6.30f / dlt1 + 1;
 
-		if (r < 10) k = 4 / m + 1;
-		else if (r < 200) k = 8 / m + 1;
-		else k = 16 / m + 1;
+		if (r < 10) k = 16 / m + 1;
+		else if (r < 20) k = 32 / m + 1;
+		else if (r < 40) k = 64 / m + 1;
+		else k = 128 / m + 1;
 
 		double dlt = dlt1 / k;
 		double alp = alp1;
 		int x1, y1, x2, y2;
 		for (int i = 0; i < k; i++)
 		{
-			int dltx = r * _sinTable[(int)(alp * 10000)];
-			int dlty = r * _cosTable[(int)(alp * 10000)];
+			int dltx = r * _cosTable[(int)(alp * 10000)];
+			int dlty = r * _sinTable[(int)(alp * 10000)];
 			x1 = x + dltx;
 			y1 = y + dlty;
 			alp += dlt;
-			dltx = r * _sinTable[(int)(alp * 10000)];
-			dlty = r * _cosTable[(int)(alp * 10000)];
+			dltx = r * _cosTable[(int)(alp * 10000)];
+			dlty = r * _sinTable[(int)(alp * 10000)];
 			x2 = x + dltx;
 			y2 = y + dlty;
 			DrawLine(x1, y1, x2, y2, rgb);
@@ -200,25 +201,25 @@ namespace memDraw
 	DWORD WINAPI drawMemCircleCutWorker(LPVOID lpParam)
 	{
 		int workerID = (int)lpParam;
-		int workerInterval = circleList.size() / SETTING_DRAW_THREAD;
+		int workerInterval = cutArcList.size() / SETTING_DRAW_THREAD;
 
 
-		//if (workerID == 0)
-		//{
-		//	for (unsigned int i = 0; i < workerInterval + circleList.size() % SETTING_DRAW_THREAD; i++)
-		//	{
-		//		Circle * l = circleList.at(i);
-		//		DrawCircle((int)l->x, (int)l->y, (int)l->r, RGB(0, 255, 0));
-		//	}
-		//}
-		//else
-		//{
-		//	for (unsigned int i = workerInterval*workerID + circleList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + circleList.size() % SETTING_DRAW_THREAD; i++)
-		//	{
-		//		Circle * l = circleList.at(i);
-		//		DrawCircle((int)l->x, (int)l->y, (int)l->r, RGB(0, 255, 0));
-		//	}
-		//}
+		if (workerID == 0)
+		{
+			for (unsigned int i = 0; i < workerInterval + cutArcList.size() % SETTING_DRAW_THREAD; i++)
+			{
+				CArc * l = cutArcList.at(i);
+				DrawArc(l->x, l->y, l->r, RGB(0, 255, 0), l->begin, l->end);
+			}
+		}
+		else
+		{
+			for (unsigned int i = workerInterval*workerID + cutArcList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + cutArcList.size() % SETTING_DRAW_THREAD; i++)
+			{
+				CArc * l = cutArcList.at(i);
+				DrawArc(l->x, l->y, l->r, RGB(0, 255, 0), l->begin, l->end);
+			}
+		}
 
 		SetEvent(events[workerID]);
 		return 0;
@@ -341,7 +342,7 @@ namespace memDraw
 
 		WaitForMultipleObjects(SETTING_DRAW_THREAD, events, true, INFINITE);
 
-		//多线程画圆
+		//多线程画弧形
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
 		{
 			HANDLE hThread;
@@ -356,7 +357,6 @@ namespace memDraw
 		}
 
 		WaitForMultipleObjects(SETTING_DRAW_THREAD, events, true, INFINITE);
-
 
 		//设置内存BMP
 		SetBitmapBits(cuttingBmp, sizeof(gra), gra);

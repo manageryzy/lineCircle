@@ -23,3 +23,4 @@ public:
 };
 
 Point * intersection(float ax, float ay, float bx, float by, float cx, float cy, float dx, float dy);
+int GetPoint(float cx, float cy, float r, float stx, float sty, float edx, float edy, float* res1, float * res2);

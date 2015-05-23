@@ -9,7 +9,8 @@ namespace cpuCUT{
 
 	HANDLE * events;
 
-	const double eps = 1e-8;
+	const float eps = 1e-8;
+	const float PI = 3.141592653;
 
 
 	inline float mult(Point a, Point b, Point c){
@@ -80,51 +81,7 @@ namespace cpuCUT{
 		return false;
 	}
 
-	bool GetPoint(float cx, float cy, float r, float stx, float sty, float edx, float edy,float* res1,float * res2){
-		//(x - cx )^2 + (y - cy)^2 = r^2
-		//y = kx +b
-		//求得直线方程
-		float k = ((float)(edy - sty)) / (edx - stx);
-		float b = edy - k * edx;
-		//列方程
-		//(1 + k^2)*x^2 - x*(2*cx -2*k*(b -cy) ) + cx*cx + ( b - cy)*(b - cy) - r*r = 0
-		float x1, y1, x2, y2;
-		float c = cx * cx + (b - cy) * (b - cy) - r * r;
-		float a = (1 + k * k);
-		float b1 = (2 * cx - 2 * k * (b - cy));
-		//得到下面的简化方程
-		// a*x^2 - b1*x + c = 0;
-		float dlt = b1 * b1 - 4 * a * c;
-		if (dlt < 0) return false; //直线和圆不相交
-		if (dlt == 0) {  //圆与直线只有一个交点
-			x1 = b1 / 2 / a, y1 = k * x1 + b;
-			float dlty = y1 - cy, dltx = x1 - cx;  //计算弧度
-			float alp = ArcTan(dlty / dltx);
-			if (y1 < cy || (y1 == cy && x1 < cx))
-				alp += 3.1415926;
-			*res1 = alp;
-			*res2 = alp;
-			return true;
-		}   //圆与直线有两个交点
-		float tmp = sqrt(dlt);
-		x1 = (b1 + tmp) / (2 * a);
-		y1 = k * x1 + b;
-		x2 = (b1 - tmp) / (2 * a);
-		y2 = k * x2 + b;
-
-		float dlty = y1 - cy, dltx = x1 - cx;
-		float alp = ArcTan(dlty / dltx);
-		if (y1 < cy || (y1 == cy && x1 < cx))
-			alp += 3.1415926;
-		*res1 = alp;    //第一个点
-
-		dlty = y2 - cy, dltx = x2 - cx;
-		alp = ArcTan(dlty / dltx);
-		if (y2 < cy || (y2 == cy && x2 < cx))
-			alp += 3.1415926;
-		*res2 = alp;    //第二个点
-		return true;
-	}
+	
 
 	DWORD WINAPI cutLineWorker(LPVOID lpParam)
 	{
@@ -236,6 +193,36 @@ namespace cpuCUT{
 			}
 
 			sort(lineCuttingCirclePointList.begin(), lineCuttingCirclePointList.end());
+
+			Point pt;
+			size = lineCuttingCirclePointList.size();
+			for (int i = 0; i < size; i++)
+			{
+				float arc1, arc2,arc;
+				arc1 = lineCuttingCirclePointList.at(i);
+				if (i == size - 1)
+				{
+					arc2 = lineCuttingCirclePointList.at(0);
+					arc2 += 2 * PI;
+				}
+				else
+					arc2 = lineCuttingCirclePointList.at(i + 1);
+
+				arc = (arc1 + arc2) / 2;
+				pt.x = _cosTable[((int)(arc * 10000) % 63000)] * c->r + c->x;
+				pt.y = _sinTable[((int)(arc * 10000) % 63000)] * c->r + c->y;
+
+				if (isPointIn(pt))
+				{
+					CArc * theArc = (CArc * )mempool->Alloc(sizeof(CArc));
+					theArc->r = c->r;
+					theArc->x = c->x;
+					theArc->y = c->y;
+					theArc->begin = arc1;
+					theArc->end = arc2;
+					cutArcList.push_back(theArc);
+				}
+			}
 
 		}
 
