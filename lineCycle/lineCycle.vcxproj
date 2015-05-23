@@ -190,6 +190,7 @@
     <ClCompile Include="lineCycle.cpp" />
     <ClCompile Include="setting.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="wrapper\graph.cpp" />
     <ClCompile Include="wrapper\math.cpp" />
     <ClCompile Include="xml\minXml.cpp" />
     <ClCompile Include="xml\pugiXMLPrase.cpp" />

@@ -21,3 +21,5 @@ class CArc{
 public:
 	float x, y, r, begin, end;
 };
+
+Point * intersection(float ax, float ay, float bx, float by, float cx, float cy, float dx, float dy);

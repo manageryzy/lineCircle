@@ -149,6 +149,9 @@
     <ClCompile Include="cut\cutCPU.cpp">
       <Filter>源文件\cut</Filter>
     </ClCompile>
+    <ClCompile Include="wrapper\graph.cpp">
+      <Filter>源文件\wrapper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="lineCycle.rc">
