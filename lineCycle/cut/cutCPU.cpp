@@ -263,6 +263,31 @@ bool initGra()
 	if (FillRgn(maskDC, region, brush) == 0)
 		return false;
 
+	HPEN polygonPen = CreatePen(PS_SOLID, 3, RGB(0, 0, 0));
+	SelectObject(maskDC, polygonPen);
+	int last_x = -1, last_y = -1;
+	for (vector <Point *> ::iterator it = polygonList.begin(); it != polygonList.end(); ++it)
+	{
+		if (last_x == -1 && last_y == -1)
+		{
+			last_x = (int)(*it)->x;
+			last_y = (int)(*it)->y;
+			continue;
+		}
+		else
+		{
+			MoveToEx(maskDC, last_x, last_y, NULL);
+			LineTo(maskDC, (int)(*it)->x, (int)(*it)->y);
+			last_x = (int)(*it)->x;
+			last_y = (int)(*it)->y;
+		}
+	}
+	if (last_x != -1 && last_y != -1)
+	{
+		MoveToEx(maskDC, last_x, last_y, NULL);
+		LineTo(maskDC, (int)(*polygonList.begin())->x, (int)(*polygonList.begin())->y);
+	}
+
 	if (GetBitmapBits(maskBMP, sizeof(gra), gra) == 0)
 		return false;
 
@@ -270,6 +295,7 @@ bool initGra()
 	DeleteDC(maskDC);
 	DeleteObject(maskBMP);
 	DeleteObject(brush);
+	DeleteObject(polygonPen);
 
 	return true;
 }
