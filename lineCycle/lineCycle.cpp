@@ -372,6 +372,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		DrawText(hdc, buf, lstrlen(buf), &rect, 0);
 		DeleteDC(hdc);
 #endif
+		initGra();
+
 		break;
 	case WM_DESTROY:
 		if (ghRC)

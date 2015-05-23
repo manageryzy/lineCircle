@@ -1,1 +1,2 @@
 void doCPUCut();
+bool initGra();

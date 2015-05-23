@@ -4,6 +4,8 @@ namespace cpuCUT{
 
 	__inline float mult(Point a, Point b, Point c);
 
+	int gra[768][1366];
+
 	const double eps = 1e-8;
 
 
@@ -21,51 +23,61 @@ namespace cpuCUT{
 		return p1->y > p2->y;
 	}
 
+
+	//由于效率底下，放弃这种方法了，由于懒，所以也不打算作为一种可选方案了
+	//int isPointIn(const Point &p)
+	//{
+	//	Point q;
+	//	q.x = 1368;
+	//	q.y = 768;//以p为起点q为终点做射线L
+	//	int counter = 0;
+	//
+	//	int pLen = polygonList.size();
+	//	//    for (vector<Point>::iterator iter2 = (iter1 + 1); iter1 < points.end(); ++iter1, ++iter2)
+	//	for (unsigned int i = 0, j = i + 1; i < pLen; i++, j++)
+	//	{
+	//		if (p.x == polygonList.at(i)->x && p.y == polygonList.at(i)->y)
+	//			return false;
+	//
+	//		if (j == pLen)
+	//		{
+	//			j = 0;
+	//			if (fabs(mult(p, q, *polygonList.at(i))) < eps)
+	//			{
+	//				//点*points.at(i)在射线pq上，停止本循环，另取q
+	//				q.x--;
+	//				i = 0;
+	//				j = 1;
+	//				continue;
+	//			}
+	//			else if (mult(p, *polygonList.at(i), q) * mult(p, *polygonList.at(j), q) < -eps && mult(*polygonList.at(i), p, *polygonList.at(j)) * mult(*polygonList.at(i), q, *polygonList.at(j)) < -eps)
+	//				counter++;
+	//			break;
+	//		}
+	//
+	//		if (fabs(mult(p, q, *polygonList.at(i))) < eps)
+	//		{
+	//			//点*points.at(i)在射线pq上，停止本循环，另取q
+	//			q.x--;
+	//			i = -1;
+	//			j = 0;
+	//			continue;
+	//		}
+	//		else if (mult(p, *polygonList.at(i), q) * mult(p, *polygonList.at(j), q) < -eps && mult(*polygonList.at(i), p, *polygonList.at(j)) * mult(*polygonList.at(i), q, *polygonList.at(j)) < -eps)
+	//			counter++;
+	//	}
+	//	return counter & 1;
+	//}
+
 	int isPointIn(const Point &p)
 	{
-		Point q;
-		q.x = 1368;
-		q.y = 768;//以p为起点q为终点做射线L
-		int counter = 0;
+		if (gra[(int)p.y][(int)p.x] != 0)
+			return true;
 
-		int pLen = polygonList.size();
-		//    for (vector<Point>::iterator iter2 = (iter1 + 1); iter1 < points.end(); ++iter1, ++iter2)
-		for (unsigned int i = 0, j = i + 1; i < pLen; i++, j++)
-		{
-			if (p.x == polygonList.at(i)->x && p.y == polygonList.at(i)->y)
-				return false;
-
-			if (j == pLen)
-			{
-				j = 0;
-				if (fabs(mult(p, q, *polygonList.at(i))) < eps)
-				{
-					//点*points.at(i)在射线pq上，停止本循环，另取q
-					q.x--;
-					i = 0;
-					j = 1;
-					continue;
-				}
-				else if (mult(p, *polygonList.at(i), q) * mult(p, *polygonList.at(j), q) < -eps && mult(*polygonList.at(i), p, *polygonList.at(j)) * mult(*polygonList.at(i), q, *polygonList.at(j)) < -eps)
-					counter++;
-				break;
-			}
-
-			if (fabs(mult(p, q, *polygonList.at(i))) < eps)
-			{
-				//点*points.at(i)在射线pq上，停止本循环，另取q
-				q.x--;
-				i = -1;
-				j = 0;
-				continue;
-			}
-			else if (mult(p, *polygonList.at(i), q) * mult(p, *polygonList.at(j), q) < -eps && mult(*polygonList.at(i), p, *polygonList.at(j)) * mult(*polygonList.at(i), q, *polygonList.at(j)) < -eps)
-				counter++;
-		}
-		return counter & 1;
+		return false;
 	}
 
-
+	
 
 
 	//求直线 l1； a1*x + b1*y + c1 = 0 与直线 l2： a2*x + b2*y + c2 = 0 的交点
@@ -213,4 +225,49 @@ void doCPUCut()
 			}
 		}
 	}
+}
+
+bool initGra()
+{
+	using namespace cpuCUT;
+
+	HDC drawDC = GetDC(theHWND);
+	HDC maskDC = CreateCompatibleDC(drawDC);
+	HBITMAP maskBMP = CreateCompatibleBitmap(drawDC, 1366, 768);
+
+	if (drawDC == NULL || maskDC == NULL || maskBMP == NULL)
+		return false;
+
+	SelectObject(maskDC, maskBMP);
+
+	unsigned int size = polygonList.size();
+	if (size > MAX_POLYGON_SIZE)
+		return false;//这里有资源没有回收，懒得管了，程序都运行不了还管什么没有回收
+
+	POINT polygonArray[MAX_POLYGON_SIZE];
+	int indexArray = size;
+
+	for (int i = 0; i < size; i++)
+	{
+		Point * pt = polygonList.at(i);
+		polygonArray[i].x = pt->x;
+		polygonArray[i].y = pt->y;
+	}
+
+	HRGN region = CreatePolyPolygonRgn(polygonArray, &indexArray, 1, WINDING);
+	HBRUSH brush = CreateSolidBrush(RGB(255, 0, 0));
+
+	if (region == NULL || brush == NULL)
+		return false;
+
+	if (FillRgn(maskDC, region, brush) == 0)
+		return false;
+
+	if (GetBitmapBits(maskBMP, sizeof(gra), gra) == 0)
+		return false;
+
+	DeleteDC(drawDC);
+	DeleteDC(maskDC);
+	DeleteObject(maskBMP);
+	DeleteObject(brush);
 }
