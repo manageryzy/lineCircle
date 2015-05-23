@@ -270,6 +270,12 @@ DWORD WINAPI cacheXMLWorker(LPVOID lpParam)
 		saveCache();
 	}	
 
+	if (!initGra())
+	{
+		MessageBox(theHWND, L"²Ã¼ôÇøÓò×¼±¸Ê§°Ü", L"´íÎó", 0);
+		PostMessage(theHWND, WM_DESTROY, 0, 0);
+	}
+
 	isXMLBusy = false;
 
 	if (SETTING_DRAW_MODE == SETTING_DRAW_MODE_MEMGDI)

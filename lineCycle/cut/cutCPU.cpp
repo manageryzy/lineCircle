@@ -270,4 +270,6 @@ bool initGra()
 	DeleteDC(maskDC);
 	DeleteObject(maskBMP);
 	DeleteObject(brush);
+
+	return true;
 }
