@@ -6,3 +6,5 @@ vector < Point * > polygonList;
 
 vector < Line *> cutLineList;
 vector < CArc *> cutArcList;
+
+bool isCutBusy = false;

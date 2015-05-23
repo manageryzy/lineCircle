@@ -13,3 +13,5 @@ extern vector < Point *> polygonList;
 
 extern vector < Line *> cutLineList;
 extern vector < CArc *> cutArcList;
+
+extern bool isCutBusy;
