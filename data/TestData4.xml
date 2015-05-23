@@ -13,6 +13,14 @@
 		<StartPoint>100, 50</StartPoint>
 		<EndPoint>100, 300</EndPoint>
 	</Entity>
+	<Entity Type="Line">
+		<StartPoint>100, 100</StartPoint>
+		<EndPoint>100, 300</EndPoint>
+	</Entity>
+	<Entity Type="Line">
+		<StartPoint>300, 50</StartPoint>
+		<EndPoint>100, 300</EndPoint>
+	</Entity>
 	<Boundary Type="Concave Polygon">
 			<Vertex>100, 100</Vertex>
 			<Vertex>200, 100</Vertex>
