@@ -1,5 +1,5 @@
 #include  "../stdafx.h"
-
+#include "../resource.h"
 
 namespace cpuCUT{
 
@@ -103,6 +103,7 @@ namespace cpuCUT{
 			if (y1 < cy || (y1 == cy && x1 < cx))
 				alp += 3.1415926;
 			*res1 = alp;
+			*res2 = alp;
 			return true;
 		}   //圆与直线有两个交点
 		float tmp = sqrt(dlt);
@@ -129,8 +130,8 @@ namespace cpuCUT{
 	{
 		vector < Point *> lineCuttingPointList;
 
-
-		for (unsigned int i = 0; i < lineList.size() ; i++)
+		int _size = lineList.size();
+		for (unsigned int i = 0; i < _size ; i++)
 		{
 			Line * l = lineList.at(i);
 			int size;
@@ -203,10 +204,44 @@ namespace cpuCUT{
 
 	DWORD WINAPI cutCircleWorker(LPVOID lpParam)
 	{
+		vector < float> lineCuttingCirclePointList;
+
+		int _size = circleList.size();
+		for (int i = 0; i < _size; i++)
+		{
+			Circle * c = circleList.at(i);
+			int size;
+
+			//清除掉上次的垃圾
+			lineCuttingCirclePointList.clear();
+
+			//建立交点数组
+			size = polygonList.size();
+			for (int j = 0; j < size; j++)
+			{
+				Point * pt1 = polygonList.at(j);
+				Point * pt2;
+				if (j == size - 1)
+					pt2 = polygonList.at(0);
+				else
+					pt2 = polygonList.at(j + 1);
+
+				float res1, res2;
+
+				if (GetPoint(c->x, c->y, c->r, pt1->x, pt1->y, pt2->x, pt2->y, &res1, &res2))
+				{
+					lineCuttingCirclePointList.push_back(res1);
+					lineCuttingCirclePointList.push_back(res2);
+				}
+			}
+
+			sort(lineCuttingCirclePointList.begin(), lineCuttingCirclePointList.end());
+
+		}
+
 		SetEvent(events[1]);
 		return 0;
 	}
-
 
 	//切割启动线程
 	DWORD WINAPI cuttingThread(LPVOID lpParam)
@@ -248,9 +283,11 @@ namespace cpuCUT{
 		}
 		CloseHandle(hThread);
 
-		WaitForMultipleObjects(SETTING_DRAW_THREAD, events, true, INFINITE);
+		WaitForMultipleObjects(2, events, true, INFINITE);
 
 		isCutBusy = false;
+
+		PostMessage(theHWND, WM_COMMAND, IDM_AFTER_CUT, 0);
 
 		for (int i = 0; i < 2; i++)
 			CloseHandle(events[i]);

@@ -4,6 +4,10 @@
 
 extern const float _sinTable[];
 extern const float _cosTable[];
+extern const float _tanTable[];
+extern const float _asinTable[];
+extern const float _acosTable[];
+extern const float _atanTable[];
 
 
 float Sin(float x);
