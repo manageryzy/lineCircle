@@ -185,10 +185,15 @@ namespace cpuCUT{
 
 				float res1, res2;
 
-				if (GetPoint(c->x, c->y, c->r, pt1->x, pt1->y, pt2->x, pt2->y, &res1, &res2))
+				int num = GetPoint(c->x, c->y, c->r, pt1->x, pt1->y, pt2->x, pt2->y, &res1, &res2);
+				if (num == 2)
 				{
 					lineCuttingCirclePointList.push_back(res1);
 					lineCuttingCirclePointList.push_back(res2);
+				}
+				else if (num == 1)
+				{
+					lineCuttingCirclePointList.push_back(res1);
 				}
 			}
 

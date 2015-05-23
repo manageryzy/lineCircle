@@ -106,13 +106,13 @@ namespace memDraw
 		int x1, y1, x2, y2;
 		for (int i = 0; i < k; i++)
 		{
-			int dltx = r * _cosTable[(int)(alp * 10000)];
-			int dlty = r * _sinTable[(int)(alp * 10000)];
+			int dltx = r * _cosTable[((int)(alp * 10000))%63000];
+			int dlty = r * _sinTable[((int)(alp * 10000))%63000];
 			x1 = x + dltx;
 			y1 = y + dlty;
 			alp += dlt;
-			dltx = r * _cosTable[(int)(alp * 10000)];
-			dlty = r * _sinTable[(int)(alp * 10000)];
+			dltx = r * _cosTable[((int)(alp * 10000))%63000];
+			dlty = r * _sinTable[((int)(alp * 10000))%63000];
 			x2 = x + dltx;
 			y2 = y + dlty;
 			DrawLine(x1, y1, x2, y2, rgb);
