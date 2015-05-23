@@ -201,7 +201,22 @@ namespace cpuCUT{
 
 			Point pt;
 			size = lineCuttingCirclePointList.size();
-			for (int i = 0; i < size; i++)
+			if (size == 0)
+			{
+				pt.x = c->x;
+				pt.y = c->y;
+				if (isPointIn(pt))
+				{
+					CArc * theArc = (CArc *)mempool->Alloc(sizeof(CArc));
+					theArc->r = c->r;
+					theArc->x = c->x;
+					theArc->y = c->y;
+					theArc->begin = 0;
+					theArc->end = 2 * PI;
+					cutArcList.push_back(theArc);
+				}
+			}
+			else for (int i = 0; i < size; i++)
 			{
 				float arc1, arc2,arc;
 				arc1 = lineCuttingCirclePointList.at(i);

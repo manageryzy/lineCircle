@@ -21,6 +21,10 @@
 		<StartPoint>300, 50</StartPoint>
 		<EndPoint>100, 300</EndPoint>
 	</Entity>
+	<Entity Type="Circle">
+			<CenterPoint>200, 200</CenterPoint>
+			<Radius>100</Radius>
+		</Entity>
 	<Boundary Type="Concave Polygon">
 			<Vertex>100, 100</Vertex>
 			<Vertex>200, 100</Vertex>
