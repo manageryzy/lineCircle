@@ -13,6 +13,10 @@ namespace cpuCUT{
 	const float PI = 3.141592653;
 
 
+	vector <Line *> * cutLineListList;
+	vector <CArc *> * cutArcListList;
+
+
 	inline float mult(Point a, Point b, Point c){
 		return (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
 	}
@@ -91,75 +95,150 @@ namespace cpuCUT{
 		CMemPool * mempoolnts = new CMemPool(SETTING_THREAD_MEMPOOL_SIZE, SETTING_THREAD_MEMPOOL_NUM);
 
 		int _size = lineList.size();
-		for (unsigned int i = 0; i < _size ; i++)
+
+		int workerID = (int)lpParam;
+		int workerInterval = _size / SETTING_CUTTING_THREAD;
+
+		if (workerID == 0)
 		{
-			Line * l = lineList.at(i);
-			int size;
-
-			Point * pth = (Point *)mempoolnts->AllocNTS(sizeof(Point));
-			pth->x = l->x1;
-			pth->y = l->y1;
-			lineCuttingPointList.push_back(pth);
-
-			//建立交点数组
-			size = polygonList.size();
-			for (int j = 0; j < size; j++)
+			for (unsigned int i = 0; i < workerInterval + _size % SETTING_CUTTING_THREAD; i++)
 			{
-				Point * pt1 = polygonList.at(j);
-				Point * pt2;
-				if (j == size - 1)
-					pt2 = polygonList.at(0);
+				Line * l = lineList.at(i);
+				int size;
+
+				Point * pth = (Point *)mempoolnts->AllocNTS(sizeof(Point));
+				pth->x = l->x1;
+				pth->y = l->y1;
+				lineCuttingPointList.push_back(pth);
+
+				//建立交点数组
+				size = polygonList.size();
+				for (int j = 0; j < size; j++)
+				{
+					Point * pt1 = polygonList.at(j);
+					Point * pt2;
+					if (j == size - 1)
+						pt2 = polygonList.at(0);
+					else
+						pt2 = polygonList.at(j + 1);
+
+					Point * res = intersection(l->x1, l->y1, l->x2, l->y2, pt1->x, pt1->y, pt2->x, pt2->y, mempoolnts);
+					if (res != NULL)
+					{
+						lineCuttingPointList.push_back(res);
+					}
+				}
+
+				Point * pte = (Point *)mempoolnts->AllocNTS(sizeof(Point));
+				pte->x = l->x2;
+				pte->y = l->y2;
+				lineCuttingPointList.push_back(pte);
+
+				if (lineCuttingPointList.at(0)->x != lineCuttingPointList.at(1)->x)
+					sort(lineCuttingPointList.begin(), lineCuttingPointList.end(), cmpx);
 				else
-					pt2 = polygonList.at(j + 1);
+					sort(lineCuttingPointList.begin(), lineCuttingPointList.end(), cmpy);
 
-				Point * res = intersection(l->x1, l->y1, l->x2, l->y2, pt1->x, pt1->y, pt2->x, pt2->y,mempoolnts);
-				if (res != NULL)
+				size = lineCuttingPointList.size();
+
+				for (int j = 0; j < size - 1; j++)
 				{
-					lineCuttingPointList.push_back(res);
+					Point * pt1 = lineCuttingPointList.at(j);
+					Point * pt2 = lineCuttingPointList.at(j + 1);
+					tmpPoint.x = (pt1->x + pt2->x) / 2;
+					tmpPoint.y = (pt1->y + pt2->y) / 2;
+					if (isPointIn(tmpPoint))
+					{
+						Line * l = (Line *)mempool->Alloc(sizeof(Line));
+						l->x1 = pt1->x;
+						l->y1 = pt1->y;
+						l->x2 = pt2->x;
+						l->y2 = pt2->y;
+						cutLineListList[workerID].push_back(l);
+					}
 				}
-			}
 
-			Point * pte = (Point *)mempoolnts->AllocNTS(sizeof(Point));
-			pte->x = l->x2;
-			pte->y = l->y2;
-			lineCuttingPointList.push_back(pte);
-
-			if (lineCuttingPointList.at(0)->x != lineCuttingPointList.at(1)->x)
-				sort(lineCuttingPointList.begin(), lineCuttingPointList.end(), cmpx);
-			else
-				sort(lineCuttingPointList.begin(), lineCuttingPointList.end(), cmpy);
-
-			size = lineCuttingPointList.size();
-			
-			for (int j = 0; j < size - 1; j++)
-			{
-				Point * pt1 = lineCuttingPointList.at(j);
-				Point * pt2 = lineCuttingPointList.at(j + 1);
-				tmpPoint.x = (pt1->x + pt2->x) / 2;
-				tmpPoint.y = (pt1->y + pt2->y) / 2;
-				if (isPointIn(tmpPoint))
+				//清除掉上次的垃圾
+				size = lineCuttingPointList.size();
+				for (int i = 0; i < size; i++)
 				{
-					Line * l = (Line *)mempool->Alloc(sizeof(Line));
-					l->x1 = pt1->x;
-					l->y1 = pt1->y;
-					l->x2 = pt2->x;
-					l->y2 = pt2->y;
-					cutLineList.push_back(l);
+					mempoolnts->FreeNTS(lineCuttingPointList.at(i));
 				}
+				lineCuttingPointList.clear();
 			}
-
-			//清除掉上次的垃圾
-			size = lineCuttingPointList.size();
-			for (int i = 0; i < size; i++)
+		}
+		else
+		{
+			for (unsigned int i = workerInterval*workerID + _size % SETTING_CUTTING_THREAD; i < workerInterval*(workerID + 1) + _size % SETTING_CUTTING_THREAD; i++)
 			{
-				mempoolnts->FreeNTS(lineCuttingPointList.at(i));
+				Line * l = lineList.at(i);
+				int size;
+
+				Point * pth = (Point *)mempoolnts->AllocNTS(sizeof(Point));
+				pth->x = l->x1;
+				pth->y = l->y1;
+				lineCuttingPointList.push_back(pth);
+
+				//建立交点数组
+				size = polygonList.size();
+				for (int j = 0; j < size; j++)
+				{
+					Point * pt1 = polygonList.at(j);
+					Point * pt2;
+					if (j == size - 1)
+						pt2 = polygonList.at(0);
+					else
+						pt2 = polygonList.at(j + 1);
+
+					Point * res = intersection(l->x1, l->y1, l->x2, l->y2, pt1->x, pt1->y, pt2->x, pt2->y, mempoolnts);
+					if (res != NULL)
+					{
+						lineCuttingPointList.push_back(res);
+					}
+				}
+
+				Point * pte = (Point *)mempoolnts->AllocNTS(sizeof(Point));
+				pte->x = l->x2;
+				pte->y = l->y2;
+				lineCuttingPointList.push_back(pte);
+
+				if (lineCuttingPointList.at(0)->x != lineCuttingPointList.at(1)->x)
+					sort(lineCuttingPointList.begin(), lineCuttingPointList.end(), cmpx);
+				else
+					sort(lineCuttingPointList.begin(), lineCuttingPointList.end(), cmpy);
+
+				size = lineCuttingPointList.size();
+
+				for (int j = 0; j < size - 1; j++)
+				{
+					Point * pt1 = lineCuttingPointList.at(j);
+					Point * pt2 = lineCuttingPointList.at(j + 1);
+					tmpPoint.x = (pt1->x + pt2->x) / 2;
+					tmpPoint.y = (pt1->y + pt2->y) / 2;
+					if (isPointIn(tmpPoint))
+					{
+						Line * l = (Line *)mempool->Alloc(sizeof(Line));
+						l->x1 = pt1->x;
+						l->y1 = pt1->y;
+						l->x2 = pt2->x;
+						l->y2 = pt2->y;
+						cutLineListList[workerID].push_back(l);
+					}
+				}
+
+				//清除掉上次的垃圾
+				size = lineCuttingPointList.size();
+				for (int i = 0; i < size; i++)
+				{
+					mempoolnts->FreeNTS(lineCuttingPointList.at(i));
+				}
+				lineCuttingPointList.clear();
 			}
-			lineCuttingPointList.clear();
 		}
 		
 		delete mempoolnts;
 
-		SetEvent(events[0]);
+		SetEvent(events[workerID]);
 		return 0;
 	}
 
@@ -168,89 +247,179 @@ namespace cpuCUT{
 		vector < float> lineCuttingCirclePointList;
 
 		int _size = circleList.size();
-		for (int i = 0; i < _size; i++)
+
+		int workerID = (int)lpParam;
+		int workerInterval = _size / SETTING_CUTTING_THREAD;
+
+
+		if (workerID == 0)
 		{
-			Circle * c = circleList.at(i);
-			int size;
-
-			//建立交点数组
-			size = polygonList.size();
-			for (int j = 0; j < size; j++)
+			for (unsigned int i = 0; i < workerInterval + _size % SETTING_CUTTING_THREAD; i++)
 			{
-				Point * pt1 = polygonList.at(j);
-				Point * pt2;
-				if (j == size - 1)
-					pt2 = polygonList.at(0);
-				else
-					pt2 = polygonList.at(j + 1);
+				Circle * c = circleList.at(i);
+				int size;
 
-				float res1, res2;
+				//建立交点数组
+				size = polygonList.size();
+				for (int j = 0; j < size; j++)
+				{
+					Point * pt1 = polygonList.at(j);
+					Point * pt2;
+					if (j == size - 1)
+						pt2 = polygonList.at(0);
+					else
+						pt2 = polygonList.at(j + 1);
 
-				int num = GetPoint(c->x, c->y, c->r, pt1->x, pt1->y, pt2->x, pt2->y, &res1, &res2);
-				if (num == 2)
-				{
-					lineCuttingCirclePointList.push_back(res1);
-					lineCuttingCirclePointList.push_back(res2);
+					float res1, res2;
+
+					int num = GetPoint(c->x, c->y, c->r, pt1->x, pt1->y, pt2->x, pt2->y, &res1, &res2);
+					if (num == 2)
+					{
+						lineCuttingCirclePointList.push_back(res1);
+						lineCuttingCirclePointList.push_back(res2);
+					}
+					else if (num == 1)
+					{
+						lineCuttingCirclePointList.push_back(res1);
+					}
 				}
-				else if (num == 1)
+
+				sort(lineCuttingCirclePointList.begin(), lineCuttingCirclePointList.end());
+
+				Point pt;
+				size = lineCuttingCirclePointList.size();
+				if (size == 0)
 				{
-					lineCuttingCirclePointList.push_back(res1);
+					pt.x = c->x;
+					pt.y = c->y;
+					if (isPointIn(pt))
+					{
+						CArc * theArc = (CArc *)mempool->Alloc(sizeof(CArc));
+						theArc->r = c->r;
+						theArc->x = c->x;
+						theArc->y = c->y;
+						theArc->begin = 0;
+						theArc->end = 2 * PI;
+						cutArcListList[workerID].push_back(theArc);
+					}
 				}
+				else for (int i = 0; i < size; i++)
+				{
+					float arc1, arc2, arc;
+					arc1 = lineCuttingCirclePointList.at(i);
+					if (i == size - 1)
+					{
+						arc2 = lineCuttingCirclePointList.at(0);
+						arc2 += 2 * PI;
+					}
+					else
+						arc2 = lineCuttingCirclePointList.at(i + 1);
+
+					arc = (arc1 + arc2) / 2;
+					pt.x = _cosTable[((int)(arc * 10000) % 63000)] * c->r + c->x;
+					pt.y = _sinTable[((int)(arc * 10000) % 63000)] * c->r + c->y;
+
+					if (isPointIn(pt))
+					{
+						CArc * theArc = (CArc *)mempool->Alloc(sizeof(CArc));
+						theArc->r = c->r;
+						theArc->x = c->x;
+						theArc->y = c->y;
+						theArc->begin = arc1;
+						theArc->end = arc2;
+						cutArcListList[workerID].push_back(theArc);
+					}
+				}
+
+				//清除掉上次的垃圾
+				lineCuttingCirclePointList.clear();
 			}
-
-			sort(lineCuttingCirclePointList.begin(), lineCuttingCirclePointList.end());
-
-			Point pt;
-			size = lineCuttingCirclePointList.size();
-			if (size == 0)
+		}
+		else
+		{
+			for (unsigned int i = workerInterval*workerID + _size % SETTING_CUTTING_THREAD; i < workerInterval*(workerID + 1) + _size % SETTING_CUTTING_THREAD; i++)
 			{
-				pt.x = c->x;
-				pt.y = c->y;
-				if (isPointIn(pt))
+				Circle * c = circleList.at(i);
+				int size;
+
+				//建立交点数组
+				size = polygonList.size();
+				for (int j = 0; j < size; j++)
 				{
-					CArc * theArc = (CArc *)mempool->Alloc(sizeof(CArc));
-					theArc->r = c->r;
-					theArc->x = c->x;
-					theArc->y = c->y;
-					theArc->begin = 0;
-					theArc->end = 2 * PI;
-					cutArcList.push_back(theArc);
+					Point * pt1 = polygonList.at(j);
+					Point * pt2;
+					if (j == size - 1)
+						pt2 = polygonList.at(0);
+					else
+						pt2 = polygonList.at(j + 1);
+
+					float res1, res2;
+
+					int num = GetPoint(c->x, c->y, c->r, pt1->x, pt1->y, pt2->x, pt2->y, &res1, &res2);
+					if (num == 2)
+					{
+						lineCuttingCirclePointList.push_back(res1);
+						lineCuttingCirclePointList.push_back(res2);
+					}
+					else if (num == 1)
+					{
+						lineCuttingCirclePointList.push_back(res1);
+					}
 				}
+
+				sort(lineCuttingCirclePointList.begin(), lineCuttingCirclePointList.end());
+
+				Point pt;
+				size = lineCuttingCirclePointList.size();
+				if (size == 0)
+				{
+					pt.x = c->x;
+					pt.y = c->y;
+					if (isPointIn(pt))
+					{
+						CArc * theArc = (CArc *)mempool->Alloc(sizeof(CArc));
+						theArc->r = c->r;
+						theArc->x = c->x;
+						theArc->y = c->y;
+						theArc->begin = 0;
+						theArc->end = 2 * PI;
+						cutArcListList[workerID].push_back(theArc);
+					}
+				}
+				else for (int i = 0; i < size; i++)
+				{
+					float arc1, arc2, arc;
+					arc1 = lineCuttingCirclePointList.at(i);
+					if (i == size - 1)
+					{
+						arc2 = lineCuttingCirclePointList.at(0);
+						arc2 += 2 * PI;
+					}
+					else
+						arc2 = lineCuttingCirclePointList.at(i + 1);
+
+					arc = (arc1 + arc2) / 2;
+					pt.x = _cosTable[((int)(arc * 10000) % 63000)] * c->r + c->x;
+					pt.y = _sinTable[((int)(arc * 10000) % 63000)] * c->r + c->y;
+
+					if (isPointIn(pt))
+					{
+						CArc * theArc = (CArc *)mempool->Alloc(sizeof(CArc));
+						theArc->r = c->r;
+						theArc->x = c->x;
+						theArc->y = c->y;
+						theArc->begin = arc1;
+						theArc->end = arc2;
+						cutArcListList[workerID].push_back(theArc);
+					}
+				}
+
+				//清除掉上次的垃圾
+				lineCuttingCirclePointList.clear();
 			}
-			else for (int i = 0; i < size; i++)
-			{
-				float arc1, arc2,arc;
-				arc1 = lineCuttingCirclePointList.at(i);
-				if (i == size - 1)
-				{
-					arc2 = lineCuttingCirclePointList.at(0);
-					arc2 += 2 * PI;
-				}
-				else
-					arc2 = lineCuttingCirclePointList.at(i + 1);
-
-				arc = (arc1 + arc2) / 2;
-				pt.x = _cosTable[((int)(arc * 10000) % 63000)] * c->r + c->x;
-				pt.y = _sinTable[((int)(arc * 10000) % 63000)] * c->r + c->y;
-
-				if (isPointIn(pt))
-				{
-					CArc * theArc = (CArc * )mempool->Alloc(sizeof(CArc));
-					theArc->r = c->r;
-					theArc->x = c->x;
-					theArc->y = c->y;
-					theArc->begin = arc1;
-					theArc->end = arc2;
-					cutArcList.push_back(theArc);
-				}
-			}
-
-			//清除掉上次的垃圾
-			lineCuttingCirclePointList.clear();
-
 		}
 
-		SetEvent(events[1]);
+		SetEvent(events[workerID]);
 		return 0;
 	}
 
@@ -272,38 +441,63 @@ namespace cpuCUT{
 		isCutBusy = true;
 
 		events = new HANDLE[2];
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < SETTING_CUTTING_THREAD; i++)
+		{
 			events[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
+		}
+
+		cutLineListList = new vector < Line * >[SETTING_CUTTING_THREAD];
+		cutArcListList = new vector < CArc * >[SETTING_CUTTING_THREAD];
+			
 
 		//多线裁剪制直线
-		HANDLE hThread;
-		hThread = CreateThread(NULL, 0, cutLineWorker, 0, 0, NULL);
-		if (hThread == NULL)
+		for (int i = 0; i < SETTING_CUTTING_THREAD; i++)
 		{
-			MessageBox(theHWND, L"线程创建失败", L"错误", 0);
-			PostMessage(theHWND, WM_DESTROY, 0, 0);
+			HANDLE hThread = CreateThread(NULL, 0, cutLineWorker, (LPVOID)i, 0, NULL);
+			if (hThread == NULL)
+			{
+				MessageBox(theHWND, L"线程创建失败", L"错误", 0);
+				PostMessage(theHWND, WM_DESTROY, 0, 0);
+			}
+			CloseHandle(hThread);
 		}
-		CloseHandle(hThread);
+		WaitForMultipleObjects(SETTING_CUTTING_THREAD, events, true, INFINITE);
+
+		for (int i = 0; i < SETTING_CUTTING_THREAD; i++)
+		{
+			cutLineList.insert(cutLineList.end(), cutLineListList[i].begin(), cutLineListList[i].end());
+			cutLineListList[i].clear();
+		}
 
 		//多线程裁剪园
-		hThread = CreateThread(NULL, 0, cutCircleWorker, 0, 0, NULL);
-		if (hThread == NULL)
+		for (int i = 0; i < SETTING_CUTTING_THREAD; i++)
 		{
-			MessageBox(theHWND, L"线程创建失败", L"错误", 0);
-			PostMessage(theHWND, WM_DESTROY, 0, 0);
+			HANDLE hThread = CreateThread(NULL, 0, cutCircleWorker, (LPVOID)i, 0, NULL);
+			if (hThread == NULL)
+			{
+				MessageBox(theHWND, L"线程创建失败", L"错误", 0);
+				PostMessage(theHWND, WM_DESTROY, 0, 0);
+			}
+			CloseHandle(hThread);
 		}
-		CloseHandle(hThread);
+		WaitForMultipleObjects(SETTING_CUTTING_THREAD, events, true, INFINITE);
 
-		WaitForMultipleObjects(2, events, true, INFINITE);
+		for (int i = 0; i < SETTING_CUTTING_THREAD; i++)
+		{
+			cutArcList.insert(cutArcList.end(), cutArcListList[i].begin(), cutArcListList[i].end());
+			cutArcListList[i].clear();
+		}
 
 		isCutBusy = false;
 
 		PostMessage(theHWND, WM_COMMAND, IDM_AFTER_CUT, 0);
 
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < SETTING_CUTTING_THREAD; i++)
 			CloseHandle(events[i]);
 
 		delete[] events;
+		delete[] cutLineListList;
+		delete[] cutArcListList;
 
 		return 0;
 	}
