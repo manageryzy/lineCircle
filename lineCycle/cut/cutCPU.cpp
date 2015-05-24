@@ -440,7 +440,7 @@ namespace cpuCUT{
 
 		isCutBusy = true;
 
-		events = new HANDLE[2];
+		events = new HANDLE[SETTING_CUTTING_THREAD];
 		for (int i = 0; i < SETTING_CUTTING_THREAD; i++)
 		{
 			events[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -516,6 +516,8 @@ void doCPUCut()
 		MessageBox(theHWND, L"线程创建失败", L"错误", 0);
 		PostMessage(theHWND, WM_DESTROY, 0, 0);
 	}
+
+	PostMessage(theHWND, WM_COMMAND, ID_REFRESH,0);
 
 	CloseHandle(hThread);
 }
