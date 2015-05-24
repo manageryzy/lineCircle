@@ -19,12 +19,12 @@ namespace cpuCUT{
 
 	bool cmpx(const Point* p1, const Point* p2)
 	{
-		return p1->x > p2->x;
+		return p1->x < p2->x;
 	}
 
 	bool cmpy(const Point* p1, const Point* p2)
 	{
-		return p1->y > p2->y;
+		return p1->y < p2->y;
 	}
 
 
@@ -86,20 +86,13 @@ namespace cpuCUT{
 	DWORD WINAPI cutLineWorker(LPVOID lpParam)
 	{
 		vector < Point *> lineCuttingPointList;
+		Point tmpPoint;
 
 		int _size = lineList.size();
 		for (unsigned int i = 0; i < _size ; i++)
 		{
 			Line * l = lineList.at(i);
 			int size;
-
-			//清除掉上次的垃圾
-			size = lineCuttingPointList.size();
-			for (int i = 0; i < size; i++)
-			{
-				mempool->Free(lineCuttingPointList.at(i));
-			}
-			lineCuttingPointList.clear();
 
 			Point * pth = (Point *)mempool->Alloc(sizeof(Point));
 			pth->x = l->x1;
@@ -135,7 +128,7 @@ namespace cpuCUT{
 				sort(lineCuttingPointList.begin(), lineCuttingPointList.end(), cmpy);
 
 			size = lineCuttingPointList.size();
-			Point tmpPoint;
+			
 			for (int j = 0; j < size - 1; j++)
 			{
 				Point * pt1 = lineCuttingPointList.at(j);
@@ -152,6 +145,14 @@ namespace cpuCUT{
 					cutLineList.push_back(l);
 				}
 			}
+
+			//清除掉上次的垃圾
+			size = lineCuttingPointList.size();
+			for (int i = 0; i < size; i++)
+			{
+				mempool->Free(lineCuttingPointList.at(i));
+			}
+			lineCuttingPointList.clear();
 		}
 		
 
@@ -168,9 +169,6 @@ namespace cpuCUT{
 		{
 			Circle * c = circleList.at(i);
 			int size;
-
-			//清除掉上次的垃圾
-			lineCuttingCirclePointList.clear();
 
 			//建立交点数组
 			size = polygonList.size();
@@ -243,6 +241,9 @@ namespace cpuCUT{
 					cutArcList.push_back(theArc);
 				}
 			}
+
+			//清除掉上次的垃圾
+			lineCuttingCirclePointList.clear();
 
 		}
 

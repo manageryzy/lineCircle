@@ -13,10 +13,14 @@ The size of unit.
 */
 
 #include "../stdafx.h"
+#include <mutex> 
+
+std::mutex mempoolLock;
 
 CMemPool::CMemPool(unsigned long ulUnitNum, unsigned long ulUnitSize) :
 m_pMemBlock(NULL), m_pAllocatedMemBlock(NULL), m_pFreeMemBlock(NULL),
 m_ulBlockSize(ulUnitNum * (ulUnitSize + sizeof(struct _Unit))),
+m_alloced(0),
 m_ulUnitSize(ulUnitSize)
 {
 	m_pMemBlock = malloc(m_ulBlockSize);     //Allocate a memory block.
@@ -74,6 +78,8 @@ void* CMemPool::Alloc(unsigned long ulSize, bool bUseMemPool)
 		return malloc(ulSize);
 	}
 
+	mempoolLock.lock();
+
 	//Now FreeList isn`t empty
 	struct _Unit *pCurUnit = m_pFreeMemBlock;
 	m_pFreeMemBlock = pCurUnit->pNext;            //Get a unit from free linkedlist.
@@ -89,6 +95,9 @@ void* CMemPool::Alloc(unsigned long ulSize, bool bUseMemPool)
 		m_pAllocatedMemBlock->pPrev = pCurUnit;
 	}
 	m_pAllocatedMemBlock = pCurUnit;
+
+	m_alloced++;
+	mempoolLock.unlock();
 
 	return (void *)((char *)pCurUnit + sizeof(struct _Unit));
 }
@@ -111,6 +120,8 @@ void CMemPool::Free(void* p)
 {
 	if (m_pMemBlock<p && p<(void *)((char *)m_pMemBlock + m_ulBlockSize))
 	{
+		mempoolLock.lock();
+
 		struct _Unit *pCurUnit = (struct _Unit *)((char *)p - sizeof(struct _Unit));
 
 		m_pAllocatedMemBlock = pCurUnit->pNext;
@@ -125,10 +136,17 @@ void CMemPool::Free(void* p)
 			m_pFreeMemBlock->pPrev = pCurUnit;
 		}
 
+		m_alloced--;
 		m_pFreeMemBlock = pCurUnit;
+		mempoolLock.unlock();
 	}
 	else
 	{
 		free(p);
 	}
+}
+
+unsigned long CMemPool::size()
+{
+	return this->m_alloced;
 }

@@ -19,12 +19,14 @@ private:
 	unsigned long    m_ulUnitSize; //Memory unit size. There are much unit in memory pool.
 	unsigned long    m_ulBlockSize;//Memory pool size. Memory pool is make of memory unit.
 
+	unsigned long    m_alloced;
 public:
 	CMemPool(unsigned long lUnitNum = 50, unsigned long lUnitSize = 1024);
 	~CMemPool();
 
 	void* Alloc(unsigned long ulSize, bool bUseMemPool = true); //Allocate memory unit
 	void Free(void* p);                                   //Free memory unit
+	unsigned long size();
 };
 
 #endif //__MEMPOOL_H__
