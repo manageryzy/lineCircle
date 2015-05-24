@@ -25,7 +25,9 @@ public:
 	~CMemPool();
 
 	void* Alloc(unsigned long ulSize, bool bUseMemPool = true); //Allocate memory unit
+	void* AllocNTS(unsigned long ulSize, bool bUseMemPool = true);//非线程安全版
 	void Free(void* p);                                   //Free memory unit
+	void FreeNTS(void* p);//非线程安全版
 	unsigned long size();
 };
 

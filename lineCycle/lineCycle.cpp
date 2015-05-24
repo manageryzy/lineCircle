@@ -273,7 +273,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			//TODO:
 			break;
 		case IDM_CUT:
-			//TODO:
 			doCPUCut();
 			break;
 		case IDM_BEFORE_CUT:

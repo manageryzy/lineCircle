@@ -102,6 +102,36 @@ void* CMemPool::Alloc(unsigned long ulSize, bool bUseMemPool)
 	return (void *)((char *)pCurUnit + sizeof(struct _Unit));
 }
 
+void* CMemPool::AllocNTS(unsigned long ulSize, bool bUseMemPool)
+{
+	if (ulSize > m_ulUnitSize || false == bUseMemPool ||
+		NULL == m_pMemBlock || NULL == m_pFreeMemBlock)
+	{
+		return malloc(ulSize);
+	}
+
+
+	//Now FreeList isn`t empty
+	struct _Unit *pCurUnit = m_pFreeMemBlock;
+	m_pFreeMemBlock = pCurUnit->pNext;            //Get a unit from free linkedlist.
+	if (NULL != m_pFreeMemBlock)
+	{
+		m_pFreeMemBlock->pPrev = NULL;
+	}
+
+	pCurUnit->pNext = m_pAllocatedMemBlock;
+
+	if (NULL != m_pAllocatedMemBlock)
+	{
+		m_pAllocatedMemBlock->pPrev = pCurUnit;
+	}
+	m_pAllocatedMemBlock = pCurUnit;
+
+	m_alloced++;
+
+	return (void *)((char *)pCurUnit + sizeof(struct _Unit));
+}
+
 
 /*================================================================
 Free:
@@ -139,6 +169,33 @@ void CMemPool::Free(void* p)
 		m_alloced--;
 		m_pFreeMemBlock = pCurUnit;
 		mempoolLock.unlock();
+	}
+	else
+	{
+		free(p);
+	}
+}
+
+void CMemPool::FreeNTS(void* p)
+{
+	if (m_pMemBlock<p && p<(void *)((char *)m_pMemBlock + m_ulBlockSize))
+	{
+		struct _Unit *pCurUnit = (struct _Unit *)((char *)p - sizeof(struct _Unit));
+
+		m_pAllocatedMemBlock = pCurUnit->pNext;
+		if (NULL != m_pAllocatedMemBlock)
+		{
+			m_pAllocatedMemBlock->pPrev = NULL;
+		}
+
+		pCurUnit->pNext = m_pFreeMemBlock;
+		if (NULL != m_pFreeMemBlock)
+		{
+			m_pFreeMemBlock->pPrev = pCurUnit;
+		}
+
+		m_alloced--;
+		m_pFreeMemBlock = pCurUnit;
 	}
 	else
 	{

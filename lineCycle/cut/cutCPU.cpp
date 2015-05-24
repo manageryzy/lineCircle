@@ -88,13 +88,15 @@ namespace cpuCUT{
 		vector < Point *> lineCuttingPointList;
 		Point tmpPoint;
 
+		CMemPool * mempoolnts = new CMemPool(SETTING_THREAD_MEMPOOL_SIZE, SETTING_THREAD_MEMPOOL_NUM);
+
 		int _size = lineList.size();
 		for (unsigned int i = 0; i < _size ; i++)
 		{
 			Line * l = lineList.at(i);
 			int size;
 
-			Point * pth = (Point *)mempool->Alloc(sizeof(Point));
+			Point * pth = (Point *)mempoolnts->AllocNTS(sizeof(Point));
 			pth->x = l->x1;
 			pth->y = l->y1;
 			lineCuttingPointList.push_back(pth);
@@ -110,14 +112,14 @@ namespace cpuCUT{
 				else
 					pt2 = polygonList.at(j + 1);
 
-				Point * res = intersection(l->x1, l->y1, l->x2, l->y2, pt1->x, pt1->y, pt2->x, pt2->y);
+				Point * res = intersection(l->x1, l->y1, l->x2, l->y2, pt1->x, pt1->y, pt2->x, pt2->y,mempoolnts);
 				if (res != NULL)
 				{
 					lineCuttingPointList.push_back(res);
 				}
 			}
 
-			Point * pte = (Point *)mempool->Alloc(sizeof(Point));
+			Point * pte = (Point *)mempoolnts->AllocNTS(sizeof(Point));
 			pte->x = l->x2;
 			pte->y = l->y2;
 			lineCuttingPointList.push_back(pte);
@@ -150,11 +152,12 @@ namespace cpuCUT{
 			size = lineCuttingPointList.size();
 			for (int i = 0; i < size; i++)
 			{
-				mempool->Free(lineCuttingPointList.at(i));
+				mempoolnts->FreeNTS(lineCuttingPointList.at(i));
 			}
 			lineCuttingPointList.clear();
 		}
 		
+		delete mempoolnts;
 
 		SetEvent(events[0]);
 		return 0;

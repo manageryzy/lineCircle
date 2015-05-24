@@ -48,8 +48,11 @@ int SETTING_ENABLE_CUDA = false;
 //计算三角函数等的时候是否启动打表
 int SETTING_ENABLE_FUNCTION_TABLE = true;
 
-int SETTING_MEMPOOL_SIZE = 16;
+int SETTING_MEMPOOL_SIZE = 20;
 int SETTING_MEMPOOL_NUM = 1000000;
+
+int SETTING_THREAD_MEMPOOL_SIZE = 20;
+int SETTING_THREAD_MEMPOOL_NUM = 1024;
 //////////////////////////////////////////////////////////////////////////
 //
 //								设定读取
@@ -74,6 +77,8 @@ int loadIniSetting()
 
 	SETTING_MEMPOOL_SIZE = GetPrivateProfileInt(L"memorySetting", L"SETTING_MEMPOOL_SIZE", SETTING_MEMPOOL_SIZE, L"./conf.ini");
 	SETTING_MEMPOOL_NUM = GetPrivateProfileInt(L"memorySetting", L"SETTING_MEMPOOL_NUM", SETTING_MEMPOOL_NUM, L"./conf.ini");
+	SETTING_THREAD_MEMPOOL_SIZE = GetPrivateProfileInt(L"memorySetting", L"SETTING_THREAD_MEMPOOL_SIZE", SETTING_THREAD_MEMPOOL_SIZE, L"./conf.ini");
+	SETTING_THREAD_MEMPOOL_NUM = GetPrivateProfileInt(L"memorySetting", L"SETTING_THREAD_MEMPOOL_NUM", SETTING_THREAD_MEMPOOL_NUM, L"./conf.ini");
 
 
 	wsprintfW(buf, L"%d", SETTING_XML_MODE);
@@ -101,6 +106,10 @@ int loadIniSetting()
 	WritePrivateProfileString(L"memorySetting", L"SETTING_MEMPOOL_SIZE", buf, L"./conf.ini");
 	wsprintfW(buf, L"%d", SETTING_MEMPOOL_NUM);
 	WritePrivateProfileString(L"memorySetting", L"SETTING_MEMPOOL_NUM", buf, L"./conf.ini");
+	wsprintfW(buf, L"%d", SETTING_THREAD_MEMPOOL_SIZE);
+	WritePrivateProfileString(L"memorySetting", L"SETTING_THREAD_MEMPOOL_SIZE", buf, L"./conf.ini");
+	wsprintfW(buf, L"%d", SETTING_THREAD_MEMPOOL_SIZE);
+	WritePrivateProfileString(L"memorySetting", L"SETTING_THREAD_MEMPOOL_SIZE", buf, L"./conf.ini");
 
 	return 0;
 }

@@ -68,6 +68,8 @@ extern int SETTING_ENABLE_FUNCTION_TABLE;
 
 extern int SETTING_MEMPOOL_SIZE;
 extern int SETTING_MEMPOOL_NUM;
+extern int SETTING_THREAD_MEMPOOL_SIZE;
+extern int SETTING_THREAD_MEMPOOL_NUM;
 //////////////////////////////////////////////////////////////////////////
 //
 //								设定读取
