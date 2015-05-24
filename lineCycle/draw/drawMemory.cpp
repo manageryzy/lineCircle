@@ -227,6 +227,8 @@ namespace memDraw
 
 	void drawNotCuttingDC()
 	{
+		logMsg(L"开始绘制未裁剪图象");
+
 		events = new HANDLE[SETTING_DRAW_THREAD];
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
 			events[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -249,6 +251,7 @@ namespace memDraw
 		}
 
 		WaitForMultipleObjects(SETTING_DRAW_THREAD, events, true, INFINITE);
+		logMsg(L"直线绘制结束");
 
 		//多线程画圆
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
@@ -265,6 +268,7 @@ namespace memDraw
 		}
 
 		WaitForMultipleObjects(SETTING_DRAW_THREAD, events, true, INFINITE);
+		logMsg(L"圆绘制结束");
 
 		//设置内存BMP
 		SetBitmapBits(notCuttingBmp, sizeof(gra), gra);
@@ -295,6 +299,7 @@ namespace memDraw
 
 			LineTo(notCuttingDC, (int)(*polygonList.begin())->x, (int)(*polygonList.begin())->y);
 		}
+		logMsg(L"多边形绘制结束");
 
 #ifdef _DEBUG
 		for (vector <Point *> ::iterator it = polygonList.begin(); it != polygonList.end(); ++it)
@@ -319,6 +324,8 @@ namespace memDraw
 
 	void drawCuttingDC()
 	{
+		logMsg(L"开始绘制裁剪图象");
+
 		events = new HANDLE[SETTING_DRAW_THREAD];
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
 			events[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -342,6 +349,7 @@ namespace memDraw
 
 		WaitForMultipleObjects(SETTING_DRAW_THREAD, events, true, INFINITE);
 
+		logMsg(L"开始绘制弧形");
 		//多线程画弧形
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
 		{
@@ -387,6 +395,7 @@ namespace memDraw
 
 			LineTo(cuttingDC, (int)(*polygonList.begin())->x, (int)(*polygonList.begin())->y);
 		}
+		logMsg(L"多边形绘制结束结束");
 
 #ifdef _DEBUG
 		for (vector <Point *> ::iterator it = polygonList.begin(); it != polygonList.end(); ++it)

@@ -16,3 +16,7 @@ extern vector < CArc *> cutArcList;
 
 extern bool isCutBusy;
 extern bool isCutted;
+
+extern DWORD timeBase;
+
+void logMsg(WCHAR * msg);

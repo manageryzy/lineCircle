@@ -46,6 +46,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	LoadString(hInstance, IDC_LINECYCLE, szWindowClass, MAX_LOADSTRING);
 
 	loadIniSetting();
+	timeBase = GetTickCount();
+	freopen("log.log", "w", stdout);
 
 	mempool = new CMemPool(SETTING_MEMPOOL_NUM,SETTING_MEMPOOL_SIZE);
 
@@ -227,39 +229,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				break;
 			}
 
-			{
-				int size = polygonList.size();
-				for (unsigned int i = 0; i < size; i++)
-				{
-					mempool->Free(polygonList.at(i));
-				}
-				size = lineList.size();
-				for (unsigned int i = 0; i < size; i++)
-				{
-					mempool->Free(lineList.at(i));
-				}
-				size = circleList.size();
-				for (unsigned int i = 0; i < size; i++)
-				{
-					mempool->Free(circleList.at(i));
-				}
-				size = cutLineList.size();
-				for (unsigned int i = 0; i < size; i++)
-				{
-					mempool->Free(cutLineList.at(i));
-				}
-				size = cutArcList.size();
-				for (unsigned int i = 0; i < size; i++)
-				{
-					mempool->Free(cutArcList.at(i));
-				}
-				lineList.clear();
-				circleList.clear();
-				polygonList.clear();
-				cutLineList.clear();
-				cutArcList.clear();
-			}
-
 			OPENFILENAME ofn;
 			memset(&ofn, 0, sizeof(OPENFILENAME));
 			memset(strFile, 0, sizeof(char)*MAX_PATH);
@@ -272,6 +241,40 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			ofn.Flags = OFN_FILEMUSTEXIST;
 			if (GetOpenFileName(&ofn))
 			{
+				logMsg(L"开始回收垃圾");
+				{
+					unsigned int size = polygonList.size();
+					for (unsigned int i = 0; i < size; i++)
+					{
+						mempool->Free(polygonList.at(i));
+					}
+					size = lineList.size();
+					for (unsigned int i = 0; i < size; i++)
+					{
+						mempool->Free(lineList.at(i));
+					}
+					size = circleList.size();
+					for (unsigned int i = 0; i < size; i++)
+					{
+						mempool->Free(circleList.at(i));
+					}
+					size = cutLineList.size();
+					for (unsigned int i = 0; i < size; i++)
+					{
+						mempool->Free(cutLineList.at(i));
+					}
+					size = cutArcList.size();
+					for (unsigned int i = 0; i < size; i++)
+					{
+						mempool->Free(cutArcList.at(i));
+					}
+					lineList.clear();
+					circleList.clear();
+					polygonList.clear();
+					cutLineList.clear();
+					cutArcList.clear();
+				}
+				logMsg(L"垃圾回收结束");
 				xmlPrase();
 			}
 			else

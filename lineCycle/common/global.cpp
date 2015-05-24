@@ -9,3 +9,10 @@ vector < CArc *> cutArcList;
 
 bool isCutBusy = false;
 bool isCutted = false;
+
+DWORD timeBase;
+
+void logMsg(WCHAR * msg)
+{
+	wprintf_s(L"%d ms \t %s\n\r", GetTickCount() - timeBase , msg, 256);
+}

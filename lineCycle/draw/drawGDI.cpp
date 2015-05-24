@@ -78,6 +78,8 @@ void onGDIDraw()
 {
 	using namespace drawGDI;
 
+	logMsg(L"GDI重绘开始");
+
 	hdc = theDC;
 	events = new HANDLE[SETTING_DRAW_THREAD];
 	for (int i = 0; i < SETTING_DRAW_THREAD; i++)
@@ -87,7 +89,7 @@ void onGDIDraw()
 	circlePen = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
 	polygonPen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
 
-
+	logMsg(L"开始绘制直线");
 	//单线程绘制直线
 	SelectObject(hdc, linePen);
 	for (vector <Line *> ::iterator it = lineList.begin(); it != lineList.end(); ++it)
@@ -96,6 +98,7 @@ void onGDIDraw()
 		LineTo(hdc, (int)(*it)->x2, (int)(*it)->y2);
 	}
 
+	logMsg(L"直线绘制结束，开始绘制圆");
 	//多线程画圆
 	SelectObject(hdc, circlePen);
 	for (int i = 0; i < SETTING_DRAW_THREAD; i++)
@@ -112,7 +115,7 @@ void onGDIDraw()
 	}
 	WaitForMultipleObjects(SETTING_DRAW_THREAD, events, true, INFINITE);
 
-	
+	logMsg(L"圆绘制结束，开始绘制边界多边形");
 	//单线程绘制裁剪多边形
 	SelectObject(hdc, polygonPen);
 	int last_x = -1, last_y = -1;
@@ -144,6 +147,7 @@ void onGDIDraw()
 	DeleteObject(polygonPen);
 	for (int i = 0; i < SETTING_DRAW_THREAD; i++)
 		CloseHandle(events[i]);
+	logMsg(L"绘制结束");
 
 	delete[] events;
 }

@@ -262,12 +262,17 @@ DWORD WINAPI cacheXMLWorker(LPVOID lpParam)
 
 	if (isCacheExist())
 	{
+		logMsg(L"缓存有效，开始读缓存");
 		loadCache();
+		logMsg(L"读取结束");
 	}
 	else
 	{
+		logMsg(L"缓存无效！！！");
 		xmlPraseNoCache();
+		logMsg(L"开始写入缓存！");
 		saveCache();
+		logMsg(L"缓存写入结束");
 	}	
 
 	if (!initGra())
@@ -295,6 +300,7 @@ void xmlPrase()
 
 	if (SETTING_XML_CACHE)
 	{
+		logMsg(L"开始缓存模式XML解析！");
 		hThread = CreateThread(NULL, 0, cacheXMLWorker, 0, 0, NULL);
 		if (hThread == NULL)
 		{
@@ -305,6 +311,7 @@ void xmlPrase()
 	}
 	else
 	{
+		logMsg(L"开始直接XML解析！");
 		hThread = CreateThread(NULL, 0, praseXMLWorker, 0, 0, NULL);
 		if (hThread == NULL)
 		{

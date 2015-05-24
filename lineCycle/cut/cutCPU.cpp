@@ -94,17 +94,17 @@ namespace cpuCUT{
 
 		CMemPool * mempoolnts = new CMemPool(SETTING_THREAD_MEMPOOL_SIZE, SETTING_THREAD_MEMPOOL_NUM);
 
-		int _size = lineList.size();
+		unsigned int _size = lineList.size();
 
-		int workerID = (int)lpParam;
-		int workerInterval = _size / SETTING_CUTTING_THREAD;
+		unsigned int workerID = (int)lpParam;
+		unsigned int workerInterval = _size / SETTING_CUTTING_THREAD;
 
 		if (workerID == 0)
 		{
 			for (unsigned int i = 0; i < workerInterval + _size % SETTING_CUTTING_THREAD; i++)
 			{
 				Line * l = lineList.at(i);
-				int size;
+				unsigned int size;
 
 				Point * pth = (Point *)mempoolnts->AllocNTS(sizeof(Point));
 				pth->x = l->x1;
@@ -246,10 +246,10 @@ namespace cpuCUT{
 	{
 		vector < float> lineCuttingCirclePointList;
 
-		int _size = circleList.size();
+		unsigned int _size = circleList.size();
 
-		int workerID = (int)lpParam;
-		int workerInterval = _size / SETTING_CUTTING_THREAD;
+		unsigned int workerID = (int)lpParam;
+		unsigned int workerInterval = _size / SETTING_CUTTING_THREAD;
 
 
 		if (workerID == 0)
@@ -257,7 +257,7 @@ namespace cpuCUT{
 			for (unsigned int i = 0; i < workerInterval + _size % SETTING_CUTTING_THREAD; i++)
 			{
 				Circle * c = circleList.at(i);
-				int size;
+				unsigned int size;
 
 				//建立交点数组
 				size = polygonList.size();
@@ -449,7 +449,7 @@ namespace cpuCUT{
 		cutLineListList = new vector < Line * >[SETTING_CUTTING_THREAD];
 		cutArcListList = new vector < CArc * >[SETTING_CUTTING_THREAD];
 			
-
+		logMsg(L"开始裁剪直线");
 		//多线裁剪制直线
 		for (int i = 0; i < SETTING_CUTTING_THREAD; i++)
 		{
@@ -462,13 +462,16 @@ namespace cpuCUT{
 			CloseHandle(hThread);
 		}
 		WaitForMultipleObjects(SETTING_CUTTING_THREAD, events, true, INFINITE);
+		logMsg(L"直线裁剪结束");
 
 		for (int i = 0; i < SETTING_CUTTING_THREAD; i++)
 		{
 			cutLineList.insert(cutLineList.end(), cutLineListList[i].begin(), cutLineListList[i].end());
 			cutLineListList[i].clear();
 		}
+		logMsg(L"结果合并完成");
 
+		logMsg(L"开始裁剪园");
 		//多线程裁剪园
 		for (int i = 0; i < SETTING_CUTTING_THREAD; i++)
 		{
@@ -481,12 +484,15 @@ namespace cpuCUT{
 			CloseHandle(hThread);
 		}
 		WaitForMultipleObjects(SETTING_CUTTING_THREAD, events, true, INFINITE);
+		logMsg(L"圆裁剪结束");
+
 
 		for (int i = 0; i < SETTING_CUTTING_THREAD; i++)
 		{
 			cutArcList.insert(cutArcList.end(), cutArcListList[i].begin(), cutArcListList[i].end());
 			cutArcListList[i].clear();
 		}
+		logMsg(L"结果合并完成");
 
 		isCutBusy = false;
 
@@ -532,6 +538,8 @@ void doCPUCut()
 bool initGra()
 {
 	using namespace cpuCUT;
+
+	logMsg(L"开始初始化边界缓存");
 
 	HDC drawDC = GetDC(theHWND);
 	HDC maskDC = CreateCompatibleDC(drawDC);
@@ -598,6 +606,8 @@ bool initGra()
 	DeleteObject(maskBMP);
 	DeleteObject(brush);
 	DeleteObject(polygonPen);
+
+	logMsg(L"边界缓存初始化完成");
 
 	return true;
 }
