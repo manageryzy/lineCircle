@@ -8,3 +8,4 @@ vector < Line *> cutLineList;
 vector < CArc *> cutArcList;
 
 bool isCutBusy = false;
+bool isCutted = false;

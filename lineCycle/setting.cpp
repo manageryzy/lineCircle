@@ -49,7 +49,7 @@ int SETTING_ENABLE_CUDA = false;
 int SETTING_ENABLE_FUNCTION_TABLE = true;
 
 int SETTING_MEMPOOL_SIZE = 20;
-int SETTING_MEMPOOL_NUM = 1000000;
+int SETTING_MEMPOOL_NUM = 2050000;
 
 int SETTING_THREAD_MEMPOOL_SIZE = 20;
 int SETTING_THREAD_MEMPOOL_NUM = 1024;
@@ -108,8 +108,8 @@ int loadIniSetting()
 	WritePrivateProfileString(L"memorySetting", L"SETTING_MEMPOOL_NUM", buf, L"./conf.ini");
 	wsprintfW(buf, L"%d", SETTING_THREAD_MEMPOOL_SIZE);
 	WritePrivateProfileString(L"memorySetting", L"SETTING_THREAD_MEMPOOL_SIZE", buf, L"./conf.ini");
-	wsprintfW(buf, L"%d", SETTING_THREAD_MEMPOOL_SIZE);
-	WritePrivateProfileString(L"memorySetting", L"SETTING_THREAD_MEMPOOL_SIZE", buf, L"./conf.ini");
+	wsprintfW(buf, L"%d", SETTING_THREAD_MEMPOOL_NUM);
+	WritePrivateProfileString(L"memorySetting", L"SETTING_THREAD_MEMPOOL_NUM", buf, L"./conf.ini");
 
 	return 0;
 }

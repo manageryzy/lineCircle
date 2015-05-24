@@ -15,3 +15,4 @@ extern vector < Line *> cutLineList;
 extern vector < CArc *> cutArcList;
 
 extern bool isCutBusy;
+extern bool isCutted;

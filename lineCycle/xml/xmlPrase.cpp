@@ -277,6 +277,7 @@ DWORD WINAPI cacheXMLWorker(LPVOID lpParam)
 	}
 
 	isXMLBusy = false;
+	isCutted = false;
 
 	if (SETTING_DRAW_MODE == SETTING_DRAW_MODE_MEMGDI)
 	{

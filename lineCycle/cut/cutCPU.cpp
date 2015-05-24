@@ -508,6 +508,13 @@ void doCPUCut()
 {
 	using namespace cpuCUT;
 
+	if (isCutted)
+	{
+		MessageBox(theHWND, L"已经裁剪了", L"警告", 0);
+		return;
+	}
+	isCutted = true;
+
 	HANDLE hThread;
 
 	hThread = CreateThread(NULL, 0, cuttingThread, 0, 0, NULL);

@@ -227,21 +227,38 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				break;
 			}
 
-			for (unsigned int i = 0; i < polygonList.size();i++)
 			{
-				mempool->Free(polygonList.at(i));
+				int size = polygonList.size();
+				for (unsigned int i = 0; i < size; i++)
+				{
+					mempool->Free(polygonList.at(i));
+				}
+				size = lineList.size();
+				for (unsigned int i = 0; i < size; i++)
+				{
+					mempool->Free(lineList.at(i));
+				}
+				size = circleList.size();
+				for (unsigned int i = 0; i < size; i++)
+				{
+					mempool->Free(circleList.at(i));
+				}
+				size = cutLineList.size();
+				for (unsigned int i = 0; i < size; i++)
+				{
+					mempool->Free(cutLineList.at(i));
+				}
+				size = cutArcList.size();
+				for (unsigned int i = 0; i < size; i++)
+				{
+					mempool->Free(cutArcList.at(i));
+				}
+				lineList.clear();
+				circleList.clear();
+				polygonList.clear();
+				cutLineList.clear();
+				cutArcList.clear();
 			}
-			for (unsigned int i = 0; i < lineList.size(); i++)
-			{
-				mempool->Free(lineList.at(i));
-			}
-			for (unsigned int i = 0; i < circleList.size(); i++)
-			{
-				mempool->Free(circleList.at(i));
-			}
-			lineList.clear();
-			circleList.clear();
-			polygonList.clear();
 
 			OPENFILENAME ofn;
 			memset(&ofn, 0, sizeof(OPENFILENAME));
@@ -262,6 +279,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				MessageBox(theHWND, L"没有选择文件名", L"警告", 0);
 			}
 
+			PostMessage(theHWND, WM_COMMAND, ID_REFRESH, 0);
+
 			break;
 		case IDM_ABOUT:
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
@@ -273,7 +292,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			//TODO:
 			break;
 		case IDM_CUT:
-			doCPUCut();
+			if (!isBusy())
+				doCPUCut();
+			else
+				PostMessage(theHWND, WM_COMMAND, ID_REFRESH, 0);
 			break;
 		case IDM_BEFORE_CUT:
 			SETTING_DRAW_CUTTING = false;

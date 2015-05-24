@@ -148,6 +148,7 @@
       <LinkErrorReporting>NoErrorReport</LinkErrorReporting>
       <AdditionalDependencies>opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
+      <Profile>true</Profile>
     </Link>
     <Manifest>
       <VerboseOutput>false</VerboseOutput>
