@@ -18,6 +18,12 @@
 
 CconfigEditDlg::CconfigEditDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CconfigEditDlg::IDD, pParent)
+	, m_testcase(0)
+	, m_drawthread(0)
+	, m_memool_num(0)
+	, m_mempool_size(0)
+	, m_mempool_t_num(0)
+	, m_cutting_thread(0)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -25,11 +31,24 @@ CconfigEditDlg::CconfigEditDlg(CWnd* pParent /*=NULL*/)
 void CconfigEditDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_SETTING_XML_MODE, m_xml_mode);
+	DDX_Control(pDX, IDC_SETTING_OPCACHE, m_opcache);
+	DDX_Text(pDX, IDC_SETTING_TESTCASE, m_testcase);
+	DDX_Control(pDX, IDC_SETTING_DRAWMODE, m_drawmode);
+	DDX_Text(pDX, IDC_SETTING_DRAW_THREAD, m_drawthread);
+	DDV_MinMaxInt(pDX, m_drawthread, 0, 64);
+	DDX_Text(pDX, IDC_SETTING_MEMPOOL_NUM, m_memool_num);
+	DDX_Text(pDX, IDC_SETTING_MEMPOOL_SIZE, m_mempool_size);
+	DDX_Text(pDX, IDC_SETTING_THREAD_MEMPOOL_SIZE, m_mempool_t_size);
+	DDX_Text(pDX, IDC_SETTING_THREAD_MEMPOOL_NUM, m_mempool_t_num);
+	DDX_Text(pDX, IDC_SETTING_CUTTING_THREAD, m_cutting_thread);
+	DDV_MinMaxInt(pDX, m_cutting_thread, 0, 64);
 }
 
 BEGIN_MESSAGE_MAP(CconfigEditDlg, CDialog)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDOK, &CconfigEditDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
@@ -45,6 +64,27 @@ BOOL CconfigEditDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO:  在此添加额外的初始化代码
+	UpdateData(true);
+
+	loadIniSetting();
+
+	m_testcase = SETTING_XML_TESTCASE;
+
+	m_drawthread = SETTING_DRAW_THREAD;
+	m_cutting_thread = SETTING_CUTTING_THREAD;
+
+	m_memool_num = SETTING_MEMPOOL_NUM;
+	m_mempool_size = SETTING_MEMPOOL_SIZE;
+	m_mempool_t_num = SETTING_THREAD_MEMPOOL_NUM;
+	m_mempool_t_size = SETTING_THREAD_MEMPOOL_SIZE;
+
+	m_xml_mode.AddString(L"0.tinyxml");
+	m_xml_mode.AddString(L"1.状态机");
+	m_xml_mode.AddString(L"2.pugixml");
+	m_xml_mode.SetCurSel(SETTING_XML_MODE);
+
+	UpdateData(false);
+
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -85,3 +125,24 @@ HCURSOR CconfigEditDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CconfigEditDlg::OnBnClickedOk()
+{
+	// TODO:  在此添加控件通知处理程序代码
+	UpdateData(true);
+
+	SETTING_XML_TESTCASE = m_testcase;
+
+	SETTING_DRAW_THREAD = m_drawthread;
+	SETTING_CUTTING_THREAD = m_cutting_thread;
+
+	SETTING_MEMPOOL_NUM = m_memool_num;
+	SETTING_MEMPOOL_SIZE = m_mempool_size;
+	SETTING_THREAD_MEMPOOL_NUM = m_mempool_t_num;
+	SETTING_THREAD_MEMPOOL_SIZE = m_mempool_t_size;
+
+	saveIniSetting();
+
+	CDialog::OnOK();
+}

@@ -3,6 +3,8 @@
 //
 
 #pragma once
+#include "afxcmn.h"
+#include "afxwin.h"
 
 
 // CconfigEditDlg ¶Ô»°¿ò
@@ -28,4 +30,16 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+	CComboBox m_xml_mode;
+	CComboBox m_opcache;
+	int m_testcase;
+	CComboBox m_drawmode;
+	int m_drawthread;
+	int m_memool_num;
+	int m_mempool_size;
+	int m_mempool_t_size;
+	int m_mempool_t_num;
+	afx_msg void OnBnClickedOk();
+	int m_cutting_thread;
 };
