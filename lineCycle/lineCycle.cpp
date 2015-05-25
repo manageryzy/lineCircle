@@ -14,6 +14,8 @@ TCHAR szWindowClass[MAX_LOADSTRING];			// 主窗口类名
 
 CMemPool * mempool;
 
+bool isChildProcessBusy = false;
+
 HWND theHWND;
 HDC theDC;
 HGLRC ghRC;
@@ -172,6 +174,29 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    return TRUE;
 }
 
+DWORD WINAPI waitConfProc(LPVOID lpParam)
+{
+	STARTUPINFO si;
+	PROCESS_INFORMATION pi;
+
+	GetStartupInfo(&si);
+
+	if (!CreateProcess(L"configEdit.exe", NULL, NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi))
+	{
+		MessageBox(theHWND, L"创建进程失败", L"错误", 0);
+		isChildProcessBusy = false;
+		return 0;
+	}
+	
+
+	WaitForSingleObject(pi.hProcess, INFINITE);
+
+	loadIniSetting();
+	isChildProcessBusy = false;
+
+	return true;
+}
+
 //
 //  函数:  WndProc(HWND, UINT, WPARAM, LPARAM)
 //
@@ -293,6 +318,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case IDM_HELP:
 			//TODO:
+			break;
+		case ID_OPTION:
+			if (isBusy())
+			{
+				MessageBox(theHWND, L"Busy", L"警告", 0);
+			}
+			else
+			{
+				HANDLE hThread;
+				isChildProcessBusy = true;
+
+				hThread = CreateThread(NULL, 0, waitConfProc, 0, 0, NULL);
+				if (hThread == NULL)
+				{
+					MessageBox(theHWND, L"线程创建失败", L"错误", 0);
+					PostMessage(theHWND, WM_DESTROY, 0, 0);
+				}
+				CloseHandle(hThread);
+			}
 			break;
 		case IDM_CUT:
 			if (!isBusy())
@@ -435,5 +479,5 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 bool isBusy()
 {
-	return isXMLBusy || isCutBusy;
+	return isXMLBusy || isCutBusy || isChildProcessBusy;
 }
