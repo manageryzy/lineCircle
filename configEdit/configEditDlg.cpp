@@ -64,8 +64,6 @@ BOOL CconfigEditDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO:  在此添加额外的初始化代码
-	UpdateData(true);
-
 	loadIniSetting();
 
 	m_testcase = SETTING_XML_TESTCASE;
@@ -78,10 +76,53 @@ BOOL CconfigEditDlg::OnInitDialog()
 	m_mempool_t_num = SETTING_THREAD_MEMPOOL_NUM;
 	m_mempool_t_size = SETTING_THREAD_MEMPOOL_SIZE;
 
-	m_xml_mode.AddString(L"0.tinyxml");
-	m_xml_mode.AddString(L"1.状态机");
-	m_xml_mode.AddString(L"2.pugixml");
+	{
+		COMBOBOXEXITEM  Item[3];
+		Item[0].mask = CBEIF_TEXT;
+		Item[0].pszText = _T("0.tinyxml");
+		Item[0].iItem = 0;
+		Item[1].mask = CBEIF_TEXT;
+		Item[1].pszText = _T("1.状态机");
+		Item[1].iItem = 1;
+		Item[2].mask = CBEIF_TEXT;
+		Item[2].pszText = _T("2.pugixml");
+		Item[2].iItem = 2;
+		m_xml_mode.InsertItem(&Item[0]);
+		m_xml_mode.InsertItem(&Item[1]);
+		m_xml_mode.InsertItem(&Item[2]);
+	}
 	m_xml_mode.SetCurSel(SETTING_XML_MODE);
+
+
+	{
+		COMBOBOXEXITEM  Item[2];
+		Item[0].mask = CBEIF_TEXT;
+		Item[0].pszText = _T("0.关闭");
+		Item[0].iItem = 0;
+		Item[1].mask = CBEIF_TEXT;
+		Item[1].pszText = _T("1.启用");
+		Item[1].iItem = 1;
+		m_opcache.InsertItem(&Item[0]);
+		m_opcache.InsertItem(&Item[1]);
+	}
+	m_opcache.SetCurSel(SETTING_XML_CACHE);
+
+	{
+		COMBOBOXEXITEM  Item[3];
+		Item[0].mask = CBEIF_TEXT;
+		Item[0].pszText = _T("1.GDI");
+		Item[0].iItem = 0;
+		Item[1].mask = CBEIF_TEXT;
+		Item[1].pszText = _T("2.内存绘图");
+		Item[1].iItem = 1;
+		Item[2].mask = CBEIF_TEXT;
+		Item[2].pszText = _T("3.内存GDI");
+		Item[2].iItem = 2;
+		m_drawmode.InsertItem(&Item[0]);
+		m_drawmode.InsertItem(&Item[1]);
+		m_drawmode.InsertItem(&Item[2]);
+	}
+	m_drawmode.SetCurSel(SETTING_DRAW_MODE-1);
 
 	UpdateData(false);
 
@@ -142,7 +183,13 @@ void CconfigEditDlg::OnBnClickedOk()
 	SETTING_THREAD_MEMPOOL_NUM = m_mempool_t_num;
 	SETTING_THREAD_MEMPOOL_SIZE = m_mempool_t_size;
 
+	SETTING_XML_MODE = m_xml_mode.GetCurSel();
+	SETTING_XML_CACHE = m_opcache.GetCurSel();
+	SETTING_DRAW_MODE = m_drawmode.GetCurSel()+1;
+
 	saveIniSetting();
+
+	MessageBox(L"有些更改需要在重新启动程序才能生效", L"警告");
 
 	CDialog::OnOK();
 }

@@ -31,10 +31,10 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
-	CComboBox m_xml_mode;
-	CComboBox m_opcache;
+	CComboBoxEx m_xml_mode;
+	CComboBoxEx m_opcache;
 	int m_testcase;
-	CComboBox m_drawmode;
+	CComboBoxEx m_drawmode;
 	int m_drawthread;
 	int m_memool_num;
 	int m_mempool_size;
