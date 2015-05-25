@@ -108,6 +108,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\lineCycle\setting.cpp" />
     <ClCompile Include="configEdit.cpp" />
     <ClCompile Include="configEditDlg.cpp" />
     <ClCompile Include="stdafx.cpp">

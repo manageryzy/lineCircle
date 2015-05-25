@@ -158,9 +158,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="common\CMemPool.h" />
     <ClInclude Include="common\global.h" />
     <ClInclude Include="cut\cutCPU.h" />
@@ -202,6 +199,14 @@
     <ResourceCompile Include="lineCycle.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\configEdit\configEdit.vcxproj">
+      <Project>{468decca-24c3-4b7d-891c-bc97c9103578}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
     <ProjectReference Include="..\pugixml\pugixml.vcxproj">
       <Project>{38150343-458b-4731-9bbe-0048a97d2ef3}</Project>
     </ProjectReference>

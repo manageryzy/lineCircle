@@ -77,3 +77,4 @@ extern int SETTING_THREAD_MEMPOOL_NUM;
 /////////////////////////////////////////////////////////////////////////
 
 int loadIniSetting();
+int saveIniSetting();

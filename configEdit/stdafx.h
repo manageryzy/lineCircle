@@ -52,3 +52,4 @@
 #endif
 
 
+#include "../lineCycle/setting.h"

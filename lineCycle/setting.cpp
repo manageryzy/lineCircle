@@ -1,5 +1,4 @@
 ﻿//设置文件
-
 #include "stdafx.h"
 
 ////////////////////////////////////////////////////////////////////////////
@@ -61,7 +60,7 @@ int SETTING_THREAD_MEMPOOL_NUM = 1024;
 
 int loadIniSetting()
 {
-	wchar_t buf[MAX_PATH];
+
 
 	SETTING_XML_MODE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_MODE", SETTING_XML_MODE,L"./conf.ini");
 	SETTING_XML_CACHE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_CACHE", SETTING_XML_CACHE, L"./conf.ini");
@@ -80,6 +79,14 @@ int loadIniSetting()
 	SETTING_THREAD_MEMPOOL_SIZE = GetPrivateProfileInt(L"memorySetting", L"SETTING_THREAD_MEMPOOL_SIZE", SETTING_THREAD_MEMPOOL_SIZE, L"./conf.ini");
 	SETTING_THREAD_MEMPOOL_NUM = GetPrivateProfileInt(L"memorySetting", L"SETTING_THREAD_MEMPOOL_NUM", SETTING_THREAD_MEMPOOL_NUM, L"./conf.ini");
 
+	saveIniSetting();
+
+	return 0;
+}
+
+int saveIniSetting()
+{
+	wchar_t buf[MAX_PATH];
 
 	wsprintfW(buf, L"%d", SETTING_XML_MODE);
 	WritePrivateProfileString(L"xmlSetting", L"SETTING_XML_MODE", buf, L"./conf.ini");
