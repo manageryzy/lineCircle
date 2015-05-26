@@ -303,6 +303,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 				logMsg(L"À¬»ø»ØÊÕ½áÊø");
 				xmlPrase();
+				SETTING_DRAW_CUTTING = false;
 				SetCurrentDirectory(tmp_str);
 			}
 			else

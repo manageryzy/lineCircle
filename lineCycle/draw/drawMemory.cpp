@@ -439,24 +439,32 @@ void onMemDraw()
 	
 	if (SETTING_DRAW_CUTTING)
 	{
-		if (!isCuttingDCDrawed)
+		if (!isCutted)
 		{
-			isCuttingDCDrawed = true;
-			drawCuttingDC();
+			SETTING_DRAW_CUTTING = false;
+			MessageBox(theHWND, L"还没有裁剪！", L"警告", 0);
 		}
+		else
+		{
+			if (!isCuttingDCDrawed)
+			{
+				isCuttingDCDrawed = true;
+				drawCuttingDC();
+			}
 
-		BitBlt(theDC, 0, 0, 1366, 768, cuttingDC, 0, 0, SRCCOPY);
+			BitBlt(theDC, 0, 0, 1366, 768, cuttingDC, 0, 0, SRCCOPY);
+			return;
+		}
 	}
-	else
+
+	if (!isNotCuttingDCDrawed)
 	{
-		if (!isNotCuttingDCDrawed)
-		{
-			isNotCuttingDCDrawed = true;
-			drawNotCuttingDC();
-		}
-
-		BitBlt(theDC, 0, 0, 1366, 768, notCuttingDC, 0, 0, SRCCOPY);
+		isNotCuttingDCDrawed = true;
+		drawNotCuttingDC();
 	}
+
+	BitBlt(theDC, 0, 0, 1366, 768, notCuttingDC, 0, 0, SRCCOPY);
+	
 }
 
 
