@@ -93,6 +93,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <EntryPointSymbol>main</EntryPointSymbol>
+      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
     </Link>
     <Manifest>
       <VerboseOutput>false</VerboseOutput>

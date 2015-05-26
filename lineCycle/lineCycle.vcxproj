@@ -110,6 +110,7 @@
       <LinkErrorReporting>NoErrorReport</LinkErrorReporting>
       <AdditionalDependencies>opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
+      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
     </Link>
     <Manifest>
       <VerboseOutput>false</VerboseOutput>
