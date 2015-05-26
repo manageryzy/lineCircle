@@ -12,7 +12,14 @@ bool isCutted = false;
 
 DWORD timeBase;
 
+wstring msgBuffer;
+
 void logMsg(WCHAR * msg)
 {
-	wprintf_s(L"%d ms \t %s\n\r", GetTickCount() - timeBase , msg, 256);
+	WCHAR buf[2048];
+
+	wsprintf(buf, L"%d ms \t %s\r\n", GetTickCount() - timeBase, msg);
+
+	msgBuffer += buf;
+	SendMessage(theEditHWND, WM_SETTEXT, 0, (LPARAM)msgBuffer.c_str());
 }

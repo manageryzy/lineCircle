@@ -17,6 +17,7 @@ CMemPool * mempool;
 bool isChildProcessBusy = false;
 
 HWND theHWND;
+HWND theDlgHWND;
 HDC theDC;
 HGLRC ghRC;
 wchar_t strFile[MAX_PATH];
@@ -30,6 +31,7 @@ ATOM				MyRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK	MsgDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 bool isBusy();
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
@@ -50,7 +52,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	loadIniSetting();
 	timeBase = GetTickCount();
-	freopen("log.log", "w", stdout);
 
 	mempool = new CMemPool(SETTING_MEMPOOL_NUM,SETTING_MEMPOOL_SIZE);
 
@@ -101,6 +102,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_LINECYCLE));
+
+	
 
 	// 主消息循环: 
 	while (GetMessage(&msg, NULL, 0, 0))
@@ -171,6 +174,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
+
+   theDlgHWND = CreateDialog(hInst, MAKEINTRESOURCE(IDD_MSG_SHOW), hWnd, MsgDlg);
+   ShowWindow(theDlgHWND, SW_SHOW);
 
    return TRUE;
 }
@@ -320,6 +326,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
 			break;
+		case IDM_MSGDLG:
+			ShowWindow(theDlgHWND, SW_SHOW);
+			break;
 		case IDM_HELP:
 			//TODO:
 			break;
@@ -468,6 +477,29 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_INITDIALOG:
+		return (INT_PTR)TRUE;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+		{
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+		break;
+	}
+	return (INT_PTR)FALSE;
+}
+
+HWND theEditHWND;
+WCHAR str[255] = L"123456";
+
+INT_PTR CALLBACK MsgDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		theEditHWND = GetDlgItem(hDlg, IDC_EDIT1);
 		return (INT_PTR)TRUE;
 
 	case WM_COMMAND:
