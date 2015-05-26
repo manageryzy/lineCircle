@@ -330,7 +330,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			ShowWindow(theDlgHWND, SW_SHOW);
 			break;
 		case IDM_HELP:
-			//TODO:
+			if ((unsigned int)ShellExecute(theHWND, L"open", L"用户手册（使用说明书）.pdf", NULL, NULL, SW_SHOWMAXIMIZED) < 32)
+			{
+				MessageBox(theHWND, L"帮助文件打开失败，请检查您的pdf阅读器", L"错误", 0);
+			}
 			break;
 		case ID_OPTION:
 			if (isBusy())

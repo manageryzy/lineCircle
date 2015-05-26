@@ -27,6 +27,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_5860A933547D4BC0BC4BA012AE404D7A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_790DC2B22ACF4B349E92F800602C70E9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -159,6 +165,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5860A933547D4BC0BC4BA012AE404D7A"
+            {
+            "SourcePath" = "8:..\\文档\\用户手册（使用说明书）.pdf"
+            "TargetName" = "8:用户手册（使用说明书）.pdf"
+            "Tag" = "8:"
+            "Folder" = "8:_A200B09110784581B2DA8310EA194015"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -271,7 +297,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:lineCircle"
         "ProductCode" = "8:{6A0F16C3-9082-47D9-ACAD-76138809F132}"
-        "PackageCode" = "8:{77EE70B3-63EF-44CD-ADC1-A5F225879CF0}"
+        "PackageCode" = "8:{EF6082C0-AD7E-4DBF-B924-F0420B1CFD40}"
         "UpgradeCode" = "8:{03385FF8-83E2-4360-A299-BD42CBC8D62D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
