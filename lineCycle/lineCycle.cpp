@@ -23,6 +23,7 @@ wchar_t strFile[MAX_PATH];
 #ifdef _DEBUG
 	WCHAR buf[255];
 #endif
+wchar_t tmp_str[MAX_PATH];
 
 // 此代码模块中包含的函数的前向声明: 
 ATOM				MyRegisterClass(HINSTANCE hInstance);
@@ -181,7 +182,7 @@ DWORD WINAPI waitConfProc(LPVOID lpParam)
 
 	GetStartupInfo(&si);
 
-	if (!CreateProcess(L"configEdit.exe", NULL, NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi))
+	if (!CreateProcess(L".\\configEdit.exe", NULL, NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi))
 	{
 		MessageBox(theHWND, L"创建进程失败", L"错误", 0);
 		isChildProcessBusy = false;
@@ -264,6 +265,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			ofn.lpstrFile = strFile;
 			ofn.nMaxFile = MAX_PATH;
 			ofn.Flags = OFN_FILEMUSTEXIST;
+			GetCurrentDirectory(MAX_PATH, tmp_str);
 			if (GetOpenFileName(&ofn))
 			{
 				logMsg(L"开始回收垃圾");
@@ -301,6 +303,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 				logMsg(L"垃圾回收结束");
 				xmlPrase();
+				SetCurrentDirectory(tmp_str);
 			}
 			else
 			{

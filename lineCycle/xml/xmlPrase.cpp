@@ -5,7 +5,7 @@
 
 bool isXMLBusy = false;
 
-void xmlPraseNoCache();
+bool xmlPraseNoCache();
 bool isCacheExist();
 bool loadCache();
 bool saveCache();
@@ -15,7 +15,7 @@ DWORD WINAPI cacheXMLWorker(LPVOID lpParam);
 
 
 
-void xmlPraseNoCache()
+bool xmlPraseNoCache()
 {
 	switch (SETTING_XML_MODE)
 	{
@@ -23,18 +23,21 @@ void xmlPraseNoCache()
 		if (!tinyXMLPrase())
 		{
 			MessageBox(theHWND, L"tinyXML解析失败。", L"警告", 0);
+			return false;
 		}
 		break;
 	case SETTING_XML_MODE_MINXML:
 		if (!minXMLPrase())
 		{
 			MessageBox(theHWND, L"最小化XML解析失败。", L"警告", 0);
+			return false;
 		}
 		break;
 	case SETTING_XML_MODE_PUGIXML:
 		if (!pugiXMLPrase())
 		{
 			MessageBox(theHWND, L"pugiXML解析失败。", L"警告", 0);
+			return false;
 		}
 		break;
 	default:
@@ -42,6 +45,7 @@ void xmlPraseNoCache()
 		exit(-1);
 		break;
 	}
+	return true;
 }
 
 //非缓存模式的工作线程
@@ -269,7 +273,14 @@ DWORD WINAPI cacheXMLWorker(LPVOID lpParam)
 	else
 	{
 		logMsg(L"缓存无效！！！");
-		xmlPraseNoCache();
+		if (!xmlPraseNoCache())
+		{
+			isXMLBusy = false;
+			isCutted = false;
+
+			PostMessage(theHWND, WM_COMMAND, ID_ACCELERATOR_RELOAD, 0);
+			return 0;
+		}
 		logMsg(L"开始写入缓存！");
 		saveCache();
 		logMsg(L"缓存写入结束");
@@ -284,12 +295,8 @@ DWORD WINAPI cacheXMLWorker(LPVOID lpParam)
 	isXMLBusy = false;
 	isCutted = false;
 
-	if (SETTING_DRAW_MODE == SETTING_DRAW_MODE_MEMGDI)
-	{
-		clearMemGDICache();
-	}
 
-	PostMessage(theHWND, WM_COMMAND, ID_ACCELERATOR_RELOAD,0);
+	PostMessage(theHWND, WM_COMMAND, ID_ACCELERATOR_RELOAD, 0);
 
 	return 0;
 }
