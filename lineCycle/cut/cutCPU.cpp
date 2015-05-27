@@ -1,6 +1,10 @@
 #include  "../stdafx.h"
 #include "../resource.h"
 
+int countInside;
+int countOutside;
+int countCross;
+
 namespace cpuCUT{
 
 	__inline float mult(Point a, Point b, Point c);
@@ -15,6 +19,7 @@ namespace cpuCUT{
 
 	vector <Line *> * cutLineListList;
 	vector <CArc *> * cutArcListList;
+	int * countCrossCount;
 
 
 	inline float mult(Point a, Point b, Point c){
@@ -141,10 +146,10 @@ namespace cpuCUT{
 
 				size = lineCuttingPointList.size();
 
-				for (unsigned int j = 0; j < size - 1; j++)
+				if (size == 2)
 				{
-					Point * pt1 = lineCuttingPointList.at(j);
-					Point * pt2 = lineCuttingPointList.at(j + 1);
+					Point * pt1 = lineCuttingPointList.at(0);
+					Point * pt2 = lineCuttingPointList.at(1);
 					tmpPoint.x = (pt1->x + pt2->x) / 2;
 					tmpPoint.y = (pt1->y + pt2->y) / 2;
 					if (isPointIn(tmpPoint))
@@ -155,6 +160,31 @@ namespace cpuCUT{
 						l->x2 = pt2->x;
 						l->y2 = pt2->y;
 						cutLineListList[workerID].push_back(l);
+						countInside++;
+					}
+					else
+					{
+						countOutside++;
+					}
+				}
+				else
+				{
+					countCrossCount[workerID] += size - 2;
+					for (unsigned int j = 0; j < size - 1; j++)
+					{
+						Point * pt1 = lineCuttingPointList.at(j);
+						Point * pt2 = lineCuttingPointList.at(j + 1);
+						tmpPoint.x = (pt1->x + pt2->x) / 2;
+						tmpPoint.y = (pt1->y + pt2->y) / 2;
+						if (isPointIn(tmpPoint))
+						{
+							Line * l = (Line *)mempool->Alloc(sizeof(Line));
+							l->x1 = pt1->x;
+							l->y1 = pt1->y;
+							l->x2 = pt2->x;
+							l->y2 = pt2->y;
+							cutLineListList[workerID].push_back(l);
+						}
 					}
 				}
 
@@ -209,10 +239,10 @@ namespace cpuCUT{
 
 				size = lineCuttingPointList.size();
 
-				for (unsigned int j = 0; j < size - 1; j++)
+				if (size == 2)
 				{
-					Point * pt1 = lineCuttingPointList.at(j);
-					Point * pt2 = lineCuttingPointList.at(j + 1);
+					Point * pt1 = lineCuttingPointList.at(0);
+					Point * pt2 = lineCuttingPointList.at(1);
 					tmpPoint.x = (pt1->x + pt2->x) / 2;
 					tmpPoint.y = (pt1->y + pt2->y) / 2;
 					if (isPointIn(tmpPoint))
@@ -223,6 +253,31 @@ namespace cpuCUT{
 						l->x2 = pt2->x;
 						l->y2 = pt2->y;
 						cutLineListList[workerID].push_back(l);
+						countInside++;
+					}
+					else
+					{
+						countOutside++;
+					}
+				}
+				else
+				{
+					countCrossCount[workerID] += size - 2;
+					for (unsigned int j = 0; j < size - 1; j++)
+					{
+						Point * pt1 = lineCuttingPointList.at(j);
+						Point * pt2 = lineCuttingPointList.at(j + 1);
+						tmpPoint.x = (pt1->x + pt2->x) / 2;
+						tmpPoint.y = (pt1->y + pt2->y) / 2;
+						if (isPointIn(tmpPoint))
+						{
+							Line * l = (Line *)mempool->Alloc(sizeof(Line));
+							l->x1 = pt1->x;
+							l->y1 = pt1->y;
+							l->x2 = pt2->x;
+							l->y2 = pt2->y;
+							cutLineListList[workerID].push_back(l);
+						}
 					}
 				}
 
@@ -301,33 +356,42 @@ namespace cpuCUT{
 						theArc->begin = 0;
 						theArc->end = 2 * PI;
 						cutArcListList[workerID].push_back(theArc);
-					}
-				}
-				else for (unsigned int i = 0; i < size; i++)
-				{
-					float arc1, arc2, arc;
-					arc1 = lineCuttingCirclePointList.at(i);
-					if (i == size - 1)
-					{
-						arc2 = lineCuttingCirclePointList.at(0);
-						arc2 += 2 * PI;
+						countInside++;
 					}
 					else
-						arc2 = lineCuttingCirclePointList.at(i + 1);
-
-					arc = (arc1 + arc2) / 2;
-					pt.x = _cosTable[((int)(arc * 10000) % 63000)] * c->r + c->x;
-					pt.y = _sinTable[((int)(arc * 10000) % 63000)] * c->r + c->y;
-
-					if (isPointIn(pt))
 					{
-						CArc * theArc = (CArc *)mempool->Alloc(sizeof(CArc));
-						theArc->r = c->r;
-						theArc->x = c->x;
-						theArc->y = c->y;
-						theArc->begin = arc1;
-						theArc->end = arc2;
-						cutArcListList[workerID].push_back(theArc);
+						countOutside++;
+					}
+				}
+				else 
+				{
+					countCrossCount[workerID] += size;
+					for (unsigned int i = 0; i < size; i++)
+					{
+						float arc1, arc2, arc;
+						arc1 = lineCuttingCirclePointList.at(i);
+						if (i == size - 1)
+						{
+							arc2 = lineCuttingCirclePointList.at(0);
+							arc2 += 2 * PI;
+						}
+						else
+							arc2 = lineCuttingCirclePointList.at(i + 1);
+
+						arc = (arc1 + arc2) / 2;
+						pt.x = _cosTable[((int)(arc * 10000) % 63000)] * c->r + c->x;
+						pt.y = _sinTable[((int)(arc * 10000) % 63000)] * c->r + c->y;
+
+						if (isPointIn(pt))
+						{
+							CArc * theArc = (CArc *)mempool->Alloc(sizeof(CArc));
+							theArc->r = c->r;
+							theArc->x = c->x;
+							theArc->y = c->y;
+							theArc->begin = arc1;
+							theArc->end = arc2;
+							cutArcListList[workerID].push_back(theArc);
+						}
 					}
 				}
 
@@ -384,33 +448,42 @@ namespace cpuCUT{
 						theArc->begin = 0;
 						theArc->end = 2 * PI;
 						cutArcListList[workerID].push_back(theArc);
-					}
-				}
-				else for (int i = 0; i < size; i++)
-				{
-					float arc1, arc2, arc;
-					arc1 = lineCuttingCirclePointList.at(i);
-					if (i == size - 1)
-					{
-						arc2 = lineCuttingCirclePointList.at(0);
-						arc2 += 2 * PI;
+						countInside++;
 					}
 					else
-						arc2 = lineCuttingCirclePointList.at(i + 1);
-
-					arc = (arc1 + arc2) / 2;
-					pt.x = _cosTable[((int)(arc * 10000) % 63000)] * c->r + c->x;
-					pt.y = _sinTable[((int)(arc * 10000) % 63000)] * c->r + c->y;
-
-					if (isPointIn(pt))
 					{
-						CArc * theArc = (CArc *)mempool->Alloc(sizeof(CArc));
-						theArc->r = c->r;
-						theArc->x = c->x;
-						theArc->y = c->y;
-						theArc->begin = arc1;
-						theArc->end = arc2;
-						cutArcListList[workerID].push_back(theArc);
+						countOutside++;
+					}
+				}
+				else
+				{
+					countCrossCount[workerID] += size;
+					for (int i = 0; i < size; i++)
+					{
+						float arc1, arc2, arc;
+						arc1 = lineCuttingCirclePointList.at(i);
+						if (i == size - 1)
+						{
+							arc2 = lineCuttingCirclePointList.at(0);
+							arc2 += 2 * PI;
+						}
+						else
+							arc2 = lineCuttingCirclePointList.at(i + 1);
+
+						arc = (arc1 + arc2) / 2;
+						pt.x = _cosTable[((int)(arc * 10000) % 63000)] * c->r + c->x;
+						pt.y = _sinTable[((int)(arc * 10000) % 63000)] * c->r + c->y;
+
+						if (isPointIn(pt))
+						{
+							CArc * theArc = (CArc *)mempool->Alloc(sizeof(CArc));
+							theArc->r = c->r;
+							theArc->x = c->x;
+							theArc->y = c->y;
+							theArc->begin = arc1;
+							theArc->end = arc2;
+							cutArcListList[workerID].push_back(theArc);
+						}
 					}
 				}
 
@@ -440,6 +513,10 @@ namespace cpuCUT{
 
 		isCutBusy = true;
 
+		countInside = 0;
+		countOutside = 0;
+		countCross = 0;
+
 		events = new HANDLE[SETTING_CUTTING_THREAD];
 		for (int i = 0; i < SETTING_CUTTING_THREAD; i++)
 		{
@@ -448,6 +525,9 @@ namespace cpuCUT{
 
 		cutLineListList = new vector < Line * >[SETTING_CUTTING_THREAD];
 		cutArcListList = new vector < CArc * >[SETTING_CUTTING_THREAD];
+		countCrossCount = new int[SETTING_CUTTING_THREAD];
+
+		memset(countCrossCount, 0, SETTING_CUTTING_THREAD * sizeof(int));
 
 		DWORD t1 = GetTickCount();
 			
@@ -493,10 +573,11 @@ namespace cpuCUT{
 		{
 			cutArcList.insert(cutArcList.end(), cutArcListList[i].begin(), cutArcListList[i].end());
 			cutArcListList[i].clear();
+			countCross += countCrossCount[i];
 		}
 
 		WCHAR buf[255];
-		wsprintf(buf, L"裁剪结果合并完成，生成 %d 线段，%d 弧形，用时%d ms", cutLineList.size(), cutArcList.size(), GetTickCount() - t1);
+		wsprintf(buf, L"裁剪结果合并完成，生成 %d 线段，%d 弧形，用时%d ms \r\n 有 %u 在区域内，有 %u 在区域外，有 %u 个交点（统计算法可能不同）", cutLineList.size(), cutArcList.size(), GetTickCount() - t1,countInside,countOutside,countCross);
 		logMsg(buf);
 
 		showMemPool();
@@ -511,6 +592,7 @@ namespace cpuCUT{
 		delete[] events;
 		delete[] cutLineListList;
 		delete[] cutArcListList;
+		delete[] countCrossCount;
 
 		return 0;
 	}
