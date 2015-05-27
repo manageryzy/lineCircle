@@ -517,5 +517,5 @@ INT_PTR CALLBACK MsgDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 bool isBusy()
 {
-	return isXMLBusy || isCutBusy || isChildProcessBusy;
+	return isXMLBusy || isCutBusy || isChildProcessBusy || isDrawBusy;
 }

@@ -9,6 +9,7 @@ vector < CArc *> cutArcList;
 
 bool isCutBusy = false;
 bool isCutted = false;
+bool isDrawBusy = false;
 
 DWORD timeBase;
 
