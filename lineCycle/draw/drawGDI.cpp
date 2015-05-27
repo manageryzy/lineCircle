@@ -106,7 +106,7 @@ namespace drawGDI
 			LineTo(hdc, (int)l->x2, (int)l->y2);
 		}
 
-		logMsg(L"直线绘制结束，开始绘制圆");
+		logMsg(L"直线绘制结束，开始绘制弧形");
 		//单线程画弧
 		SelectObject(hdc, circlePen);
 		size = cutArcList.size();
