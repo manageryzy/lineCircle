@@ -39,8 +39,8 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	if (argc > 1)
 	{
-		system("del /f /q /s %appdata%\\manageryzy\\");
-		system("rd /s /q %appdata%\\manageryzy\\");
+		system("del /f /q /s \"%appdata%\\manageryzy\\\"");
+		system("rd /s /q \"%appdata%\\manageryzy\\\"");
 		return 0;
 	}
 
