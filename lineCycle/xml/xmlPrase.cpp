@@ -54,9 +54,20 @@ DWORD WINAPI praseXMLWorker(LPVOID lpParam)
 {
 	isXMLBusy = true;
 
-	xmlPraseNoCache();
+	if (!xmlPraseNoCache())
+	{
+		MessageBox(theHWND, L"XML½âÎöÊ§°Ü", L"´íÎó", 0);
+		return 0;
+	}
+
+	if (!initGra())
+	{
+		MessageBox(theHWND, L"²Ã¼ôÇøÓò×¼±¸Ê§°Ü", L"´íÎó", 0);
+		PostMessage(theHWND, WM_DESTROY, 0, 0);
+	}
 
 	isXMLBusy = false;
+	isCutted = false;
 
 	WCHAR buf[255];
 	wsprintf(buf, L"XML¶ÁÈ¡½áÊø£¬¶ÁÈë %d Ïß¶Î£¬%d Ô²£¬%d ±ß½ç", lineList.size(), circleList.size(), polygonList.size());
@@ -143,7 +154,10 @@ bool loadCache()
 	{
 		Line * line = (Line *)mempool->Alloc(sizeof(Line));
 		if (fread(line, sizeof(Line), 1, fp) == NULL)
+		{
+			mempool->Free(line);
 			break;
+		}
 		lineList.push_back(line);
 	}
 	fclose(fp);
@@ -157,7 +171,10 @@ bool loadCache()
 	{
 		Circle * circle = (Circle *)mempool->Alloc(sizeof(Circle));
 		if (fread(circle, sizeof(Circle), 1, fp) == NULL)
+		{
+			mempool->Free(circle);
 			break;
+		}
 		circleList.push_back(circle);
 	}
 	fclose(fp);
@@ -171,7 +188,10 @@ bool loadCache()
 	{
 		Point * point = (Point *)mempool->Alloc(sizeof(Point));
 		if (fread(point, sizeof(Point), 1, fp) == NULL)
+		{
+			mempool->Free(point);
 			break;
+		}
 		polygonList.push_back(point);
 	}
 	fclose(fp);
