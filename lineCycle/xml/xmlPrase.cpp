@@ -2,6 +2,7 @@
 #include <sys/stat.h>
 #include <Shlobj.h>
 #include "../resource.h"
+#include <io.h>
 
 bool isXMLBusy = false;
 
@@ -57,6 +58,12 @@ DWORD WINAPI praseXMLWorker(LPVOID lpParam)
 
 	isXMLBusy = false;
 
+	WCHAR buf[255];
+	wsprintf(buf, L"XML读取结束，读入 %d 线段，%d 圆，%d 边界", lineList.size(), circleList.size(), polygonList.size());
+	logMsg(buf);
+
+	showMemPool();
+
 	PostMessage(theHWND, WM_COMMAND, ID_ACCELERATOR_RELOAD, 0);
 
 	return 0;
@@ -77,8 +84,7 @@ bool isCacheExist()
 	
 	//读取lable文件
 	wsprintf(fileNameBuf, L"%s\\manageryzy\\lineCircle\\cache\\%d\\lable.txt",workingDir,SETTING_XML_TESTCASE);
-	fp = _wfopen(fileNameBuf, L"rb");
-	if (fp == NULL)
+	if (_wfopen_s(&fp, fileNameBuf, L"rb"))
 		return false;
 	fwscanf_s(fp, L"%I64d\r\n", &mt_time, sizeof(time_t));
 	fgetws(cacheFileNameBuf, MAX_PATH, fp);
@@ -106,20 +112,15 @@ bool isCacheExist()
 
 	//判断文件完整性
 	wsprintf(fileNameBuf, L"%s\\manageryzy\\lineCircle\\cache\\%d\\line.data", workingDir, SETTING_XML_TESTCASE);
-	fp = _wfopen(fileNameBuf, L"r");
-	if (fp == NULL)
+	if (_waccess_s(fileNameBuf, 04))
 		return false;
-	fclose(fp);
+
 	wsprintf(fileNameBuf, L"%s\\manageryzy\\lineCircle\\cache\\%d\\circle.data", workingDir, SETTING_XML_TESTCASE);
-	fp = _wfopen(fileNameBuf, L"r");
-	if (fp == NULL)
+	if (_waccess_s(fileNameBuf, 04))
 		return false;
-	fclose(fp);
 	wsprintf(fileNameBuf, L"%s\\manageryzy\\lineCircle\\cache\\%d\\polygon.data", workingDir, SETTING_XML_TESTCASE);
-	fp = _wfopen(fileNameBuf, L"r");
-	if (fp == NULL)
+	if (_waccess_s(fileNameBuf, 04))
 		return false;
-	fclose(fp);
 
 	return true;
 }
@@ -295,6 +296,11 @@ DWORD WINAPI cacheXMLWorker(LPVOID lpParam)
 	isXMLBusy = false;
 	isCutted = false;
 
+	WCHAR buf[255];
+	wsprintf(buf, L"XML读取结束，读入 %d 线段，%d 圆，%d 边界", lineList.size(), circleList.size(), polygonList.size());
+	logMsg(buf);
+
+	showMemPool();
 
 	PostMessage(theHWND, WM_COMMAND, ID_ACCELERATOR_RELOAD, 0);
 

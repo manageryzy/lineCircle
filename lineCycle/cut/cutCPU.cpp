@@ -113,7 +113,7 @@ namespace cpuCUT{
 
 				//建立交点数组
 				size = polygonList.size();
-				for (int j = 0; j < size; j++)
+				for (unsigned int j = 0; j < size; j++)
 				{
 					Point * pt1 = polygonList.at(j);
 					Point * pt2;
@@ -141,7 +141,7 @@ namespace cpuCUT{
 
 				size = lineCuttingPointList.size();
 
-				for (int j = 0; j < size - 1; j++)
+				for (unsigned int j = 0; j < size - 1; j++)
 				{
 					Point * pt1 = lineCuttingPointList.at(j);
 					Point * pt2 = lineCuttingPointList.at(j + 1);
@@ -160,7 +160,7 @@ namespace cpuCUT{
 
 				//清除掉上次的垃圾
 				size = lineCuttingPointList.size();
-				for (int i = 0; i < size; i++)
+				for (unsigned int i = 0; i < size; i++)
 				{
 					mempoolnts->FreeNTS(lineCuttingPointList.at(i));
 				}
@@ -172,7 +172,7 @@ namespace cpuCUT{
 			for (unsigned int i = workerInterval*workerID + _size % SETTING_CUTTING_THREAD; i < workerInterval*(workerID + 1) + _size % SETTING_CUTTING_THREAD; i++)
 			{
 				Line * l = lineList.at(i);
-				int size;
+				unsigned int size;
 
 				Point * pth = (Point *)mempoolnts->AllocNTS(sizeof(Point));
 				pth->x = l->x1;
@@ -181,7 +181,7 @@ namespace cpuCUT{
 
 				//建立交点数组
 				size = polygonList.size();
-				for (int j = 0; j < size; j++)
+				for (unsigned int j = 0; j < size; j++)
 				{
 					Point * pt1 = polygonList.at(j);
 					Point * pt2;
@@ -209,7 +209,7 @@ namespace cpuCUT{
 
 				size = lineCuttingPointList.size();
 
-				for (int j = 0; j < size - 1; j++)
+				for (unsigned int j = 0; j < size - 1; j++)
 				{
 					Point * pt1 = lineCuttingPointList.at(j);
 					Point * pt2 = lineCuttingPointList.at(j + 1);
@@ -228,7 +228,7 @@ namespace cpuCUT{
 
 				//清除掉上次的垃圾
 				size = lineCuttingPointList.size();
-				for (int i = 0; i < size; i++)
+				for (unsigned int i = 0; i < size; i++)
 				{
 					mempoolnts->FreeNTS(lineCuttingPointList.at(i));
 				}
@@ -261,7 +261,7 @@ namespace cpuCUT{
 
 				//建立交点数组
 				size = polygonList.size();
-				for (int j = 0; j < size; j++)
+				for (unsigned int j = 0; j < size; j++)
 				{
 					Point * pt1 = polygonList.at(j);
 					Point * pt2;
@@ -303,7 +303,7 @@ namespace cpuCUT{
 						cutArcListList[workerID].push_back(theArc);
 					}
 				}
-				else for (int i = 0; i < size; i++)
+				else for (unsigned int i = 0; i < size; i++)
 				{
 					float arc1, arc2, arc;
 					arc1 = lineCuttingCirclePointList.at(i);
@@ -448,6 +448,8 @@ namespace cpuCUT{
 
 		cutLineListList = new vector < Line * >[SETTING_CUTTING_THREAD];
 		cutArcListList = new vector < CArc * >[SETTING_CUTTING_THREAD];
+
+		DWORD t1 = GetTickCount();
 			
 		logMsg(L"开始裁剪直线");
 		//多线裁剪制直线
@@ -492,7 +494,12 @@ namespace cpuCUT{
 			cutArcList.insert(cutArcList.end(), cutArcListList[i].begin(), cutArcListList[i].end());
 			cutArcListList[i].clear();
 		}
-		logMsg(L"结果合并完成");
+
+		WCHAR buf[255];
+		wsprintf(buf, L"裁剪结果合并完成，生成 %d 线段，%d 弧形，用时%d ms", cutLineList.size(), cutArcList.size(), GetTickCount() - t1);
+		logMsg(buf);
+
+		showMemPool();
 
 		isCutBusy = false;
 
@@ -557,11 +564,11 @@ bool initGra()
 	POINT polygonArray[MAX_POLYGON_SIZE];
 	int indexArray = size;
 
-	for (int i = 0; i < size; i++)
+	for (unsigned int i = 0; i < size; i++)
 	{
 		Point * pt = polygonList.at(i);
-		polygonArray[i].x = pt->x;
-		polygonArray[i].y = pt->y;
+		polygonArray[i].x = (int)pt->x;
+		polygonArray[i].y = (int)pt->y;
 	}
 
 	HRGN region = CreatePolyPolygonRgn(polygonArray, &indexArray, 1, WINDING);

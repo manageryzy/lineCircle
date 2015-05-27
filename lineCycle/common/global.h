@@ -22,3 +22,4 @@ extern bool isCutted;
 extern DWORD timeBase;
 
 void logMsg(WCHAR * msg);
+void showMemPool();

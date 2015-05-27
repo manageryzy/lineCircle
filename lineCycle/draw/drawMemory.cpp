@@ -3,7 +3,7 @@
 namespace memDraw
 {
 	const int inf = 99999999;
-	const double eps = 10e-6;
+	const float eps = 10e-6;
 	int gra[900][1440];
 
 	HDC notCuttingDC = NULL, cuttingDC = NULL;
@@ -31,9 +31,9 @@ namespace memDraw
 				gra[i][x1] = rgb;
 			return;
 		}
-		double k;
+		float k;
 		if (x2 == x1) k = inf;
-		else k = (y2 - y1) * 1.0 / (x2 - x1);
+		else k = (y2 - y1) * 1.0f / (x2 - x1);
 
 		if (x1 > x2 || (x1 == x2 && y1 > y2))
 		{
@@ -67,8 +67,8 @@ namespace memDraw
 		else if (r < 40) k = 64;
 		else k = 128;
 
-		double dlt = 2 * 3.1415926 / k;
-		double alp = 0;
+		float dlt = 2 * 3.1415926f / k;
+		float alp = 0.0f;
 		int x1, y1, x2, y2;
 		for (int i = 0; i < k; i++)
 		{
@@ -86,14 +86,14 @@ namespace memDraw
 		}
 	}
 
-	void DrawArc(int x, int y, int r, int rgb, double alp1, double alp2)
+	void DrawArc(int x, int y, int r, int rgb, float alp1, float alp2)
 	{
 		if (alp1 > alp2)
 		{
-			double t = alp1; alp1 = alp2; alp2 = t;
+			float t = alp1; alp1 = alp2; alp2 = t;
 		}
 		int k = 0;
-		double dlt1 = alp2 - alp1;
+		float dlt1 = alp2 - alp1;
 		int m = 6.30f / dlt1 + 1;
 
 		if (r < 10) k = 16 / m + 1;
@@ -101,8 +101,8 @@ namespace memDraw
 		else if (r < 40) k = 64 / m + 1;
 		else k = 128 / m + 1;
 
-		double dlt = dlt1 / k;
-		double alp = alp1;
+		float dlt = dlt1 / k;
+		float alp = alp1;
 		int x1, y1, x2, y2;
 		for (int i = 0; i < k; i++)
 		{
