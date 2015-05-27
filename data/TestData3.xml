@@ -1,13 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <TestRoot>
 	<TestCase ID="6" desp="Line在凸多边形边界中裁剪显示"  type="AccuracyTest" complex="1,1,1,0,0,0">
-		<Entity  Type="Line">
-			<StartPoint>240, 480</StartPoint>
-		 	<EndPoint>240, 406</EndPoint>
-		</Entity>
-		<Entity  Type="Line">
-			<StartPoint>250, 480</StartPoint>
-		 	<EndPoint>250, 406</EndPoint>
+		<Entity Type="Circle">
+			<CenterPoint>503, 464</CenterPoint>
+			<Radius>51</Radius>
 		</Entity>
 		<Boundary Type="Concave Polygon">
 			<Vertex>257, 472</Vertex>

@@ -125,18 +125,19 @@ int GetPoint(float cx, float cy, float r, float stx, float sty, float edx, float
 		{
 			*res2 += 2 * PI;
 		}
-	
-		if (x1 < min(stx, edx) || x1 > max(stx, edx) || y1 < min(sty,edy) || y1 > max(sty,edy))
-		{
-			num--;
-			*res1 = *res2;
-		}
-
-		if (x2 < min(stx, edx) || x2 > max(stx, edx) || y2 < min(sty,edy) || y2 > max(sty,edy))
-		{
-			num--;
-		}
 	}
+	
+	if (x1 < min(stx, edx) || x1 > max(stx, edx) || y1 < min(sty,edy) || y1 > max(sty,edy))
+	{
+		num--;
+		*res1 = *res2;
+	}
+
+	if (x2 < min(stx, edx) || x2 > max(stx, edx) || y2 < min(sty,edy) || y2 > max(sty,edy))
+	{
+		num--;
+	}
+	
 
 	return num;
 }
