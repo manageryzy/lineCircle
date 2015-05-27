@@ -4,7 +4,7 @@ namespace memDraw
 {
 	const int inf = 99999999;
 	const double eps = 10e-6;
-	int gra[768][1366];
+	int gra[900][1440];
 
 	HDC notCuttingDC = NULL, cuttingDC = NULL;
 	HBITMAP notCuttingBmp = NULL,cuttingBmp = NULL;
@@ -427,13 +427,13 @@ void onMemDraw()
 	if (cuttingDC == NULL)
 	{
 		cuttingDC = CreateCompatibleDC(NULL);
-		cuttingBmp = CreateCompatibleBitmap(theDC, 1366, 768);
+		cuttingBmp = CreateCompatibleBitmap(theDC, 1440, 900);
 		SelectObject(cuttingDC, cuttingBmp);
 	}
 	if (notCuttingDC == NULL)
 	{
 		notCuttingDC = CreateCompatibleDC(theDC);
-		notCuttingBmp = CreateCompatibleBitmap(theDC, 1366, 768);
+		notCuttingBmp = CreateCompatibleBitmap(theDC, 1440, 900);
 		SelectObject(notCuttingDC, notCuttingBmp);
 	}
 	
@@ -452,7 +452,7 @@ void onMemDraw()
 				drawCuttingDC();
 			}
 
-			BitBlt(theDC, 0, 0, 1366, 768, cuttingDC, 0, 0, SRCCOPY);
+			BitBlt(theDC, 0, 0, 1440, 900, cuttingDC, 0, 0, SRCCOPY);
 			return;
 		}
 	}
@@ -463,7 +463,7 @@ void onMemDraw()
 		drawNotCuttingDC();
 	}
 
-	BitBlt(theDC, 0, 0, 1366, 768, notCuttingDC, 0, 0, SRCCOPY);
+	BitBlt(theDC, 0, 0, 1440, 900, notCuttingDC, 0, 0, SRCCOPY);
 	
 }
 

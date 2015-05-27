@@ -15,12 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_0E8FF922777441959ECEF0C769307CEA"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1FBB379AEE5543B0A7519D77C3C0BF16"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -34,12 +28,6 @@
         "Entry"
         {
         "MsmKey" = "8:_790DC2B22ACF4B349E92F800602C70E9"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7B2D12E5038F42F894C85E8DF5F5E6F7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -150,6 +138,20 @@
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_F00DEA7642EE40998A760B73D4EA7610"
+            {
+            "Name" = "8:主输出 from UAC (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_CFC787D6851E45FBA2D3C65015A5437A"
+            "FileType" = "3:2"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:/Uninstall"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_9076019D_7409_46C6_9A5E_AA70B5217823"
+            "InstallerClass" = "11:FALSE"
+            "CustomActionData" = "8:"
+            }
         }
         "DefaultFeature"
         {
@@ -236,7 +238,7 @@
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_0B2A43A964BD406FBFD41CB4B193303E"
                     {
                     "Name" = "8:manageryzy"
-                    "AlwaysCreate" = "11:FALSE"
+                    "AlwaysCreate" = "11:TRUE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
                     "Property" = "8:_B34B5E14320549588D7A982D3AC2AAB5"
@@ -297,11 +299,11 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:lineCircle"
         "ProductCode" = "8:{6A0F16C3-9082-47D9-ACAD-76138809F132}"
-        "PackageCode" = "8:{EF6082C0-AD7E-4DBF-B924-F0420B1CFD40}"
+        "PackageCode" = "8:{67204A94-AD80-4359-AB6B-781F9F7A04A1}"
         "UpgradeCode" = "8:{03385FF8-83E2-4360-A299-BD42CBC8D62D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
@@ -841,20 +843,6 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_0E8FF922777441959ECEF0C769307CEA"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC120_CRT_x86.msm"
-                "Properties"
-                {
-                }
-            "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
             "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_1FBB379AEE5543B0A7519D77C3C0BF16"
             {
             "UseDynamicProperties" = "11:TRUE"
@@ -874,20 +862,6 @@
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:FALSE"
             "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC120_CXXAMP_x86.msm"
-                "Properties"
-                {
-                }
-            "LanguageId" = "3:0"
-            "Exclude" = "11:FALSE"
-            "Folder" = "8:"
-            "Feature" = "8:"
-            "IsolateTo" = "8:"
-            }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_7B2D12E5038F42F894C85E8DF5F5E6F7"
-            {
-            "UseDynamicProperties" = "11:TRUE"
-            "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC120_OpenMP_x86.msm"
                 "Properties"
                 {
                 }

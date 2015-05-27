@@ -494,7 +494,6 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 HWND theEditHWND;
-WCHAR str[255] = L"123456";
 
 INT_PTR CALLBACK MsgDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {

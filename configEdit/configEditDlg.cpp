@@ -11,6 +11,7 @@
 #define new DEBUG_NEW
 #endif
 
+HWND theHWND;
 
 // CconfigEditDlg 对话框
 
@@ -64,6 +65,8 @@ BOOL CconfigEditDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO:  在此添加额外的初始化代码
+	theHWND = this->GetSafeHwnd();
+
 	loadIniSetting();
 
 	m_testcase = SETTING_XML_TESTCASE;

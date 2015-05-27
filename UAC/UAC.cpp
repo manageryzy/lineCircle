@@ -37,6 +37,13 @@ DWORD GetProcessIdFromName(LPCTSTR name)    //通过执行文件名获得进程ID的方法
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	if (argc > 1)
+	{
+		system("del /f /q /s %appdata%\\manageryzy\\");
+		system("rd /s /q %appdata%\\manageryzy\\");
+		return 0;
+	}
+
 	HANDLE hProcess = OpenProcess(PROCESS_SET_INFORMATION, FALSE, GetProcessIdFromName("lineCycle.exe"));
 	
 	if (hProcess == NULL)

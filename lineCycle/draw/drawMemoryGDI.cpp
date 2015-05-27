@@ -41,7 +41,7 @@ namespace drawMemoryGDI{
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
 		{
 			hdcList.push_back(CreateCompatibleDC(NULL));
-			bmpList.push_back(CreateCompatibleBitmap(theDC, 1366, 768));
+			bmpList.push_back(CreateCompatibleBitmap(theDC, 1440, 900));
 			SelectObject(hdcList.at(i), bmpList.at(i));
 			
 		}
@@ -83,7 +83,7 @@ namespace drawMemoryGDI{
 		//合并结果
 		for (int i = 0; i < SETTING_DRAW_THREAD; i++)
 		{
-			BitBlt(hdc, 0, 0, 1366, 768, hdcList.at(i), 0, 0, SRCPAINT);
+			BitBlt(hdc, 0, 0, 1440, 900, hdcList.at(i), 0, 0, SRCPAINT);
 
 			ReleaseDC(theHWND, hdcList.at(i));
 			DeleteObject(bmpList.at(i));
@@ -220,13 +220,13 @@ void onMemGDIDraw()
 	if (cuttingDC == NULL)
 	{
 		cuttingDC = CreateCompatibleDC(NULL);
-		cuttingBmp = CreateCompatibleBitmap(theDC, 1366, 768);
+		cuttingBmp = CreateCompatibleBitmap(theDC, 1440, 900);
 		SelectObject(cuttingDC, cuttingBmp);
 	}
 	if (notCuttingDC == NULL)
 	{
 		notCuttingDC = CreateCompatibleDC(NULL);
-		notCuttingBmp = CreateCompatibleBitmap(theDC, 1366, 768);
+		notCuttingBmp = CreateCompatibleBitmap(theDC, 1440, 900);
 		SelectObject(notCuttingDC, notCuttingBmp);
 	}
 	
@@ -239,7 +239,7 @@ void onMemGDIDraw()
 			drawCuttingDC();
 		}
 		
-		BitBlt(theDC, 0, 0, 1366, 768, cuttingDC, 0, 0, SRCCOPY);
+		BitBlt(theDC, 0, 0, 1440, 900, cuttingDC, 0, 0, SRCCOPY);
 	}
 	else
 	{
@@ -249,6 +249,6 @@ void onMemGDIDraw()
 			drawNotCuttingDC();
 		}
 
-		BitBlt(theDC, 0, 0, 1366, 768, notCuttingDC, 0, 0, SRCCOPY);
+		BitBlt(theDC, 0, 0, 1440, 900, notCuttingDC, 0, 0, SRCCOPY);
 	}
 }

@@ -1,5 +1,7 @@
 ﻿//设置文件
 #include "stdafx.h"
+#include <Shlobj.h>
+extern HWND theHWND;
 
 ////////////////////////////////////////////////////////////////////////////
 //
@@ -60,24 +62,28 @@ int SETTING_THREAD_MEMPOOL_NUM = 1024;
 
 int loadIniSetting()
 {
+	WCHAR workingDir[MAX_PATH];//工作路径，就是APPData的路径
+	WCHAR fileNameBuf[MAX_PATH];//文件名缓存
 
+	SHGetFolderPath(theHWND, CSIDL_APPDATA, NULL, 0, workingDir);
+	wsprintf(fileNameBuf, L"%s\\manageryzy\\lineCircle\\conf.ini", workingDir, SETTING_XML_TESTCASE);
 
-	SETTING_XML_MODE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_MODE", SETTING_XML_MODE,L"./conf.ini");
-	SETTING_XML_CACHE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_CACHE", SETTING_XML_CACHE, L"./conf.ini");
-	SETTING_XML_TESTCASE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_TESTCASE", SETTING_XML_TESTCASE,L"./conf.ini");
+	SETTING_XML_MODE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_MODE", SETTING_XML_MODE,fileNameBuf);
+	SETTING_XML_CACHE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_CACHE", SETTING_XML_CACHE, fileNameBuf);
+	SETTING_XML_TESTCASE = GetPrivateProfileInt(L"xmlSetting", L"SETTING_XML_TESTCASE", SETTING_XML_TESTCASE,fileNameBuf);
 
-	SETTING_DRAW_MODE = GetPrivateProfileInt(L"drawSetting", L"SETTING_DRAW_MODE", SETTING_DRAW_MODE,L"./conf.ini");
-	SETTING_DRAW_THREAD = GetPrivateProfileInt(L"drawSetting", L"SETTING_DRAW_THREAD", SETTING_DRAW_THREAD,L"./conf.ini");
+	SETTING_DRAW_MODE = GetPrivateProfileInt(L"drawSetting", L"SETTING_DRAW_MODE", SETTING_DRAW_MODE,fileNameBuf);
+	SETTING_DRAW_THREAD = GetPrivateProfileInt(L"drawSetting", L"SETTING_DRAW_THREAD", SETTING_DRAW_THREAD,fileNameBuf);
 
-	SETTING_CUTTING_MODE = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_CUTTING_MODE", SETTING_CUTTING_MODE,L"./conf.ini");
-	SETTING_CUTTING_THREAD = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_CUTTING_THREAD", SETTING_CUTTING_THREAD,L"./conf.ini");
-	SETTING_ENABLE_CUDA = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_ENABLE_CUDA", SETTING_ENABLE_CUDA,L"./conf.ini");
-	SETTING_ENABLE_FUNCTION_TABLE = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_ENABLE_FUNCTION_TABLE", SETTING_ENABLE_FUNCTION_TABLE,L"./conf.ini");
+	SETTING_CUTTING_MODE = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_CUTTING_MODE", SETTING_CUTTING_MODE,fileNameBuf);
+	SETTING_CUTTING_THREAD = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_CUTTING_THREAD", SETTING_CUTTING_THREAD,fileNameBuf);
+	SETTING_ENABLE_CUDA = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_ENABLE_CUDA", SETTING_ENABLE_CUDA,fileNameBuf);
+	SETTING_ENABLE_FUNCTION_TABLE = GetPrivateProfileInt(L"cuttingSetting", L"SETTING_ENABLE_FUNCTION_TABLE", SETTING_ENABLE_FUNCTION_TABLE,fileNameBuf);
 
-	SETTING_MEMPOOL_SIZE = GetPrivateProfileInt(L"memorySetting", L"SETTING_MEMPOOL_SIZE", SETTING_MEMPOOL_SIZE, L"./conf.ini");
-	SETTING_MEMPOOL_NUM = GetPrivateProfileInt(L"memorySetting", L"SETTING_MEMPOOL_NUM", SETTING_MEMPOOL_NUM, L"./conf.ini");
-	SETTING_THREAD_MEMPOOL_SIZE = GetPrivateProfileInt(L"memorySetting", L"SETTING_THREAD_MEMPOOL_SIZE", SETTING_THREAD_MEMPOOL_SIZE, L"./conf.ini");
-	SETTING_THREAD_MEMPOOL_NUM = GetPrivateProfileInt(L"memorySetting", L"SETTING_THREAD_MEMPOOL_NUM", SETTING_THREAD_MEMPOOL_NUM, L"./conf.ini");
+	SETTING_MEMPOOL_SIZE = GetPrivateProfileInt(L"memorySetting", L"SETTING_MEMPOOL_SIZE", SETTING_MEMPOOL_SIZE, fileNameBuf);
+	SETTING_MEMPOOL_NUM = GetPrivateProfileInt(L"memorySetting", L"SETTING_MEMPOOL_NUM", SETTING_MEMPOOL_NUM, fileNameBuf);
+	SETTING_THREAD_MEMPOOL_SIZE = GetPrivateProfileInt(L"memorySetting", L"SETTING_THREAD_MEMPOOL_SIZE", SETTING_THREAD_MEMPOOL_SIZE, fileNameBuf);
+	SETTING_THREAD_MEMPOOL_NUM = GetPrivateProfileInt(L"memorySetting", L"SETTING_THREAD_MEMPOOL_NUM", SETTING_THREAD_MEMPOOL_NUM, fileNameBuf);
 
 	saveIniSetting();
 
@@ -88,35 +94,41 @@ int saveIniSetting()
 {
 	wchar_t buf[MAX_PATH];
 
+	WCHAR workingDir[MAX_PATH];//工作路径，就是APPData的路径
+	WCHAR fileNameBuf[MAX_PATH];//文件名缓存
+
+	SHGetFolderPath(theHWND, CSIDL_APPDATA, NULL, 0, workingDir);
+	wsprintf(fileNameBuf, L"%s\\manageryzy\\lineCircle\\conf.ini", workingDir, SETTING_XML_TESTCASE);
+
 	wsprintfW(buf, L"%d", SETTING_XML_MODE);
-	WritePrivateProfileString(L"xmlSetting", L"SETTING_XML_MODE", buf, L"./conf.ini");
+	WritePrivateProfileString(L"xmlSetting", L"SETTING_XML_MODE", buf, fileNameBuf);
 	wsprintfW(buf, L"%d", SETTING_XML_CACHE);
-	WritePrivateProfileString(L"xmlSetting", L"SETTING_XML_CACHE", buf, L"./conf.ini");
+	WritePrivateProfileString(L"xmlSetting", L"SETTING_XML_CACHE", buf, fileNameBuf);
 	wsprintfW(buf, L"%d", SETTING_XML_TESTCASE);
-	WritePrivateProfileString(L"xmlSetting", L"SETTING_XML_TESTCASE", buf, L"./conf.ini");
+	WritePrivateProfileString(L"xmlSetting", L"SETTING_XML_TESTCASE", buf, fileNameBuf);
 
 	wsprintfW(buf, L"%d", SETTING_DRAW_MODE);
-	WritePrivateProfileString(L"drawSetting", L"SETTING_DRAW_MODE", buf, L"./conf.ini");
+	WritePrivateProfileString(L"drawSetting", L"SETTING_DRAW_MODE", buf, fileNameBuf);
 	wsprintfW(buf, L"%d", SETTING_DRAW_THREAD);
-	WritePrivateProfileString(L"drawSetting", L"SETTING_DRAW_THREAD", buf, L"./conf.ini");
+	WritePrivateProfileString(L"drawSetting", L"SETTING_DRAW_THREAD", buf, fileNameBuf);
 
 	wsprintfW(buf, L"%d", SETTING_CUTTING_MODE);
-	WritePrivateProfileString(L"cuttingSetting", L"SETTING_CUTTING_MODE", buf, L"./conf.ini");
+	WritePrivateProfileString(L"cuttingSetting", L"SETTING_CUTTING_MODE", buf, fileNameBuf);
 	wsprintfW(buf, L"%d", SETTING_CUTTING_THREAD);
-	WritePrivateProfileString(L"cuttingSetting", L"SETTING_CUTTING_THREAD", buf, L"./conf.ini");
+	WritePrivateProfileString(L"cuttingSetting", L"SETTING_CUTTING_THREAD", buf, fileNameBuf);
 	wsprintfW(buf, L"%d", SETTING_ENABLE_CUDA);
-	WritePrivateProfileString(L"cuttingSetting", L"SETTING_ENABLE_CUDA", buf, L"./conf.ini");
+	WritePrivateProfileString(L"cuttingSetting", L"SETTING_ENABLE_CUDA", buf, fileNameBuf);
 	wsprintfW(buf, L"%d", SETTING_ENABLE_FUNCTION_TABLE);
-	WritePrivateProfileString(L"cuttingSetting", L"SETTING_ENABLE_FUNCTION_TABLE", buf, L"./conf.ini");
+	WritePrivateProfileString(L"cuttingSetting", L"SETTING_ENABLE_FUNCTION_TABLE", buf, fileNameBuf);
 
 	wsprintfW(buf, L"%d", SETTING_MEMPOOL_SIZE);
-	WritePrivateProfileString(L"memorySetting", L"SETTING_MEMPOOL_SIZE", buf, L"./conf.ini");
+	WritePrivateProfileString(L"memorySetting", L"SETTING_MEMPOOL_SIZE", buf, fileNameBuf);
 	wsprintfW(buf, L"%d", SETTING_MEMPOOL_NUM);
-	WritePrivateProfileString(L"memorySetting", L"SETTING_MEMPOOL_NUM", buf, L"./conf.ini");
+	WritePrivateProfileString(L"memorySetting", L"SETTING_MEMPOOL_NUM", buf, fileNameBuf);
 	wsprintfW(buf, L"%d", SETTING_THREAD_MEMPOOL_SIZE);
-	WritePrivateProfileString(L"memorySetting", L"SETTING_THREAD_MEMPOOL_SIZE", buf, L"./conf.ini");
+	WritePrivateProfileString(L"memorySetting", L"SETTING_THREAD_MEMPOOL_SIZE", buf, fileNameBuf);
 	wsprintfW(buf, L"%d", SETTING_THREAD_MEMPOOL_NUM);
-	WritePrivateProfileString(L"memorySetting", L"SETTING_THREAD_MEMPOOL_NUM", buf, L"./conf.ini");
+	WritePrivateProfileString(L"memorySetting", L"SETTING_THREAD_MEMPOOL_NUM", buf, fileNameBuf);
 
 	return 0;
 }
