@@ -453,6 +453,7 @@ void onMemDraw()
 			}
 
 			BitBlt(theDC, 0, 0, 1440, 900, cuttingDC, 0, 0, SRCCOPY);
+
 			return;
 		}
 	}

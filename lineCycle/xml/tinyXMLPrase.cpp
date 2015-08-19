@@ -57,11 +57,11 @@ bool tinyXMLPrase()
 						{
 							if (strcmp(pointNode->Value(), "StartPoint") == 0)
 							{
-								sscanf_s(pointNode->GetText(), "%f,%f", &line->x1, &line->y1);
+								sscanf_s(pointNode->GetText(), "%hd,%hd", &line->x1, &line->y1);
 							}
 							else if (strcmp(pointNode->Value(), "EndPoint") == 0)
 							{
-								sscanf_s(pointNode->GetText(), "%f,%f", &line->x2, &line->y2);
+								sscanf_s(pointNode->GetText(), "%hd,%hd", &line->x2, &line->y2);
 							}
 						}
 
@@ -77,11 +77,11 @@ bool tinyXMLPrase()
 						{
 							if (strcmp(pointNode->Value(), "CenterPoint") == 0)
 							{
-								sscanf_s(pointNode->GetText(), "%f,%f", &circle->x, &circle->y);
+								sscanf_s(pointNode->GetText(), "%hd,%hd", &circle->x, &circle->y);
 							}
 							else if (strcmp(pointNode->Value(), "Radius") == 0)
 							{
-								sscanf_s(pointNode->GetText(), "%f", &circle->r);
+								sscanf_s(pointNode->GetText(), "%hd", &circle->r);
 							}
 						}
 
@@ -98,7 +98,7 @@ bool tinyXMLPrase()
 							continue;
 
 						Point * point = (Point *)mempool->Alloc(sizeof(Point));
-						sscanf_s(pointNode->GetText(), "%f,%f", &point->x, &point->y);
+						sscanf_s(pointNode->GetText(), "%hd,%hd", &point->x, &point->y);
 						
 						polygonList.push_back(point);
 					}

@@ -14,7 +14,7 @@ namespace minXML
 		inline void onCharRead();
 		int state = 0;
 		int num = 0, i = 0, temp;
-		float numBuf1, numBuf2;
+		short numBuf1, numBuf2;
 		bool isNumRead = false;
 		bool succeed = false;
 
@@ -95,7 +95,7 @@ namespace minXML
 					{
 						isNumRead = false;
 						Line * line = (Line *)mempool->Alloc(sizeof(Line));
-						sscanf_s(str, "%f,%f", &line->x1, &line->y1);
+						sscanf_s(str, "%hd,%hd", &line->x1, &line->y1);
 						line->x2 = numBuf1;
 						line->y2 = numBuf2;
 						lineList.push_back(line);
@@ -103,7 +103,7 @@ namespace minXML
 					else
 					{
 						isNumRead = true;
-						sscanf_s(str, "%f,%f", &numBuf1, &numBuf2);
+						sscanf_s(str, "%hd,%hd", &numBuf1, &numBuf2);
 					}
 					i = 0; state = 10;
 				}
@@ -120,7 +120,7 @@ namespace minXML
 				{
 					isNumRead = false;
 					Line * line = (Line *)mempool->Alloc(sizeof(Line));
-					sscanf_s(str, "%f,%f", &line->x2, &line->y2);
+					sscanf_s(str, "%hd,%hd", &line->x2, &line->y2);
 					line->x1 = numBuf1;
 					line->y1 = numBuf2;
 					lineList.push_back(line);
@@ -128,7 +128,7 @@ namespace minXML
 				else
 				{
 					isNumRead = true;
-					sscanf_s(str, "%f,%f", &numBuf1, &numBuf2);
+					sscanf_s(str, "%hd,%hd", &numBuf1, &numBuf2);
 				}
 
 				i = 0; state = 13;
@@ -151,7 +151,7 @@ namespace minXML
 			{
 				str[i] = 0;
 				Point * point = (Point *)mempool->Alloc(sizeof(Point));
-				sscanf_s(str, "%f,%f", &point->x, &point->y);
+				sscanf_s(str, "%hd,%hd", &point->x, &point->y);
 				polygonList.push_back(point);
 				i = 0; state = 19;
 			}
@@ -172,7 +172,7 @@ namespace minXML
 				{
 					isNumRead = false;
 					Line * line = (Line *)mempool->Alloc(sizeof(Line));
-					sscanf_s(str, "%f,%f", &line->x2, &line->y2);
+					sscanf_s(str, "%hd,%hd", &line->x2, &line->y2);
 					line->x1 = numBuf1;
 					line->y1 = numBuf2;
 					lineList.push_back(line);
@@ -180,7 +180,7 @@ namespace minXML
 				else
 				{
 					isNumRead = true;
-					sscanf_s(str, "%f,%f", &numBuf1, &numBuf2);
+					sscanf_s(str, "%hd,%hd", &numBuf1, &numBuf2);
 				}
 
 				i = 0; state = 23;
@@ -198,7 +198,7 @@ namespace minXML
 				{
 					isNumRead = false;
 					Line * line = (Line *)mempool->Alloc(sizeof(Line));
-					sscanf_s(str, "%f,%f", &line->x1, &line->y1);
+					sscanf_s(str, "%hd,%hd", &line->x1, &line->y1);
 					line->x2 = numBuf1;
 					line->y2 = numBuf2;
 					lineList.push_back(line);
@@ -206,7 +206,7 @@ namespace minXML
 				else
 				{
 					isNumRead = true;
-					sscanf_s(str, "%f,%f", &numBuf1, &numBuf2);
+					sscanf_s(str, "%hd,%hd", &numBuf1, &numBuf2);
 				}
 				i = 0; state = 13;
 			}
@@ -225,14 +225,14 @@ namespace minXML
 				{
 					isNumRead = false;
 					Circle * circle = (Circle *)mempool->Alloc(sizeof(Circle));
-					sscanf_s(str, "%f,%f", &circle->x, &circle->y);
+					sscanf_s(str, "%hd,%hd", &circle->x, &circle->y);
 					circle->r = numBuf1;
 					circleList.push_back(circle);
 				}
 				else
 				{
 					isNumRead = true;
-					sscanf_s(str, "%f,%f", &numBuf1, &numBuf2);
+					sscanf_s(str, "%hd,%hd", &numBuf1, &numBuf2);
 				}
 				i = 0; state = 29;
 			}
@@ -249,7 +249,7 @@ namespace minXML
 				{
 					isNumRead = false;
 					Circle * circle = (Circle *)mempool->Alloc(sizeof(Circle));
-					sscanf_s(str, "%f", &circle->r);
+					sscanf_s(str, "%hd", &circle->r);
 					circle->x = numBuf1;
 					circle->y = numBuf2;
 					circleList.push_back(circle);
@@ -257,7 +257,7 @@ namespace minXML
 				else
 				{
 					isNumRead = true;
-					sscanf_s(str, "%f", &numBuf1);
+					sscanf_s(str, "%hd", &numBuf1);
 				}
 				i = 0; state = 13;
 			}
@@ -273,7 +273,7 @@ namespace minXML
 				{
 					isNumRead = false;
 					Circle * circle = (Circle *)mempool->Alloc(sizeof(Circle));
-					sscanf_s(str, "%f", &circle->r);
+					sscanf_s(str, "%hd", &circle->r);
 					circle->x = numBuf1;
 					circle->y = numBuf2;
 					circleList.push_back(circle);
@@ -281,7 +281,7 @@ namespace minXML
 				else
 				{
 					isNumRead = true;
-					sscanf_s(str, "%f", &numBuf1);
+					sscanf_s(str, "%hd", &numBuf1);
 				}
 				i = 0; state = 34;
 			}
@@ -298,14 +298,14 @@ namespace minXML
 				{
 					isNumRead = false;
 					Circle * circle = (Circle *)mempool->Alloc(sizeof(Circle));
-					sscanf_s(str, "%f,%f", &circle->x, &circle->y);
+					sscanf_s(str, "%hd,%hd", &circle->x, &circle->y);
 					circle->r = numBuf1;
 					circleList.push_back(circle);
 				}
 				else
 				{
 					isNumRead = true;
-					sscanf_s(str, "%f,%f", &numBuf1, &numBuf2);
+					sscanf_s(str, "%hd,%hd", &numBuf1, &numBuf2);
 				}
 				i = 0; state = 13;
 			}
@@ -320,7 +320,7 @@ namespace minXML
 			{
 				str[i] = 0;
 				Point * point = (Point *)mempool->Alloc(sizeof(Point));
-				sscanf_s(str, "%f,%f", &point->x, &point->y);
+				sscanf_s(str, "%hd,%hd", &point->x, &point->y);
 				polygonList.push_back(point);
 				i = 0; state = 40;
 			}

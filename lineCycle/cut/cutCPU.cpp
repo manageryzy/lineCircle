@@ -26,12 +26,12 @@ namespace cpuCUT{
 		return (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
 	}
 
-	bool cmpx(const Point* p1, const Point* p2)
+	bool cmpx(const PointF* p1, const PointF* p2)
 	{
 		return p1->x < p2->x;
 	}
 
-	bool cmpy(const Point* p1, const Point* p2)
+	bool cmpy(const PointF* p1, const PointF* p2)
 	{
 		return p1->y < p2->y;
 	}
@@ -94,7 +94,7 @@ namespace cpuCUT{
 
 	DWORD WINAPI cutLineWorker(LPVOID lpParam)
 	{
-		vector < Point *> lineCuttingPointList;
+		vector < PointF *> lineCuttingPointList;
 		Point tmpPoint;
 
 		CMemPool * mempoolnts = new CMemPool(SETTING_THREAD_MEMPOOL_SIZE, SETTING_THREAD_MEMPOOL_NUM);
@@ -111,7 +111,7 @@ namespace cpuCUT{
 				Line * l = lineList.at(i);
 				unsigned int size;
 
-				Point * pth = (Point *)mempoolnts->AllocNTS(sizeof(Point));
+				PointF * pth = (PointF *)mempoolnts->AllocNTS(sizeof(PointF));
 				pth->x = l->x1;
 				pth->y = l->y1;
 				lineCuttingPointList.push_back(pth);
@@ -127,14 +127,14 @@ namespace cpuCUT{
 					else
 						pt2 = polygonList.at(j + 1);
 
-					Point * res = intersection(l->x1, l->y1, l->x2, l->y2, pt1->x, pt1->y, pt2->x, pt2->y, mempoolnts);
+					PointF * res = intersection(l->x1, l->y1, l->x2, l->y2, pt1->x, pt1->y, pt2->x, pt2->y, mempoolnts);
 					if (res != NULL)
 					{
 						lineCuttingPointList.push_back(res);
 					}
 				}
 
-				Point * pte = (Point *)mempoolnts->AllocNTS(sizeof(Point));
+				PointF * pte = (PointF *)mempoolnts->AllocNTS(sizeof(PointF));
 				pte->x = l->x2;
 				pte->y = l->y2;
 				lineCuttingPointList.push_back(pte);
@@ -148,8 +148,8 @@ namespace cpuCUT{
 
 				if (size == 2)
 				{
-					Point * pt1 = lineCuttingPointList.at(0);
-					Point * pt2 = lineCuttingPointList.at(1);
+					PointF * pt1 = lineCuttingPointList.at(0);
+					PointF * pt2 = lineCuttingPointList.at(1);
 					tmpPoint.x = (pt1->x + pt2->x) / 2;
 					tmpPoint.y = (pt1->y + pt2->y) / 2;
 					if (isPointIn(tmpPoint))
@@ -172,8 +172,8 @@ namespace cpuCUT{
 					countCrossCount[workerID] += size - 2;
 					for (unsigned int j = 0; j < size - 1; j++)
 					{
-						Point * pt1 = lineCuttingPointList.at(j);
-						Point * pt2 = lineCuttingPointList.at(j + 1);
+						PointF * pt1 = lineCuttingPointList.at(j);
+						PointF * pt2 = lineCuttingPointList.at(j + 1);
 						tmpPoint.x = (pt1->x + pt2->x) / 2;
 						tmpPoint.y = (pt1->y + pt2->y) / 2;
 						if (isPointIn(tmpPoint))
@@ -204,7 +204,7 @@ namespace cpuCUT{
 				Line * l = lineList.at(i);
 				unsigned int size;
 
-				Point * pth = (Point *)mempoolnts->AllocNTS(sizeof(Point));
+				PointF * pth = (PointF *)mempoolnts->AllocNTS(sizeof(PointF));
 				pth->x = l->x1;
 				pth->y = l->y1;
 				lineCuttingPointList.push_back(pth);
@@ -220,14 +220,14 @@ namespace cpuCUT{
 					else
 						pt2 = polygonList.at(j + 1);
 
-					Point * res = intersection(l->x1, l->y1, l->x2, l->y2, pt1->x, pt1->y, pt2->x, pt2->y, mempoolnts);
+					PointF * res = intersection(l->x1, l->y1, l->x2, l->y2, pt1->x, pt1->y, pt2->x, pt2->y, mempoolnts);
 					if (res != NULL)
 					{
 						lineCuttingPointList.push_back(res);
 					}
 				}
 
-				Point * pte = (Point *)mempoolnts->AllocNTS(sizeof(Point));
+				PointF * pte = (PointF *)mempoolnts->AllocNTS(sizeof(PointF));
 				pte->x = l->x2;
 				pte->y = l->y2;
 				lineCuttingPointList.push_back(pte);
@@ -241,8 +241,8 @@ namespace cpuCUT{
 
 				if (size == 2)
 				{
-					Point * pt1 = lineCuttingPointList.at(0);
-					Point * pt2 = lineCuttingPointList.at(1);
+					PointF * pt1 = lineCuttingPointList.at(0);
+					PointF * pt2 = lineCuttingPointList.at(1);
 					tmpPoint.x = (pt1->x + pt2->x) / 2;
 					tmpPoint.y = (pt1->y + pt2->y) / 2;
 					if (isPointIn(tmpPoint))
@@ -265,8 +265,8 @@ namespace cpuCUT{
 					countCrossCount[workerID] += size - 2;
 					for (unsigned int j = 0; j < size - 1; j++)
 					{
-						Point * pt1 = lineCuttingPointList.at(j);
-						Point * pt2 = lineCuttingPointList.at(j + 1);
+						PointF * pt1 = lineCuttingPointList.at(j);
+						PointF * pt2 = lineCuttingPointList.at(j + 1);
 						tmpPoint.x = (pt1->x + pt2->x) / 2;
 						tmpPoint.y = (pt1->y + pt2->y) / 2;
 						if (isPointIn(tmpPoint))
@@ -593,6 +593,8 @@ namespace cpuCUT{
 		delete[] cutLineListList;
 		delete[] cutArcListList;
 		delete[] countCrossCount;
+
+		
 
 		return 0;
 	}
