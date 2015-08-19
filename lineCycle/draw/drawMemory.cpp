@@ -45,8 +45,8 @@ namespace memDraw
 		int x, y;
 		for (x = x1; x < x2; x++)
 		{
-			int yy = k * (x - x1) + y1;
-			int yyy = k * (x - x1 + 1) + y1;
+			int yy = (int)(k * (x - x1) + y1);
+			int yyy = (int)(k * (x - x1 + 1) + y1);
 
 			if (yy > yyy)
 			{
@@ -72,13 +72,13 @@ namespace memDraw
 		int x1, y1, x2, y2;
 		for (int i = 0; i < k; i++)
 		{
-			int dltx = r * _sinTable[(int)(alp * 10000)];
-			int dlty = r * _cosTable[(int)(alp * 10000)];
+			int dltx = (int)(r * _sinTable[(int)(alp * 10000)]);
+			int dlty = (int)(r * _cosTable[(int)(alp * 10000)]);
 			x1 = x + dltx;
 			y1 = y + dlty;
 			alp += dlt;
-			dltx = r * _sinTable[(int)(alp * 10000)];
-			dlty = r * _cosTable[(int)(alp * 10000)];
+			dltx = (int)(r * _sinTable[(int)(alp * 10000)]);
+			dlty = (int)(r * _cosTable[(int)(alp * 10000)]);
 			x2 = x + dltx;
 			y2 = y + dlty;
 
@@ -94,7 +94,7 @@ namespace memDraw
 		}
 		int k = 0;
 		float dlt1 = alp2 - alp1;
-		int m = 6.30f / dlt1 + 1;
+		int m = (int)(6.30f / dlt1 + 1);
 
 		if (r < 10) k = 16 / m + 1;
 		else if (r < 20) k = 32 / m + 1;
@@ -106,13 +106,13 @@ namespace memDraw
 		int x1, y1, x2, y2;
 		for (int i = 0; i < k; i++)
 		{
-			int dltx = r * _cosTable[((int)(alp * 10000))%63000];
-			int dlty = r * _sinTable[((int)(alp * 10000))%63000];
+			int dltx = (int)(r * _cosTable[((int)(alp * 10000))%63000]);
+			int dlty = (int)(r * _sinTable[((int)(alp * 10000))%63000]);
 			x1 = x + dltx;
 			y1 = y + dlty;
 			alp += dlt;
-			dltx = r * _cosTable[((int)(alp * 10000))%63000];
-			dlty = r * _sinTable[((int)(alp * 10000))%63000];
+			dltx = (int)(r * _cosTable[((int)(alp * 10000))%63000]);
+			dlty = (int)(r * _sinTable[((int)(alp * 10000))%63000]);
 			x2 = x + dltx;
 			y2 = y + dlty;
 			DrawLine(x1, y1, x2, y2, rgb);
@@ -129,7 +129,7 @@ namespace memDraw
 			for (unsigned int i = 0; i < workerInterval + lineList.size() % SETTING_DRAW_THREAD; i++)
 			{
 				Line * l = lineList.at(i);
-				DrawLine(l->x1, l->y1, l->x2, l->y2, RGB(255, 0, 0));
+				DrawLine((int)l->x1, (int)l->y1, (int)l->x2, (int)l->y2, RGB(255, 0, 0));
 			}
 		}
 		else
@@ -137,7 +137,7 @@ namespace memDraw
 			for (unsigned int i = workerInterval*workerID + lineList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + lineList.size() % SETTING_DRAW_THREAD; i++)
 			{
 				Line * l = lineList.at(i);
-				DrawLine(l->x1, l->y1, l->x2, l->y2, RGB(255, 0, 0));
+				DrawLine((int)l->x1, (int)l->y1, (int)l->x2, (int)l->y2, RGB(255, 0, 0));
 			}
 		}
 
@@ -155,7 +155,7 @@ namespace memDraw
 			for (unsigned int i = 0; i < workerInterval + cutLineList.size() % SETTING_DRAW_THREAD; i++)
 			{
 				Line * l = cutLineList.at(i);
-				DrawLine(l->x1, l->y1, l->x2, l->y2, RGB(255, 0, 0));
+				DrawLine((int)l->x1, (int)l->y1, (int)l->x2, (int)l->y2, RGB(255, 0, 0));
 			}
 		}
 		else
@@ -163,7 +163,7 @@ namespace memDraw
 			for (unsigned int i = workerInterval*workerID + cutLineList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + cutLineList.size() % SETTING_DRAW_THREAD; i++)
 			{
 				Line * l = cutLineList.at(i);
-				DrawLine(l->x1, l->y1, l->x2, l->y2, RGB(255, 0, 0));
+				DrawLine((int)l->x1, (int)l->y1, (int)l->x2, (int)l->y2, RGB(255, 0, 0));
 			}
 		}
 
@@ -209,7 +209,7 @@ namespace memDraw
 			for (unsigned int i = 0; i < workerInterval + cutArcList.size() % SETTING_DRAW_THREAD; i++)
 			{
 				CArc * l = cutArcList.at(i);
-				DrawArc(l->x, l->y, l->r, RGB(0, 255, 0), l->begin, l->end);
+				DrawArc((int)l->x, (int)l->y, (int)l->r, RGB(0, 255, 0), l->begin, l->end);
 			}
 		}
 		else
@@ -217,7 +217,7 @@ namespace memDraw
 			for (unsigned int i = workerInterval*workerID + cutArcList.size() % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + cutArcList.size() % SETTING_DRAW_THREAD; i++)
 			{
 				CArc * l = cutArcList.at(i);
-				DrawArc(l->x, l->y, l->r, RGB(0, 255, 0), l->begin, l->end);
+				DrawArc((int)l->x, (int)l->y, (int)l->r, RGB(0, 255, 0), l->begin, l->end);
 			}
 		}
 

@@ -356,7 +356,7 @@ namespace drawMemoryGDI{
 			for (unsigned int i = 0; i < workerInterval + size % SETTING_DRAW_THREAD; i++)
 			{
 				CArc * l = cutArcList.at(i);
-				Arc(hdc, (int)(l->x - l->r), (int)(l->y - l->r), (int)(l->x + l->r), (int)(l->y + l->r), _cosTable[((int)(l->end * 10000)) % 62852] * l->r + l->x, _sinTable[((int)(l->end * 10000)) % 62852] * l->r + l->y, _cosTable[((int)(l->begin * 10000)) % 62852] * l->r + l->x, _sinTable[((int)(l->begin * 10000)) % 62852] * l->r + l->y);
+				Arc(hdc, (int)(l->x - l->r), (int)(l->y - l->r), (int)(l->x + l->r), (int)(l->y + l->r), (int)(_cosTable[((int)(l->end * 10000)) % 62852] * l->r + l->x), (int)(_sinTable[((int)(l->end * 10000)) % 62852] * l->r + l->y), (int)(_cosTable[((int)(l->begin * 10000)) % 62852] * l->r + l->x), (int)(_sinTable[((int)(l->begin * 10000)) % 62852] * l->r + l->y));
 			}
 		}
 		else
@@ -364,7 +364,7 @@ namespace drawMemoryGDI{
 			for (unsigned int i = workerInterval*workerID + size % SETTING_DRAW_THREAD; i < workerInterval*(workerID + 1) + size % SETTING_DRAW_THREAD; i++)
 			{
 				CArc * l = cutArcList.at(i);
-				Arc(hdc, (int)(l->x - l->r), (int)(l->y - l->r), (int)(l->x + l->r), (int)(l->y + l->r), _cosTable[((int)(l->end * 10000)) % 62852] * l->r + l->x, _sinTable[((int)(l->end * 10000)) % 62852] * l->r + l->y, _cosTable[((int)(l->begin * 10000)) % 62852] * l->r + l->x, _sinTable[((int)(l->begin * 10000)) % 62852] * l->r + l->y);
+				Arc(hdc, (int)(l->x - l->r), (int)(l->y - l->r), (int)(l->x + l->r), (int)(l->y + l->r), (int)(_cosTable[((int)(l->end * 10000)) % 62852] * l->r + l->x), (int)(_sinTable[((int)(l->end * 10000)) % 62852] * l->r + l->y), (int)(_cosTable[((int)(l->begin * 10000)) % 62852] * l->r + l->x), (int)(_sinTable[((int)(l->begin * 10000)) % 62852] * l->r + l->y));
 			}
 		}
 
