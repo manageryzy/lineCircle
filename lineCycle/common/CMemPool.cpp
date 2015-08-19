@@ -15,6 +15,9 @@ The size of unit.
 #include "../stdafx.h"
 #include <mutex> 
 
+#pragma optimize( "CMemPool::Alloc", off )
+#pragma optimize( "CMemPool::AllocNTS", off )
+
 std::mutex mempoolLock;
 
 CMemPool::CMemPool(unsigned long ulUnitNum, unsigned long ulUnitSize) :
@@ -54,6 +57,7 @@ CMemPool::~CMemPool()
 }
 
 
+
 /*================================================================
 Alloc:
 To allocate a memory unit. If memory pool can`t provide proper memory unit,
@@ -70,8 +74,10 @@ Return Values:
 Return a pointer to a memory unit.
 //=================================================================
 */
+#pragma optimize( "", off )
 void* CMemPool::Alloc(unsigned long ulSize, bool bUseMemPool)
 {
+
 	if (ulSize > m_ulUnitSize || false == bUseMemPool ||
 		NULL == m_pMemBlock || NULL == m_pFreeMemBlock)
 	{
@@ -100,10 +106,13 @@ void* CMemPool::Alloc(unsigned long ulSize, bool bUseMemPool)
 	mempoolLock.unlock();
 
 	return (void *)((char *)pCurUnit + sizeof(struct _Unit));
-}
 
+}
+#pragma optimize( "", on )
+#pragma optimize( "", off )
 void* CMemPool::AllocNTS(unsigned long ulSize, bool bUseMemPool)
 {
+
 	if (ulSize > m_ulUnitSize || false == bUseMemPool ||
 		NULL == m_pMemBlock || NULL == m_pFreeMemBlock)
 	{
@@ -130,8 +139,9 @@ void* CMemPool::AllocNTS(unsigned long ulSize, bool bUseMemPool)
 	m_alloced++;
 
 	return (void *)((char *)pCurUnit + sizeof(struct _Unit));
-}
 
+}
+#pragma optimize( "", on )
 
 /*================================================================
 Free:
@@ -202,6 +212,9 @@ void CMemPool::FreeNTS(void* p)
 		free(p);
 	}
 }
+
+
+
 
 unsigned long CMemPool::size()
 {

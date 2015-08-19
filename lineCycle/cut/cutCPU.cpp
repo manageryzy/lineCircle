@@ -345,7 +345,7 @@ namespace cpuCUT{
 				size = lineCuttingCirclePointList.size();
 				if (size == 0)
 				{
-					pt.x = c->x;
+					pt.x = c->x + c->r;
 					pt.y = c->y;
 					if (isPointIn(pt))
 					{
@@ -437,7 +437,7 @@ namespace cpuCUT{
 				size = lineCuttingCirclePointList.size();
 				if (size == 0)
 				{
-					pt.x = c->x;
+					pt.x = c->x + c->r;
 					pt.y = c->y;
 					if (isPointIn(pt))
 					{
