@@ -223,3 +223,5 @@ pip-log.txt
 
 
 **/conf.ini
+Release*/*
+Debug*/*

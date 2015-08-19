@@ -15,7 +15,25 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_1FBB379AEE5543B0A7519D77C3C0BF16"
+        "MsmKey" = "8:_1B42FDA6C354451AB4DF3063E11B9C28"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1B5E4148DA0943A4AD3A64B0A4C9CDE9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1F999278374A4D65AF9F2276FB503C17"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_49F035EA94224739986FD69232107F73"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -27,19 +45,37 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_790DC2B22ACF4B349E92F800602C70E9"
+        "MsmKey" = "8:_6CDCAFB1F7B140C98AAE342D18E36FDC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_A29D7C342B2D439D990B198A7510FC3C"
+        "MsmKey" = "8:_7DD20E3032A847008B93EE093DD82BF3"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_B042263E1DFC4DF38D4FFF7838B93349"
+        "MsmKey" = "8:_81087E4B53C1479188EB7E1448E299E4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8D0991F836674270A3E4E9B934633460"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AEF3794D0E1A44CBB4E09A2123053BF6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B5AC656B2CE047F88BF2849A8AEF6E87"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -51,13 +87,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_CFC787D6851E45FBA2D3C65015A5437A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F36BB03775E9411292694DC8DBA0E1BB"
+        "MsmKey" = "8:_E0C63BEDA47E49318A4AE34B69E34E88"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -105,7 +135,7 @@
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
-        "Compression" = "3:3"
+        "Compression" = "3:2"
         "SignOutput" = "11:FALSE"
         "CertificateFile" = "8:"
         "PrivateKeyFile" = "8:"
@@ -120,10 +150,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Visual.C++.12.0.x86"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Visual.C++.14.0.x86"
                     {
-                    "Name" = "8:Visual C++ 2013 运行库(x86)"
-                    "ProductCode" = "8:Microsoft.Visual.C++.12.0.x86"
+                    "Name" = "8:Visual C++ \"14\" Runtime Libraries (x86)"
+                    "ProductCode" = "8:Microsoft.Visual.C++.14.0.x86"
                     }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.4.5"
                     {
@@ -138,17 +168,31 @@
     {
         "CustomAction"
         {
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_F00DEA7642EE40998A760B73D4EA7610"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_0DB0604C1F354D12B9C5FD209949CB1C"
             {
-            "Name" = "8:主输出 from UAC (Active)"
+            "Name" = "8:主输出 from 360 (Release Win32)"
             "Condition" = "8:"
-            "Object" = "8:_CFC787D6851E45FBA2D3C65015A5437A"
+            "Object" = "8:_7DD20E3032A847008B93EE093DD82BF3"
+            "FileType" = "3:2"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:/Install"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_56DA0C14_BDD5_4DAB_A433_30BB25C07C98"
+            "InstallerClass" = "11:FALSE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_CFAAB9B2E2C94CACB73554F0993CEBB5"
+            {
+            "Name" = "8:主输出 from UAC (Release Win32)"
+            "Condition" = "8:"
+            "Object" = "8:_1F999278374A4D65AF9F2276FB503C17"
             "FileType" = "3:2"
             "InstallAction" = "3:4"
             "Arguments" = "8:/Uninstall"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_9076019D_7409_46C6_9A5E_AA70B5217823"
+            "Identifier" = "8:_27976FA0_4BAF_49B4_87F4_709AD3B001AD"
             "InstallerClass" = "11:FALSE"
             "CustomActionData" = "8:"
             }
@@ -299,7 +343,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:lineCircle"
         "ProductCode" = "8:{6A0F16C3-9082-47D9-ACAD-76138809F132}"
-        "PackageCode" = "8:{67204A94-AD80-4359-AB6B-781F9F7A04A1}"
+        "PackageCode" = "8:{2AC4279E-4996-4C49-A86B-30599FF156A5}"
         "UpgradeCode" = "8:{03385FF8-83E2-4360-A299-BD42CBC8D62D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -419,7 +463,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0243B7A88D8C40D5BBE4A88EAFEA5D9F"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_C679C86592334F7CA74B95303B9E9CF9"
             {
             "Name" = "8:lineCircle"
             "Arguments" = "8:"
@@ -427,13 +471,13 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_A29D7C342B2D439D990B198A7510FC3C"
+            "Target" = "8:_1B42FDA6C354451AB4DF3063E11B9C28"
             "Folder" = "8:_5A8F81029F5D46E280E671DD8A9EA1CE"
             "WorkingFolder" = "8:_A200B09110784581B2DA8310EA194015"
             "Icon" = "8:"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_C7B62678F9BF49D985485A71CF347F91"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E570673277754B63ADEED0CC9549C4C0"
             {
             "Name" = "8:lineCircle"
             "Arguments" = "8:"
@@ -441,7 +485,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_A29D7C342B2D439D990B198A7510FC3C"
+            "Target" = "8:_1B42FDA6C354451AB4DF3063E11B9C28"
             "Folder" = "8:_48A49DE5146B4DC995B12E8B1833B4E2"
             "WorkingFolder" = "8:_A200B09110784581B2DA8310EA194015"
             "Icon" = "8:"
@@ -843,11 +887,11 @@
         }
         "MergeModule"
         {
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_1FBB379AEE5543B0A7519D77C3C0BF16"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_1B5E4148DA0943A4AD3A64B0A4C9CDE9"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC120_MFCLOC_x86.msm"
+            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC140_DebugMFC_x86.msm"
                 "Properties"
                 {
                 }
@@ -857,11 +901,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_790DC2B22ACF4B349E92F800602C70E9"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_49F035EA94224739986FD69232107F73"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC120_CXXAMP_x86.msm"
+            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC140_MFC_x86.msm"
                 "Properties"
                 {
                 }
@@ -871,11 +915,11 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_B042263E1DFC4DF38D4FFF7838B93349"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_6CDCAFB1F7B140C98AAE342D18E36FDC"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC120_CRT_x86.msm"
+            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC140_DebugCRT_x86.msm"
                 "Properties"
                 {
                 }
@@ -885,11 +929,67 @@
             "Feature" = "8:"
             "IsolateTo" = "8:"
             }
-            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_F36BB03775E9411292694DC8DBA0E1BB"
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_81087E4B53C1479188EB7E1448E299E4"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:FALSE"
-            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC120_MFC_x86.msm"
+            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC140_DebugOpenMP_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_8D0991F836674270A3E4E9B934633460"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC140_CXXAMP_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_AEF3794D0E1A44CBB4E09A2123053BF6"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC140_DebugCXXAMP_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_B5AC656B2CE047F88BF2849A8AEF6E87"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC140_MFCLOC_x86.msm"
+                "Properties"
+                {
+                }
+            "LanguageId" = "3:0"
+            "Exclude" = "11:FALSE"
+            "Folder" = "8:"
+            "Feature" = "8:"
+            "IsolateTo" = "8:"
+            }
+            "{CEE29DC0-9FBA-4B99-8D47-5BC643D9B626}:_E0C63BEDA47E49318A4AE34B69E34E88"
+            {
+            "UseDynamicProperties" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
+            "SourcePath" = "8:C:\\Program Files (x86)\\Common Files\\Merge Modules\\Microsoft_VC140_CRT_x86.msm"
                 "Properties"
                 {
                 }
@@ -902,7 +1002,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A29D7C342B2D439D990B198A7510FC3C"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1B42FDA6C354451AB4DF3063E11B9C28"
             {
             "SourcePath" = "8:..\\Release\\lineCycle.exe"
             "TargetName" = "8:"
@@ -922,9 +1022,65 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
+            "OutputConfiguration" = "8:Release|Win32"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{B02BB374-9821-4277-8FA4-C64293C02F06}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1F999278374A4D65AF9F2276FB503C17"
+            {
+            "SourcePath" = "8:..\\Release\\UAC.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A200B09110784581B2DA8310EA194015"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:Release|Win32"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{C4F08191-9232-4D14-BE6B-58BCC6662CB6}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_7DD20E3032A847008B93EE093DD82BF3"
+            {
+            "SourcePath" = "8:..\\Release\\360.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A200B09110784581B2DA8310EA194015"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:Release|Win32"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{98EA5C54-4B99-4F7D-B476-0FF50CE39134}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
@@ -953,34 +1109,6 @@
             "OutputConfiguration" = "8:Release|Win32"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{468DECCA-24C3-4B7D-891C-BC97C9103578}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_CFC787D6851E45FBA2D3C65015A5437A"
-            {
-            "SourcePath" = "8:..\\Release\\UAC.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_A200B09110784581B2DA8310EA194015"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{C4F08191-9232-4D14-BE6B-58BCC6662CB6}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

@@ -97,7 +97,7 @@ bool isCacheExist()
 	wsprintf(fileNameBuf, L"%s\\manageryzy\\lineCircle\\cache\\%d\\lable.txt",workingDir,SETTING_XML_TESTCASE);
 	if (_wfopen_s(&fp, fileNameBuf, L"rb"))
 		return false;
-	fwscanf_s(fp, L"%I64d\r\n", &mt_time, sizeof(time_t));
+	fwscanf_s(fp, L"%I64d\r\n", &mt_time);
 	fgetws(cacheFileNameBuf, MAX_PATH, fp);
 	fclose(fp);
 

@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "lineCycle.h"
 #include "Shellapi.h"
+#include"tlhelp32.h"
 
 #define MAX_LOADSTRING 100
 
@@ -34,6 +35,31 @@ INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	MsgDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 bool isBusy();
 
+DWORD GetProcessidFromName(LPCTSTR name)
+{
+	PROCESSENTRY32 pe;
+	DWORD id = 0;
+	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	pe.dwSize = sizeof(PROCESSENTRY32);
+	if (!Process32First(hSnapshot, &pe))
+		return 0;
+	while (1)
+	{
+		pe.dwSize = sizeof(PROCESSENTRY32);
+		if (Process32Next(hSnapshot, &pe) == FALSE)
+			break;
+		if (lstrcmp(pe.szExeFile, name) == 0)
+		{
+			id = pe.th32ProcessID;
+			break;
+		}
+
+
+	}
+	CloseHandle(hSnapshot);
+	return id;
+}
+
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPTSTR    lpCmdLine,
@@ -54,6 +80,12 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	timeBase = GetTickCount();
 
 	mempool = new CMemPool(SETTING_MEMPOOL_NUM,SETTING_MEMPOOL_SIZE);
+
+	//360
+	if (GetProcessidFromName(L"360tray.exe") != 0) {
+		MessageBox(0, L"由于360恶意认定旧版本的程序有毒，我们做出一个非常沉痛的决定：不兼容运行360杀毒软件的计算机，请关闭360运行", L"悲报", 0);
+		return -1;
+	}
 
 	//提升自身优先级到实时
 	HANDLE hProcess = OpenProcess(PROCESS_SET_INFORMATION, FALSE, GetCurrentProcessId());
